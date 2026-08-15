@@ -230,14 +230,98 @@ Crash detection has a different workflow.
 
 ARGUS continuously compares acceleration measurements against its crash thresholds.
 
-The crash thresholds currently configured in the application are:
-
-X: 0.25
-Y: 0.15
-Z: 0.25
-
 with the Y axis treated as the vertical/gravity axis.
 
 A detected crash pattern does not immediately send an emergency message.
 
 Instead, ARGUS starts the confirmation process.
+
+17. 15-Second Crash Confirmation
+
+The crash confirmation period is:
+
+15 seconds
+
+This is specifically configured as:
+
+CANCEL_WINDOW_S = 15.
+
+The purpose is to prevent a single unexpected acceleration event from immediately generating an emergency response.
+
+The sequence is:
+
+Possible crash
+      │
+      ▼
+15-second confirmation window
+      │
+      ├── Cancelled → return to monitoring
+      │
+      └── Not cancelled
+                │
+                ▼
+          Confirmed crash
+18. Confirmed Crash Response
+
+Once the crash is confirmed, ARGUS switches the event into its emergency workflow.
+
+The important priority is:
+
+CRASH
+  ↓
+EMERGENCY SMS
+  ↓
+BACKEND NOTIFICATION
+
+The application was specifically structured so that the emergency SMS is handled before the backend crash POST.
+
+This prevents a slow network request from delaying the primary emergency-contact notification.
+
+19. Normal Operation vs Emergency Operation
+
+The system effectively has two operational priorities.
+
+Normal operation
+GPS
+ ↓
+MPU6050
+ ↓
+Road-event detection
+ ↓
+Buzzer / telemetry
+ ↓
+Continue monitoring
+Emergency operation
+Crash detected
+ ↓
+15-second confirmation
+ ↓
+Crash confirmed
+ ↓
+Emergency SMS
+ ↓
+Backend notification
+
+The crash path takes priority over routine road-event processing.
+
+20. Returning to Normal Operation
+
+After configuration mode, ARGUS returns to normal monitoring.
+
+Similarly, ordinary events such as potholes, bumps and turns do not terminate the application.
+
+The intended behavior is continuous operation:
+
+Monitor
+  ↓
+Detect event
+  ↓
+Handle event
+  ↓
+Return to monitoring
+  ↓
+Detect next event
+  ↓
+...
+
+This makes ARGUS suitable for continuous vehicle operation rather than one-shot event detection.
