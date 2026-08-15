@@ -269,68 +269,131 @@
 
     </div>
 
-    <!-- PAGE 2: NAVIGATION PAGE -->
+    <!-- PAGE 2: NAVIGATION PAGE (MATCHING NAVIGATION-1 & NAVIGATION-2 MOCKUPS) -->
     <div id="page-navigation" class="page-view hidden flex-1 flex flex-col p-4 space-y-4 overflow-y-auto">
       
-      <!-- Top Title -->
-      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-        <div>
-          <h2 class="text-xl font-bold text-slate-900">Rajkot Spatial Router</h2>
-          <p class="text-xs text-slate-500 font-medium">Kalawad Road • 150 Feet Ring Road</p>
-        </div>
-        <span class="text-xs font-mono text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">LIVE</span>
+      <!-- Top Header Card matching mockup -->
+      <div class="bg-slate-200/80 backdrop-blur-md rounded-3xl p-4 flex items-center justify-between border border-slate-300/60 shadow-sm">
+        <button onclick="switchTab('profile')" class="w-12 h-12 rounded-full bg-slate-500/30 flex items-center justify-center text-slate-700 font-bold hover:bg-slate-500/40 transition-all border border-slate-400/40">
+          <i data-lucide="user" class="w-6 h-6 text-slate-800"></i>
+        </button>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">Argus</h1>
+        <div class="w-12 h-12"></div> <!-- Spacer for symmetry -->
       </div>
 
-      <!-- Vehicle Profile Controls -->
-      <div class="flex items-center space-x-2 overflow-x-auto pb-1" id="vehicleProfiles">
-        <button onclick="setVehicle('car')" id="btn-car" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap">
-          🚗 Car
-        </button>
-        <button onclick="setVehicle('bike')" id="btn-bike" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
-          🏍️ Bike
-        </button>
-        <button onclick="setVehicle('truck')" id="btn-truck" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
-          🚚 Truck
-        </button>
-      </div>
-
-      <!-- Map Canvas -->
-      <div class="relative bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 h-[240px] shadow-inner">
+      <!-- Map Canvas Container -->
+      <div class="relative bg-slate-100 rounded-3xl overflow-hidden border border-slate-200 h-[220px] shadow-inner">
         <canvas id="mumbaiMapCanvas" class="w-full h-full"></canvas>
         
         <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] font-mono text-sky-700 flex items-center space-x-1.5 shadow-sm">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           <span>RAJKOT VECTOR RENDERER</span>
         </div>
-
-        <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-2.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs shadow-sm">
-          <span id="routeSummaryText" class="font-bold text-slate-800 truncate">Kalawad Rd → 150 Ft Ring Rd (6.2 km)</span>
-          <span id="weatherText" class="text-amber-600 font-mono text-[10px] ml-1 shrink-0">🌧️ Clear</span>
-        </div>
       </div>
 
-      <!-- Telemetry Gauges -->
-      <div class="grid grid-cols-3 gap-2 text-center">
-        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
-          <div id="metricTime" class="text-lg font-bold text-sky-600 font-mono">11.4m</div>
-          <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Est Time</div>
+      <!-- Plan Route Container (Olive/Sage Green Styled from navigation-1/2 mockups) -->
+      <div class="bg-[#8A9A65] text-slate-900 rounded-3xl p-5 space-y-4 shadow-lg border border-[#7A8A55]">
+        
+        <!-- Plan Route Header -->
+        <div class="flex items-center space-x-2">
+          <i data-lucide="navigation" class="w-5 h-5 text-slate-900"></i>
+          <h2 class="text-lg font-bold text-slate-900 tracking-tight">Plan Route</h2>
         </div>
-        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
-          <div id="metricHazard" class="text-lg font-bold text-emerald-600 font-mono">92%</div>
-          <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Safety</div>
-        </div>
-        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
-          <div id="metricSpeed" class="text-lg font-bold text-violet-600 font-mono">42.5</div>
-          <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">LSTM km/h</div>
-        </div>
-      </div>
 
-      <!-- Guidance Steps -->
-      <div class="space-y-2 pt-1">
-        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">Turn-by-Turn Guidance</div>
-        <div id="stepList" class="space-y-2">
-          <!-- Injected via JS -->
+        <!-- Starting Point & Destination Input Card -->
+        <div class="space-y-2 relative">
+          <!-- Origin Input -->
+          <div class="bg-[#A4B37F] border border-[#94A36F] rounded-2xl px-4 py-3 flex items-center justify-between text-xs text-slate-900 font-medium">
+            <div class="flex items-center space-x-2.5 overflow-hidden w-full">
+              <span class="w-2.5 h-2.5 rounded-full bg-slate-900 shrink-0"></span>
+              <input type="text" id="originInput" value="Kalawad Road, Rajkot" class="bg-transparent text-slate-900 font-bold focus:outline-none w-full" placeholder="Choose starting point...">
+            </div>
+            <button onclick="document.getElementById('originInput').value=''" class="text-slate-700 hover:text-slate-900 font-bold text-sm ml-1">×</button>
+          </div>
+
+          <!-- Connecting Vertical Line -->
+          <div class="absolute left-6 top-7 bottom-7 w-[2px] border-l-2 border-dashed border-slate-800/60 z-10 pointer-events-none"></div>
+
+          <!-- Destination Input -->
+          <div class="bg-[#A4B37F] border border-[#94A36F] rounded-2xl px-4 py-3 flex items-center justify-between text-xs text-slate-900 font-medium">
+            <div class="flex items-center space-x-2.5 overflow-hidden w-full">
+              <i data-lucide="map-pin" class="w-4 h-4 text-red-700 shrink-0"></i>
+              <input type="text" id="destInput" value="150 Feet Ring Road, Rajkot" class="bg-transparent text-slate-900 font-bold focus:outline-none w-full" placeholder="Choose destination...">
+            </div>
+            <button onclick="document.getElementById('destInput').value=''" class="text-slate-700 hover:text-slate-900 font-bold text-sm ml-1">×</button>
+          </div>
         </div>
+
+        <!-- VEHICLE Selector Chips -->
+        <div class="space-y-2">
+          <span class="text-[10px] font-mono text-slate-900 uppercase font-extrabold tracking-wider">VEHICLE</span>
+          
+          <div class="grid grid-cols-4 gap-2" id="vehicleProfiles">
+            <button onclick="setVehicle('bike')" id="btn-bike" class="bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]">
+              <i data-lucide="bike" class="w-4 h-4"></i>
+              <span class="text-[10px] font-bold">Bike</span>
+            </button>
+            <button onclick="setVehicle('car')" id="btn-car" class="bg-slate-900 text-white p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all shadow-md">
+              <i data-lucide="car" class="w-4 h-4"></i>
+              <span class="text-[10px] font-bold">Car</span>
+            </button>
+            <button onclick="setVehicle('truck')" id="btn-truck" class="bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]">
+              <i data-lucide="truck" class="w-4 h-4"></i>
+              <span class="text-[10px] font-bold">Truck</span>
+            </button>
+            <button onclick="setVehicle('supercar')" id="btn-supercar" class="bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]">
+              <i data-lucide="zap" class="w-4 h-4"></i>
+              <span class="text-[10px] font-bold">Supercar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ROUTE TYPE Objective Selectors -->
+        <div class="space-y-2">
+          <span class="text-[10px] font-mono text-slate-900 uppercase font-extrabold tracking-wider">ROUTE TYPE</span>
+          
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="setObjective('fastest')" id="obj-fastest" class="bg-[#FACC15] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-bold text-xs shadow-md transition-all border border-amber-400">
+              <i data-lucide="zap" class="w-4 h-4 text-slate-900"></i>
+              <span>Fastest</span>
+            </button>
+            <button onclick="setObjective('safest')" id="obj-safest" class="bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]">
+              <i data-lucide="shield-check" class="w-4 h-4"></i>
+              <span>Safest</span>
+            </button>
+            <button onclick="setObjective('straightest')" id="obj-straightest" class="bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+              <span>Straightest</span>
+            </button>
+            <button onclick="setObjective('popular')" id="obj-popular" class="bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]">
+              <i data-lucide="star" class="w-4 h-4"></i>
+              <span>Popular</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Calculated Route Metrics (from navigation-2 mockup) -->
+        <div class="bg-[#B4C38F]/90 border border-[#94A36F] rounded-2xl p-4 grid grid-cols-3 gap-2 text-center">
+          <div>
+            <div id="metricTime" class="text-xl font-extrabold text-slate-900">11.4m</div>
+            <div class="text-[9px] font-mono text-slate-800 uppercase font-bold tracking-wider">DURATION</div>
+          </div>
+          <div>
+            <div id="metricDistance" class="text-xl font-extrabold text-slate-900">6.2 km</div>
+            <div class="text-[9px] font-mono text-slate-800 uppercase font-bold tracking-wider">DISTANCE</div>
+          </div>
+          <div>
+            <div id="metricHazard" class="text-xl font-extrabold text-emerald-800">100%</div>
+            <div class="text-[9px] font-mono text-slate-800 uppercase font-bold tracking-wider">SAFETY</div>
+          </div>
+        </div>
+
+        <!-- Start Navigation Button -->
+        <button onclick="alert('Navigation started on Rajkot spatial route network!')" id="startNavBtn" class="w-full py-4 bg-slate-900 text-white font-extrabold text-sm rounded-2xl shadow-xl hover:bg-slate-800 transition-all flex items-center justify-center space-x-2">
+          <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+          <span>Start Navigation</span>
+        </button>
+
       </div>
 
     </div>
@@ -457,18 +520,44 @@
     window.addEventListener('resize', resizeCanvas);
 
     let activeVehicle = 'car';
+    let activeObjective = 'fastest';
+
+    const routeData = {
+      fastest: { time: '11.4m', dist: '6.2 km', safety: '100%' },
+      safest: { time: '14.8m', dist: '6.8 km', safety: '100%' },
+      straightest: { time: '12.2m', dist: '6.3 km', safety: '95%' },
+      popular: { time: '15.5m', dist: '7.4 km', safety: '98%' }
+    };
 
     function setVehicle(type) {
       activeVehicle = type;
-      document.querySelectorAll('#vehicleProfiles button').forEach(b => {
-        b.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap';
+      ['bike', 'car', 'truck', 'supercar'].forEach(v => {
+        const el = document.getElementById(`btn-${v}`);
+        if (v === type) {
+          el.className = 'bg-slate-900 text-white p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all shadow-md';
+        } else {
+          el.className = 'bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]';
+        }
       });
-      document.getElementById(`btn-${type}`).className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap';
       drawMap();
     }
 
     function setObjective(obj) {
-      // Set objective method
+      activeObjective = obj;
+      ['fastest', 'safest', 'straightest', 'popular'].forEach(o => {
+        const el = document.getElementById(`obj-${o}`);
+        if (o === obj) {
+          el.className = 'bg-[#FACC15] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-bold text-xs shadow-md transition-all border border-amber-400';
+        } else {
+          el.className = 'bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]';
+        }
+      });
+
+      const d = routeData[obj];
+      if (document.getElementById('metricTime')) document.getElementById('metricTime').innerText = d.time;
+      if (document.getElementById('metricDistance')) document.getElementById('metricDistance').innerText = d.dist;
+      if (document.getElementById('metricHazard')) document.getElementById('metricHazard').innerText = d.safety;
+      drawMap();
     }
 
     function drawMap() {
@@ -508,30 +597,6 @@
       ctx.fillStyle = '#16A34A'; ctx.beginPath(); ctx.arc(40, 50, 6, 0, Math.PI * 2); ctx.fill();
       ctx.fillStyle = '#7C3AED'; ctx.beginPath(); ctx.arc(340, 190, 6, 0, Math.PI * 2); ctx.fill();
     }
-
-    function renderSteps() {
-      const container = document.getElementById('stepList');
-      if (!container) return;
-      const steps = [
-        { text: 'Head West towards Kalawad Road', road: 'Kalawad Rd', dist: '450m', hazard: '10%' },
-        { text: 'Merge onto 150 Feet Ring Road Flyover', road: '150 Ft Ring Rd', dist: '1.8km', hazard: '38%' },
-        { text: 'Continue past KKV Hall Junction', road: 'Yagnik Road', dist: '2.2km', hazard: '14%' }
-      ];
-
-      container.innerHTML = steps.map(s => `
-        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
-          <div>
-            <div class="font-bold text-slate-800">${s.text}</div>
-            <div class="text-[10px] text-slate-500">${s.road} • ${s.dist}</div>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[9px] font-bold ${parseInt(s.hazard) > 30 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">
-            ${s.hazard}
-          </span>
-        </div>
-      `).join('');
-    }
-
-    renderSteps();
   </script>
 </body>
 </html>
