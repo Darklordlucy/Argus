@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Asphr — Rajkot AI-Powered Mobile Hazard Router</title>
+  <title>Argus — AI Spatial Navigation</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
@@ -37,6 +37,7 @@
           fontFamily: {
             sans: ['Space Grotesk', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
+            script: ['Pacifico', 'cursive'],
           }
         }
       }
@@ -50,7 +51,7 @@
       font-family: 'Space Grotesk', sans-serif;
     }
     .light-grid {
-      background-image: radial-gradient(rgba(2, 132, 199, 0.1) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(2, 132, 199, 0.08) 1px, transparent 1px);
       background-size: 20px 20px;
     }
     .mobile-card {
@@ -58,234 +59,239 @@
       border: 1px solid #E2E8F0;
       box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     }
-    .mobile-card-glow {
-      border: 1px solid rgba(2, 132, 199, 0.4);
-      box-shadow: 0 0 15px rgba(2, 132, 199, 0.12);
+    .hero-banner {
+      background: linear-gradient(135deg, #F97316 0%, #EA580C 35%, #D97706 70%, #F59E0B 100%);
+      box-shadow: 0 8px 25px -4px rgba(234, 88, 12, 0.3);
     }
     /* Custom scrollbar */
     ::-webkit-scrollbar { width: 4px; }
     ::-webkit-scrollbar-track { background: #F8FAFC; }
     ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 2px; }
-    ::-webkit-scrollbar-thumb:hover { background: #0284C7; }
   </style>
 </head>
 <body class="light-grid min-h-screen pb-20">
 
   <!-- Mobile Container Wrapper -->
-  <div class="max-w-md mx-auto min-h-screen flex flex-col bg-slate-50 border-x border-slate-200 shadow-2xl">
+  <div class="max-w-md mx-auto min-h-screen flex flex-col bg-slate-50 border-x border-slate-200 shadow-2xl relative">
 
-    <!-- Main Content Area (Header Removed) -->
-    <main class="flex-1 p-4 space-y-5 overflow-y-auto">
+    <!-- PAGE 1: HOME PAGE -->
+    <div id="page-home" class="page-view flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
+      
+      <!-- Top Header Card -->
+      <div class="bg-slate-200/80 backdrop-blur-md rounded-3xl p-4 flex items-center justify-between border border-slate-300/60 shadow-sm">
+        <button onclick="switchTab('profile')" class="w-12 h-12 rounded-full bg-slate-500/30 flex items-center justify-center text-slate-700 font-bold hover:bg-slate-500/40 transition-all border border-slate-400/40">
+          <i data-lucide="user" class="w-6 h-6 text-slate-800"></i>
+        </button>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">Argus</h1>
+        <div class="w-12 h-12"></div> <!-- Spacer for symmetry -->
+      </div>
 
-      <!-- SECTION 1: Interactive Route Engine & Map -->
-      <section id="router" class="mobile-card rounded-2xl p-4 mobile-card-glow space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div>
-            <h2 class="text-lg font-bold text-slate-900">Spatial Route Planner</h2>
-            <p class="text-[11px] text-slate-500 font-medium">Gujarat • Rajkot Road Network</p>
+      <!-- Welcome Message -->
+      <div class="px-1">
+        <h2 class="text-xl font-bold text-slate-900">Welcome, Ravi!</h2>
+      </div>
+
+      <!-- Hero Banner Card -->
+      <div class="hero-banner rounded-3xl p-6 text-white text-center relative overflow-hidden space-y-4">
+        <!-- Background Decorative Sunset Mountain & Highway Silhouette -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-yellow-300 via-orange-500 to-amber-900"></div>
+        
+        <div class="relative z-10 py-4 space-y-2">
+          <div class="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold tracking-widest text-amber-100 uppercase mb-2">
+            ASPHR ENGINE ACTIVE
           </div>
-          <span class="text-xs font-mono text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">LIVE</span>
+          <h3 class="text-3xl font-extrabold text-white tracking-wide leading-tight drop-shadow-md font-sans">
+            Find Your Best Path
+          </h3>
+          <p class="text-2xl font-bold text-amber-100 font-script tracking-wider drop-shadow-sm">
+            WITH ASPHR
+          </p>
         </div>
 
-        <!-- Vehicle Profile Controls -->
-        <div class="flex items-center space-x-2 overflow-x-auto pb-1" id="vehicleProfiles">
-          <button onclick="setVehicle('car')" id="btn-car" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap">
-            🚗 Car
-          </button>
-          <button onclick="setVehicle('bike')" id="btn-bike" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
-            🏍️ Bike
-          </button>
-          <button onclick="setVehicle('truck')" id="btn-truck" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
-            🚚 Truck
-          </button>
-          <button onclick="setVehicle('supercar')" id="btn-supercar" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
-            🏎️ Supercar
-          </button>
-        </div>
+        <button onclick="switchTab('navigation')" class="relative z-10 w-full py-3 bg-white text-orange-600 font-extrabold text-sm rounded-2xl shadow-lg hover:bg-orange-50 transition-all flex items-center justify-center space-x-2">
+          <i data-lucide="navigation" class="w-4 h-4"></i>
+          <span>START RAJKOT NAVIGATION</span>
+        </button>
+      </div>
 
-        <!-- Objective Selector & Controls -->
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="setObjective('fastest')" id="obj-fastest" class="p-2.5 rounded-xl bg-sky-50 border border-sky-500 text-sky-700 text-left transition-all">
-            <div class="text-xs font-mono font-bold">⚡ FASTEST</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">LSTM Traffic Forecast</div>
-          </button>
-          <button onclick="setObjective('safest')" id="obj-safest" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all">
-            <div class="text-xs font-mono font-bold">🛡️ SAFEST</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">0.7 ML + 0.3 DB Hazard</div>
-          </button>
-          <button onclick="setObjective('straightest')" id="obj-straightest" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all">
-            <div class="text-xs font-mono font-bold">📐 STRAIGHTEST</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">A* Bearing Penalty</div>
-          </button>
-          <button onclick="setObjective('popular')" id="obj-popular" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all">
-            <div class="text-xs font-mono font-bold">⭐ POPULAR</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">POI Density Bonus</div>
-          </button>
-        </div>
-
-        <!-- Main Map Canvas -->
-        <div class="relative bg-slate-100 rounded-xl overflow-hidden border border-slate-200 h-[220px]">
-          <canvas id="mumbaiMapCanvas" class="w-full h-full"></canvas>
-          
-          <div class="absolute top-2 left-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] font-mono text-sky-700 flex items-center space-x-1.5 shadow-sm">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>RAJKOT VECTOR RENDERER</span>
+      <!-- Quick Insights Section -->
+      <div class="space-y-3 pt-1">
+        <h3 class="text-base font-bold text-slate-900 px-1">Quick insights</h3>
+        
+        <div class="grid grid-cols-3 gap-3">
+          <!-- Card 1 -->
+          <div onclick="switchTab('navigation')" class="bg-slate-200/90 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-300/80 transition-all border border-slate-300/50 flex flex-col items-center justify-center h-28 space-y-2">
+            <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-600"></i>
+            <span class="text-xs font-bold text-slate-800 leading-tight">Live Hazards</span>
+            <span class="text-[10px] font-mono text-emerald-600 font-bold">2 Active</span>
           </div>
 
-          <div class="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-md p-2 rounded-lg border border-slate-200 flex items-center justify-between text-[11px] shadow-sm">
-            <span id="routeSummaryText" class="font-bold text-slate-800 truncate">Kalawad Rd → 150 Ft Ring Rd (6.2 km)</span>
-            <span id="weatherText" class="text-amber-600 font-mono text-[10px] ml-1 shrink-0">🌧️ Monsoon</span>
+          <!-- Card 2 -->
+          <div onclick="switchTab('navigation')" class="bg-slate-200/90 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-300/80 transition-all border border-slate-300/50 flex flex-col items-center justify-center h-28 space-y-2">
+            <i data-lucide="shield-check" class="w-6 h-6 text-sky-600"></i>
+            <span class="text-xs font-bold text-slate-800 leading-tight">Road Health</span>
+            <span class="text-[10px] font-mono text-sky-600 font-bold">92% Smooth</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div onclick="switchTab('navigation')" class="bg-slate-200/90 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-300/80 transition-all border border-slate-300/50 flex flex-col items-center justify-center h-28 space-y-2">
+            <i data-lucide="activity" class="w-6 h-6 text-violet-600"></i>
+            <span class="text-xs font-bold text-slate-800 leading-tight">IoT Sensors</span>
+            <span class="text-[10px] font-mono text-violet-600 font-bold">RJT-8820</span>
           </div>
         </div>
+      </div>
 
-        <!-- Telemetry Gauges -->
-        <div class="grid grid-cols-3 gap-2 text-center">
-          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <div id="metricTime" class="text-lg font-bold text-sky-600 font-mono">11.4m</div>
-            <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Est Time</div>
-          </div>
-          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <div id="metricHazard" class="text-lg font-bold text-emerald-600 font-mono">92%</div>
-            <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Safety</div>
-          </div>
-          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <div id="metricSpeed" class="text-lg font-bold text-violet-600 font-mono">42.5</div>
-            <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">LSTM km/h</div>
-          </div>
+    </div>
+
+    <!-- PAGE 2: NAVIGATION PAGE -->
+    <div id="page-navigation" class="page-view hidden flex-1 flex flex-col p-4 space-y-4 overflow-y-auto">
+      
+      <!-- Top Title -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div>
+          <h2 class="text-xl font-bold text-slate-900">Rajkot Spatial Router</h2>
+          <p class="text-xs text-slate-500 font-medium">Kalawad Road • 150 Feet Ring Road</p>
+        </div>
+        <span class="text-xs font-mono text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">LIVE</span>
+      </div>
+
+      <!-- Vehicle Profile Controls -->
+      <div class="flex items-center space-x-2 overflow-x-auto pb-1" id="vehicleProfiles">
+        <button onclick="setVehicle('car')" id="btn-car" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap">
+          🚗 Car
+        </button>
+        <button onclick="setVehicle('bike')" id="btn-bike" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
+          🏍️ Bike
+        </button>
+        <button onclick="setVehicle('truck')" id="btn-truck" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
+          🚚 Truck
+        </button>
+      </div>
+
+      <!-- Map Canvas -->
+      <div class="relative bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 h-[240px] shadow-inner">
+        <canvas id="mumbaiMapCanvas" class="w-full h-full"></canvas>
+        
+        <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] font-mono text-sky-700 flex items-center space-x-1.5 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>RAJKOT VECTOR RENDERER</span>
         </div>
 
-        <!-- Turn-by-Turn Guidance -->
-        <div class="space-y-2">
-          <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">Turn-by-Turn Maneuvers</div>
-          <div id="stepList" class="space-y-2 max-h-[180px] overflow-y-auto pr-1">
-            <!-- Steps injected via JS -->
-          </div>
+        <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-md p-2.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs shadow-sm">
+          <span id="routeSummaryText" class="font-bold text-slate-800 truncate">Kalawad Rd → 150 Ft Ring Rd (6.2 km)</span>
+          <span id="weatherText" class="text-amber-600 font-mono text-[10px] ml-1 shrink-0">🌧️ Clear</span>
         </div>
-      </section>
+      </div>
 
-      <!-- SECTION 2: IoT Telemetry & Waveform Stream -->
-      <section id="telemetry" class="mobile-card rounded-2xl p-4 space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div>
-            <h2 class="text-lg font-bold text-slate-900">IoT Telemetry Stream</h2>
-            <p class="text-[11px] text-slate-500 font-medium">Rajkot Vehicle Sensor Ingestion</p>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-50 text-red-600 border border-red-200 flex items-center space-x-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
-            <span>LIVE</span>
+      <!-- Telemetry Gauges -->
+      <div class="grid grid-cols-3 gap-2 text-center">
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+          <div id="metricTime" class="text-lg font-bold text-sky-600 font-mono">11.4m</div>
+          <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Est Time</div>
+        </div>
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+          <div id="metricHazard" class="text-lg font-bold text-emerald-600 font-mono">92%</div>
+          <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Safety</div>
+        </div>
+        <div class="bg-white p-3 rounded-2xl border border-slate-200 shadow-sm">
+          <div id="metricSpeed" class="text-lg font-bold text-violet-600 font-mono">42.5</div>
+          <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">LSTM km/h</div>
+        </div>
+      </div>
+
+      <!-- Guidance Steps -->
+      <div class="space-y-2 pt-1">
+        <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">Turn-by-Turn Guidance</div>
+        <div id="stepList" class="space-y-2">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PAGE 3: USER PROFILE PAGE -->
+    <div id="page-profile" class="page-view hidden flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
+      
+      <!-- Top Title -->
+      <div class="border-b border-slate-200 pb-3">
+        <h2 class="text-xl font-bold text-slate-900">User Profile</h2>
+        <p class="text-xs text-slate-500 font-medium">Argus ASPHR Account</p>
+      </div>
+
+      <!-- User Card -->
+      <div class="mobile-card rounded-2xl p-5 flex items-center space-x-4">
+        <div class="w-16 h-16 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-extrabold text-xl border-2 border-sky-500">
+          R
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-slate-900">Ravi Patel</h3>
+          <p class="text-xs text-slate-500 font-medium">ravi.patel@argus.in</p>
+          <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-700">
+            PRO RIDER • RAJKOT
           </span>
         </div>
+      </div>
 
-        <div class="bg-slate-100 p-3 rounded-xl border border-slate-200 space-y-2">
-          <div class="flex items-center justify-between text-[10px] font-mono text-slate-600">
-            <span>3-AXIS ACCELEROMETER</span>
-            <div class="flex space-x-2">
-              <span class="text-sky-600 font-bold">■ X</span>
-              <span class="text-amber-600 font-bold">■ Y</span>
-              <span class="text-red-600 font-bold">■ Z</span>
-            </div>
-          </div>
-          <canvas id="waveformCanvas" class="w-full h-24"></canvas>
-          <div class="grid grid-cols-3 gap-2 pt-1 text-center text-[10px] font-mono">
-            <div><span class="text-slate-500">Vib Mag:</span> <span id="vibVal" class="text-sky-700 font-bold">0.18 G</span></div>
-            <div><span class="text-slate-500">Vert Z:</span> <span id="accZVal" class="text-red-600 font-bold">9.84 m/s²</span></div>
-            <div><span class="text-slate-500">PostGIS:</span> <span class="text-slate-800">RJT-8820</span></div>
-          </div>
+      <!-- Vehicle & Routing Preferences -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold">Vehicle Preferences</h4>
+        
+        <div class="flex items-center justify-between py-2 border-b border-slate-100 text-xs">
+          <span class="font-medium text-slate-700">Default Vehicle</span>
+          <span class="font-bold text-sky-600">🏍️ Motorbike (Royal Enfield)</span>
         </div>
-
-        <div id="alertStream" class="space-y-2">
-          <!-- Alerts injected via JS -->
+        <div class="flex items-center justify-between py-2 border-b border-slate-100 text-xs">
+          <span class="font-medium text-slate-700">Pothole Avoidance Mode</span>
+          <span class="font-bold text-emerald-600">Strict (0.7 ML Weight)</span>
         </div>
-      </section>
+        <div class="flex items-center justify-between py-2 text-xs">
+          <span class="font-medium text-slate-700">Emergency Contact</span>
+          <span class="font-bold text-slate-900">+91 98790 12345</span>
+        </div>
+      </div>
 
-      <!-- SECTION 3: ML Inference Dashboard -->
-      <section id="ml" class="mobile-card rounded-2xl p-4 space-y-4">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+      <!-- Saved Rajkot Routes -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold">Saved Frequent Routes</h4>
+        
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
           <div>
-            <h2 class="text-lg font-bold text-slate-900">ML Inference Layer</h2>
-            <p class="text-[11px] text-slate-500 font-medium">PyTorch & Scikit-Learn Models</p>
+            <div class="font-bold text-slate-800">Kalawad Rd → Metoda GIDC</div>
+            <div class="text-[10px] text-slate-500">12.4 km • 18 mins avg</div>
           </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-violet-50 text-violet-700 border border-violet-200">
-            v2.4.1 LSTM
-          </span>
+          <button onclick="switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
+            NAVIGATE
+          </button>
         </div>
 
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-3">
-          <div class="flex items-center justify-between">
-            <h3 class="text-xs font-bold text-slate-900 flex items-center space-x-1.5">
-              <i data-lucide="cpu" class="w-3.5 h-3.5 text-violet-600"></i>
-              <span>PyTorch LSTM Speed Forecast</span>
-            </h3>
-            <span class="text-[10px] font-mono text-sky-600">30m Lookahead</span>
-          </div>
-
-          <div class="grid grid-cols-6 gap-1 text-center font-mono">
-            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-45m</div><div class="text-xs font-bold text-slate-800">48.5</div></div>
-            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-30m</div><div class="text-xs font-bold text-slate-800">44.0</div></div>
-            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-15m</div><div class="text-xs font-bold text-slate-800">40.2</div></div>
-            <div class="bg-white p-1.5 rounded border border-slate-300"><div class="text-[9px] text-slate-900 font-bold">Now</div><div class="text-xs font-bold text-slate-900">36.5</div></div>
-            <div class="bg-sky-50 p-1.5 rounded border border-sky-200"><div class="text-[9px] text-sky-600">+15m</div><div class="text-xs font-bold text-sky-700">32.8</div></div>
-            <div class="bg-sky-100 p-1.5 rounded border border-sky-400"><div class="text-[9px] text-sky-700">+30m</div><div class="text-xs font-bold text-sky-800">28.4</div></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 4 & 5: RLHF Loop & SOS Emergency -->
-      <section id="rlhf" class="mobile-card rounded-2xl p-4 space-y-3">
-        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
-          <h2 class="text-base font-bold text-slate-900">RLHF Spatial Feedback</h2>
-          <span class="text-[10px] font-mono text-emerald-600 font-bold">SELF-IMPROVING DB</span>
-        </div>
-        <form onsubmit="submitRLHF(event)" class="space-y-3 text-xs">
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
           <div>
-            <label class="text-slate-600 block mb-1">Hazard Accuracy (1-5 Stars)</label>
-            <input type="range" min="1" max="5" value="5" class="w-full accent-sky-600">
+            <div class="font-bold text-slate-800">150 Ft Ring Rd → Yagnik Rd</div>
+            <div class="text-[10px] text-slate-500">6.2 km • 11 mins avg</div>
           </div>
-          <button type="submit" class="w-full py-2.5 bg-sky-600 text-white font-bold rounded-xl hover:bg-sky-700 transition-all shadow-sm">
-            LOG SPATIAL FEEDBACK
+          <button onclick="switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
+            NAVIGATE
           </button>
-        </form>
-      </section>
-
-      <section id="sos" class="mobile-card rounded-2xl p-4 space-y-3 border-red-200 bg-red-50/50">
-        <div class="flex items-center justify-between border-red-100 pb-2 border-b">
-          <h2 class="text-base font-bold text-red-600">SOS Emergency System</h2>
-          <span class="text-[10px] font-mono text-red-600">G-FORCE DETECTOR</span>
         </div>
-        <div class="text-center space-y-2">
-          <button onclick="triggerSOS()" id="sosBtn" class="w-20 h-20 rounded-full bg-red-600 text-white font-extrabold text-xs hover:bg-red-700 transition-all shadow-lg mx-auto flex items-center justify-center">
-            TRIGGER CRASH
-          </button>
-          <div id="sosStatus" class="text-[11px] font-mono text-slate-600">
-            Click to simulate >4.0G accident.
-          </div>
-        </div>
-      </section>
+      </div>
 
-    </main>
+    </div>
 
-    <!-- Mobile Bottom Navigation Bar -->
-    <nav class="sticky bottom-0 z-50 bg-white border-t border-slate-200 px-4 py-2 flex items-center justify-around text-center shadow-lg">
-      <a href="#router" class="flex flex-col items-center text-sky-600 font-bold">
+    <!-- Mobile Bottom Navigation Bar (3 TABS: Home, Navigation, Profile) -->
+    <nav class="sticky bottom-0 z-50 bg-white border-t border-slate-200 px-6 py-2.5 flex items-center justify-around text-center shadow-lg">
+      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center text-sky-600 font-bold transition-all">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-1">Home</span>
+      </button>
+      <button onclick="switchTab('navigation')" id="tab-navigation" class="flex flex-col items-center text-slate-400 hover:text-sky-600 font-medium transition-all">
         <i data-lucide="navigation" class="w-5 h-5"></i>
-        <span class="text-[10px] mt-0.5">Router</span>
-      </a>
-      <a href="#telemetry" class="flex flex-col items-center text-slate-500 hover:text-sky-600">
-        <i data-lucide="activity" class="w-5 h-5"></i>
-        <span class="text-[10px] mt-0.5">IoT</span>
-      </a>
-      <a href="#ml" class="flex flex-col items-center text-slate-500 hover:text-sky-600">
-        <i data-lucide="cpu" class="w-5 h-5"></i>
-        <span class="text-[10px] mt-0.5">ML</span>
-      </a>
-      <a href="#rlhf" class="flex flex-col items-center text-slate-500 hover:text-sky-600">
-        <i data-lucide="star" class="w-5 h-5"></i>
-        <span class="text-[10px] mt-0.5">RLHF</span>
-      </a>
-      <a href="#sos" class="flex flex-col items-center text-red-600 font-bold">
-        <i data-lucide="shield-alert" class="w-5 h-5"></i>
-        <span class="text-[10px] mt-0.5">SOS</span>
-      </a>
+        <span class="text-[10px] mt-1">Navigation</span>
+      </button>
+      <button onclick="switchTab('profile')" id="tab-profile" class="flex flex-col items-center text-slate-400 hover:text-sky-600 font-medium transition-all">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-1">Profile</span>
+      </button>
     </nav>
 
   </div>
@@ -294,11 +300,31 @@
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Map & Telemetry Simulation Logic
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`page-${tabId}`).classList.remove('hidden');
+
+      ['home', 'navigation', 'profile'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabId) {
+          btn.className = 'flex flex-col items-center text-sky-600 font-bold transition-all';
+        } else {
+          btn.className = 'flex flex-col items-center text-slate-400 hover:text-sky-600 font-medium transition-all';
+        }
+      });
+
+      if (tabId === 'navigation') {
+        setTimeout(resizeCanvas, 100);
+      }
+    }
+
+    // Map Simulation Logic for Navigation Tab
     const canvas = document.getElementById('mumbaiMapCanvas');
     const ctx = canvas.getContext('2d');
     
     function resizeCanvas() {
+      if (!canvas) return;
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
       drawMap();
@@ -306,46 +332,18 @@
     window.addEventListener('resize', resizeCanvas);
 
     let activeVehicle = 'car';
-    let activeObjective = 'fastest';
-
-    const routeData = {
-      fastest: { time: '11.4m', safety: '92%', speed: '42.5', text: 'Kalawad Rd → 150 Ft Ring Rd (6.2 km)' },
-      safest: { time: '14.8m', safety: '99%', speed: '34.0', text: 'Kalawad Rd → 150 Ft Ring Rd (6.8 km avoiding KKV Circle crater)' },
-      straightest: { time: '12.2m', safety: '94%', speed: '39.0', text: 'Kalawad Rd → 150 Ft Ring Rd (6.3 km minimal turn)' },
-      popular: { time: '15.5m', safety: '96%', speed: '31.2', text: 'Kalawad Rd → 150 Ft Ring Rd (7.4 km Yagnik Promenade)' }
-    };
 
     function setVehicle(type) {
       activeVehicle = type;
       document.querySelectorAll('#vehicleProfiles button').forEach(b => {
-        b.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap';
+        b.className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap';
       });
-      document.getElementById(`btn-${type}`).className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap';
+      document.getElementById(`btn-${type}`).className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap';
       drawMap();
-    }
-
-    function setObjective(obj) {
-      activeObjective = obj;
-      ['fastest', 'safest', 'straightest', 'popular'].forEach(o => {
-        const el = document.getElementById(`obj-${o}`);
-        if (o === obj) {
-          el.className = 'p-2.5 rounded-xl bg-sky-50 border border-sky-500 text-sky-700 text-left transition-all';
-        } else {
-          el.className = 'p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all';
-        }
-      });
-
-      const d = routeData[obj];
-      document.getElementById('metricTime').innerText = d.time;
-      document.getElementById('metricHazard').innerText = d.safety;
-      document.getElementById('metricSpeed').innerText = d.speed;
-      document.getElementById('routeSummaryText').innerText = d.text;
-      drawMap();
-      renderSteps();
     }
 
     function drawMap() {
-      if (!canvas.width) return;
+      if (!canvas || !canvas.width) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Grid Lines
@@ -370,20 +368,11 @@
       ctx.strokeStyle = '#DC2626'; ctx.lineWidth = 5;
       ctx.beginPath(); ctx.moveTo(140, 90); ctx.lineTo(180, 115); ctx.stroke();
 
-      ctx.strokeStyle = '#D97706'; ctx.lineWidth = 5;
-      ctx.beginPath(); ctx.moveTo(240, 145); ctx.lineTo(280, 165); ctx.stroke();
-
-      // Active Route Polyline
+      // Active Polyline
       ctx.strokeStyle = '#0284C7';
       ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.moveTo(40, 50);
-      
-      if (activeObjective === 'safest') {
-        ctx.quadraticCurveTo(220, 60, 340, 190);
-      } else {
-        ctx.lineTo(170, 110); ctx.lineTo(340, 190);
-      }
+      ctx.moveTo(40, 50); ctx.lineTo(170, 110); ctx.lineTo(340, 190);
       ctx.stroke();
 
       // Start / End Pins
@@ -393,78 +382,27 @@
 
     function renderSteps() {
       const container = document.getElementById('stepList');
+      if (!container) return;
       const steps = [
         { text: 'Head West towards Kalawad Road', road: 'Kalawad Rd', dist: '450m', hazard: '10%' },
-        { text: activeObjective === 'safest' ? 'Bypass KKV Circle crater via University Road' : 'Merge onto 150 Feet Ring Road Flyover', road: '150 Ft Ring Rd', dist: '1.8km', hazard: activeObjective === 'safest' ? '6%' : '38%' },
-        { text: activeVehicle === 'supercar' ? 'Rerouted around speed bumps near Crystal Mall' : 'Continue past KKV Hall Junction', road: 'Yagnik Road', dist: '2.2km', hazard: '14%' }
+        { text: 'Merge onto 150 Feet Ring Road Flyover', road: '150 Ft Ring Rd', dist: '1.8km', hazard: '38%' },
+        { text: 'Continue past KKV Hall Junction', road: 'Yagnik Road', dist: '2.2km', hazard: '14%' }
       ];
 
       container.innerHTML = steps.map(s => `
-        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex items-center justify-between text-xs">
+        <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
           <div>
             <div class="font-bold text-slate-800">${s.text}</div>
             <div class="text-[10px] text-slate-500">${s.road} • ${s.dist}</div>
           </div>
-          <span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${parseInt(s.hazard) > 30 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">
+          <span class="px-2 py-0.5 rounded text-[9px] font-bold ${parseInt(s.hazard) > 30 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">
             ${s.hazard}
           </span>
         </div>
       `).join('');
     }
 
-    // Accelerometer Waveform Canvas
-    const waveCanvas = document.getElementById('waveformCanvas');
-    const wCtx = waveCanvas.getContext('2d');
-    let waveHistory = Array(50).fill(0);
-
-    function drawWaveform() {
-      waveCanvas.width = waveCanvas.parentElement.clientWidth;
-      waveCanvas.height = 96;
-      
-      const newVib = Math.random() * 0.4 + (Math.random() < 0.1 ? 2.5 : 0.1);
-      waveHistory.push(newVib);
-      waveHistory.shift();
-
-      document.getElementById('vibVal').innerText = `${newVib.toFixed(2)} G`;
-      document.getElementById('accZVal').innerText = `${(9.81 + newVib).toFixed(2)} m/s²`;
-
-      wCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-      wCtx.strokeStyle = '#0284C7';
-      wCtx.lineWidth = 1.8;
-      wCtx.beginPath();
-      
-      const step = waveCanvas.width / 49;
-      waveHistory.forEach((v, i) => {
-        const x = i * step;
-        const y = waveCanvas.height / 2 - (v * 12);
-        if (i === 0) wCtx.moveTo(x, y); else wCtx.lineTo(x, y);
-      });
-      wCtx.stroke();
-    }
-    setInterval(drawWaveform, 300);
-
-    // Initial alert stream
-    document.getElementById('alertStream').innerHTML = `
-      <div class="bg-slate-50 p-2.5 rounded-xl border border-red-200 flex justify-between items-center text-xs">
-        <div>
-          <div class="font-bold text-slate-900">150 Feet Ring Road (KKV Circle)</div>
-          <div class="text-[10px] text-slate-500">Peak Vibration: 3.42 G • Score: 0.88</div>
-        </div>
-        <span class="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">SEVERE</span>
-      </div>
-    `;
-
-    function submitRLHF(e) {
-      e.preventDefault();
-      alert('Spatial RLHF payload successfully logged into self-improving training loop!');
-    }
-
-    function triggerSOS() {
-      const status = document.getElementById('sosStatus');
-      status.innerHTML = '<span class="text-emerald-600 font-bold">DISPATCHED: Synergy Hospital Rajkot notified via PostGIS ST_DWithin!</span>';
-    }
-
-    setTimeout(() => { resizeCanvas(); setObjective('fastest'); }, 100);
+    renderSteps();
   </script>
 </body>
 </html>
