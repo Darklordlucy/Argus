@@ -401,69 +401,229 @@
 
     </div>
 
-    <!-- PAGE 3: USER PROFILE PAGE -->
+    <!-- PAGE 3: COMPREHENSIVE USER PROFILE PAGE -->
     <div id="page-profile" class="page-view hidden flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
       
-      <!-- Top Title -->
-      <div class="border-b border-slate-200 pb-3">
-        <h2 class="text-xl font-bold text-slate-900">User Profile</h2>
-        <p class="text-xs text-slate-500 font-medium">Argus ASPHR Account</p>
-      </div>
-
-      <!-- User Card -->
-      <div class="mobile-card rounded-2xl p-5 flex items-center space-x-4">
-        <div class="w-16 h-16 rounded-full bg-slate-300 flex items-center justify-center text-slate-700 font-extrabold text-xl border-2 border-sky-500">
-          R
-        </div>
+      <!-- Top Title Bar with Edit Profile Button -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
         <div>
-          <h3 class="text-lg font-bold text-slate-900">Ravi Patel</h3>
-          <p class="text-xs text-slate-500 font-medium">ravi.patel@argus.in</p>
-          <span class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-sky-100 text-sky-700">
-            PRO RIDER • RAJKOT
-          </span>
+          <h2 class="text-xl font-bold text-slate-900">User Profile</h2>
+          <p class="text-xs text-slate-500 font-medium">Argus Spatial Intelligence</p>
+        </div>
+        <button onclick="alert('Edit Profile Modal: Update name, photo & credentials.')" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-sm hover:bg-slate-800 transition-all">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+
+      <!-- 1. Profile Header Card -->
+      <div class="mobile-card rounded-2xl p-5 flex items-center space-x-4">
+        <div class="relative">
+          <div class="w-16 h-16 rounded-full bg-slate-800 text-white flex items-center justify-center font-extrabold text-2xl border-2 border-sky-500 shadow-md">
+            R
+          </div>
+          <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <h3 class="text-lg font-bold text-slate-900">Ravi Patel</h3>
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-sky-100 text-sky-800 border border-sky-200">PRO RIDER</span>
+          </div>
+          <p class="text-xs text-slate-600 font-medium flex items-center space-x-1">
+            <i data-lucide="mail" class="w-3 h-3 text-slate-400"></i>
+            <span>ravi.patel@argus.in</span>
+          </p>
+          <p class="text-xs text-slate-600 font-medium flex items-center space-x-1">
+            <i data-lucide="phone" class="w-3 h-3 text-slate-400"></i>
+            <span>+91 98790 12345 • Rajkot, Gujarat</span>
+          </p>
         </div>
       </div>
 
-      <!-- Vehicle & Routing Preferences -->
-      <div class="mobile-card rounded-2xl p-4 space-y-3">
-        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold">Vehicle Preferences</h4>
+      <!-- 6. Journey Stats (4 Cards) -->
+      <div class="space-y-2">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold px-1">JOURNEY STATS</h4>
         
-        <div class="flex items-center justify-between py-2 border-b border-slate-100 text-xs">
-          <span class="font-medium text-slate-700">Default Vehicle</span>
-          <span class="font-bold text-sky-600">🏍️ Motorbike (Royal Enfield)</span>
-        </div>
-        <div class="flex items-center justify-between py-2 border-b border-slate-100 text-xs">
-          <span class="font-medium text-slate-700">Pothole Avoidance Mode</span>
-          <span class="font-bold text-emerald-600">Strict (0.7 ML Weight)</span>
-        </div>
-        <div class="flex items-center justify-between py-2 text-xs">
-          <span class="font-medium text-slate-700">Emergency Contact</span>
-          <span class="font-bold text-slate-900">+91 98790 12345</span>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+              <i data-lucide="map" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">1,482 km</div>
+              <div class="text-[10px] text-slate-500 font-medium">Total Distance</div>
+            </div>
+          </div>
+
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center shrink-0">
+              <i data-lucide="navigation" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">84</div>
+              <div class="text-[10px] text-slate-500 font-medium">Journeys</div>
+            </div>
+          </div>
+
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+              <i data-lucide="shield-check" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">94%</div>
+              <div class="text-[10px] text-slate-500 font-medium">Safe Routes</div>
+            </div>
+          </div>
+
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+              <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">12</div>
+              <div class="text-[10px] text-slate-500 font-medium">Hazards Reported</div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Saved Rajkot Routes -->
+      <!-- 2. Vehicle Details Card -->
       <div class="mobile-card rounded-2xl p-4 space-y-3">
-        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold">Saved Frequent Routes</h4>
-        
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
-          <div>
-            <div class="font-bold text-slate-800">Kalawad Rd → Metoda GIDC</div>
-            <div class="text-[10px] text-slate-500">12.4 km • 18 mins avg</div>
-          </div>
-          <button onclick="presetSelectRoute('Kalawad Rd, Rajkot', 'Metoda GIDC, Rajkot'); switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
-            NAVIGATE
-          </button>
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+            <i data-lucide="bike" class="w-4 h-4 text-sky-600"></i>
+            <span>VEHICLE DETAILS</span>
+          </h4>
+          <span class="text-[10px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">ACTIVE</span>
         </div>
-
-        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
-          <div>
-            <div class="font-bold text-slate-800">150 Ft Ring Rd → Yagnik Rd</div>
-            <div class="text-[10px] text-slate-500">6.2 km • 11 mins avg</div>
+        
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Vehicle Type</span>
+            <span class="font-bold text-slate-900">Motorbike (Royal Enfield)</span>
           </div>
-          <button onclick="presetSelectRoute('150 Ft Ring Rd, Rajkot', 'Yagnik Rd, Rajkot'); switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
-            NAVIGATE
-          </button>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Model</span>
+            <span class="font-bold text-slate-900">Himalayan 450 (2025)</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Registration Number</span>
+            <span class="font-mono font-bold text-sky-700">GJ-03-EB-8820</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-slate-600">Ground Clearance</span>
+            <span class="font-mono font-bold text-emerald-700">220 mm (High Clearance)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Routing Preferences Card -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="sliders" class="w-4 h-4 text-violet-600"></i>
+          <span>ROUTING PREFERENCES</span>
+        </h4>
+        
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Default Strategy</span>
+            <span class="font-bold text-emerald-600">Safest (Low Vibration)</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Pothole Filter Weight</span>
+            <span class="font-mono font-bold text-amber-600">Strict (0.7 ML Weight)</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Unpaved/Gravel Roads</span>
+            <span class="font-bold text-slate-900">Avoid Enabled</span>
+          </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-slate-600">Waterlogging Filter</span>
+            <span class="font-bold text-sky-600">Monsoon Active</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Safety Settings (With Toggles) -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="shield" class="w-4 h-4 text-emerald-600"></i>
+          <span>SAFETY SETTINGS</span>
+        </h4>
+        
+        <div class="space-y-3 text-xs">
+          <!-- Toggle 1 -->
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Pothole Radar Alerts</div>
+              <div class="text-[10px] text-slate-500">Audio beep 200m before pothole</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <!-- Toggle 2 -->
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
+            <div>
+              <div class="font-bold text-slate-900">Accident Hotspot Warnings</div>
+              <div class="text-[10px] text-slate-500">Alert on high-collision junctions</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <!-- Toggle 3 -->
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
+            <div>
+              <div class="font-bold text-slate-900">Speed Bump Chime</div>
+              <div class="text-[10px] text-slate-500">Warn before un-marked speed breakers</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <!-- Toggle 4 -->
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
+            <div>
+              <div class="font-bold text-slate-900">Road Degradation Alerts</div>
+              <div class="text-[10px] text-slate-500">Live accelerometer surface warnings</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Emergency / SOS Card -->
+      <div class="bg-red-50 border border-red-200 rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-mono text-red-700 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+            <i data-lucide="phone-call" class="w-4 h-4 text-red-600"></i>
+            <span>EMERGENCY / SOS SETTINGS</span>
+          </h4>
+          <span class="text-[9px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full">ACTIVE</span>
+        </div>
+        
+        <div class="space-y-2 text-xs">
+          <div class="bg-white p-2.5 rounded-xl border border-red-100 flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Primary Contact: Aniket Patel</div>
+              <div class="text-[10px] text-slate-500">+91 98790 12345 (Brother)</div>
+            </div>
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-xl border border-red-100 flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Secondary Contact: Priya Patel</div>
+              <div class="text-[10px] text-slate-500">+91 94280 67890 (Spouse)</div>
+            </div>
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+
+          <div class="pt-1 text-[11px] text-slate-700">
+            <span class="font-bold text-slate-900">Hospital Dispatch:</span> Synergy Superspeciality Hospital (Rajkot 150 Ft Ring Rd)
+          </div>
+
+          <div class="pt-0.5 text-[10px] text-red-600 font-mono font-bold">
+            ⚡ Auto-SOS: Triggers SMS + GPS dispatch if severe crash impact (>4.2g) detected.
+          </div>
         </div>
       </div>
 
