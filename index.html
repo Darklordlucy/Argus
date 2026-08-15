@@ -401,7 +401,7 @@
 
     </div>
 
-    <!-- PAGE 3: COMPREHENSIVE USER PROFILE PAGE -->
+    <!-- PAGE 3: FULL ARGUS USER PROFILE PAGE -->
     <div id="page-profile" class="page-view hidden flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
       
       <!-- Top Title Bar with Edit Profile Button -->
@@ -410,7 +410,7 @@
           <h2 class="text-xl font-bold text-slate-900">User Profile</h2>
           <p class="text-xs text-slate-500 font-medium">Argus Spatial Intelligence</p>
         </div>
-        <button onclick="alert('Edit Profile Modal: Update name, photo & credentials.')" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-sm hover:bg-slate-800 transition-all">
+        <button onclick="alert('Edit Profile Modal: Update name, avatar & credentials.')" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-sm hover:bg-slate-800 transition-all">
           <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
           <span>Edit Profile</span>
         </button>
@@ -440,9 +440,47 @@
         </div>
       </div>
 
-      <!-- 6. Journey Stats (4 Cards) -->
-      <div class="space-y-2">
-        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold px-1">JOURNEY STATS</h4>
+      <!-- 2. Safety Score & Badges Section -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+            <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
+            <span>SAFETY SCORE & BADGES</span>
+          </h4>
+          <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">98 / 100 EXCELLENT</span>
+        </div>
+
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-emerald-900">Guardian of Rajkot</div>
+            <div class="text-[10px] text-emerald-700">Top 2% safest rider in Gujarat region</div>
+          </div>
+          <div class="text-2xl font-extrabold text-emerald-600 font-mono">98</div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-2 pt-1 text-center">
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">🛡️</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">Pothole Hunter</span>
+          </div>
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">⚡</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">Zero Crash</span>
+          </div>
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">🌧️</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">Monsoon Rider</span>
+          </div>
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">🏆</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">1000km Club</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Journey Stats & Telemetry Section -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold px-1">JOURNEY & TELEMETRY STATS</h4>
         
         <div class="grid grid-cols-2 gap-3">
           <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
@@ -467,27 +505,89 @@
 
           <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-              <i data-lucide="shield-check" class="w-5 h-5"></i>
+              <i data-lucide="layers" class="w-5 h-5"></i>
             </div>
             <div>
-              <div class="text-base font-extrabold text-slate-900">94%</div>
-              <div class="text-[10px] text-slate-500 font-medium">Safe Routes</div>
+              <div class="text-base font-extrabold text-slate-900">342</div>
+              <div class="text-[10px] text-slate-500 font-medium">Segments Analysed</div>
             </div>
           </div>
 
           <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
             <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
-              <i data-lucide="alert-triangle" class="w-5 h-5"></i>
+              <i data-lucide="hard-drive" class="w-5 h-5"></i>
             </div>
             <div>
-              <div class="text-base font-extrabold text-slate-900">12</div>
-              <div class="text-[10px] text-slate-500 font-medium">Hazards Reported</div>
+              <div class="text-base font-extrabold text-slate-900">24.8 MB</div>
+              <div class="text-[10px] text-slate-500 font-medium">Data Contributed</div>
             </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Device Status -->
+        <div class="bg-slate-900 text-white rounded-2xl p-3.5 flex items-center justify-between text-xs shadow-md">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <div>
+              <div class="font-bold font-mono">Edge Device: RJT-8820</div>
+              <div class="text-[10px] text-slate-400">IMU Accelerometer + Gyro Active</div>
+            </div>
+          </div>
+          <span class="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded-full border border-emerald-700">ONLINE</span>
+        </div>
+      </div>
+
+      <!-- 4. Saved Places & Routes Card -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="bookmark" class="w-4 h-4 text-sky-600"></i>
+          <span>SAVED PLACES & FREQUENT ROUTES</span>
+        </h4>
+        
+        <!-- Saved Places -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div onclick="presetSelectRoute('', '150 Feet Ring Road, Rajkot'); switchTab('navigation')" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center space-x-2 cursor-pointer hover:border-sky-500">
+            <i data-lucide="home" class="w-4 h-4 text-sky-600 shrink-0"></i>
+            <div class="truncate">
+              <div class="font-bold text-slate-900">Home</div>
+              <div class="text-[10px] text-slate-500 truncate">150 Ft Ring Rd</div>
+            </div>
+          </div>
+          
+          <div onclick="presetSelectRoute('', 'Metoda GIDC, Rajkot'); switchTab('navigation')" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center space-x-2 cursor-pointer hover:border-sky-500">
+            <i data-lucide="briefcase" class="w-4 h-4 text-violet-600 shrink-0"></i>
+            <div class="truncate">
+              <div class="font-bold text-slate-900">Work</div>
+              <div class="text-[10px] text-slate-500 truncate">Metoda GIDC</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved Routes -->
+        <div class="space-y-2 pt-1">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-slate-800">Kalawad Rd → Metoda GIDC</div>
+              <div class="text-[10px] text-slate-500">12.4 km • 18 mins avg</div>
+            </div>
+            <button onclick="presetSelectRoute('Kalawad Rd, Rajkot', 'Metoda GIDC, Rajkot'); switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
+              NAVIGATE
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-slate-800">150 Ft Ring Rd → Yagnik Rd</div>
+              <div class="text-[10px] text-slate-500">6.2 km • 11 mins avg</div>
+            </div>
+            <button onclick="presetSelectRoute('150 Ft Ring Rd, Rajkot', 'Yagnik Rd, Rajkot'); switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
+              NAVIGATE
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- 2. Vehicle Details Card -->
+      <!-- 5. Vehicle Details Card -->
       <div class="mobile-card rounded-2xl p-4 space-y-3">
         <div class="flex items-center justify-between">
           <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
@@ -517,7 +617,7 @@
         </div>
       </div>
 
-      <!-- 3. Routing Preferences Card -->
+      <!-- 6. Routing Preferences Card -->
       <div class="mobile-card rounded-2xl p-4 space-y-3">
         <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
           <i data-lucide="sliders" class="w-4 h-4 text-violet-600"></i>
@@ -544,7 +644,7 @@
         </div>
       </div>
 
-      <!-- 4. Safety Settings (With Toggles) -->
+      <!-- 7. Safety Settings (With Toggles) -->
       <div class="mobile-card rounded-2xl p-4 space-y-3">
         <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
           <i data-lucide="shield" class="w-4 h-4 text-emerald-600"></i>
@@ -552,7 +652,6 @@
         </h4>
         
         <div class="space-y-3 text-xs">
-          <!-- Toggle 1 -->
           <div class="flex items-center justify-between">
             <div>
               <div class="font-bold text-slate-900">Pothole Radar Alerts</div>
@@ -561,7 +660,6 @@
             <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
 
-          <!-- Toggle 2 -->
           <div class="flex items-center justify-between border-t border-slate-100 pt-2">
             <div>
               <div class="font-bold text-slate-900">Accident Hotspot Warnings</div>
@@ -570,7 +668,6 @@
             <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
 
-          <!-- Toggle 3 -->
           <div class="flex items-center justify-between border-t border-slate-100 pt-2">
             <div>
               <div class="font-bold text-slate-900">Speed Bump Chime</div>
@@ -579,7 +676,6 @@
             <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
 
-          <!-- Toggle 4 -->
           <div class="flex items-center justify-between border-t border-slate-100 pt-2">
             <div>
               <div class="font-bold text-slate-900">Road Degradation Alerts</div>
@@ -590,7 +686,38 @@
         </div>
       </div>
 
-      <!-- 5. Emergency / SOS Card -->
+      <!-- 8. Privacy, Security & Notifications -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="lock" class="w-4 h-4 text-sky-600"></i>
+          <span>PRIVACY, SECURITY & NOTIFICATIONS</span>
+        </h4>
+        
+        <div class="space-y-3 text-xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Anonymize Telemetry Data</div>
+              <div class="text-[10px] text-slate-500">Strip personal identifiers before sync</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
+            <div>
+              <div class="font-bold text-slate-900">Push & Audio Alerts</div>
+              <div class="text-[10px] text-slate-500">Real-time hazard warnings</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <button onclick="alert('Change Password Dialog')" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 border border-slate-200">
+            <i data-lucide="key" class="w-3.5 h-3.5"></i>
+            <span>Change Account Password</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 9. Emergency / SOS Card -->
       <div class="bg-red-50 border border-red-200 rounded-2xl p-4 space-y-3">
         <div class="flex items-center justify-between">
           <h4 class="text-xs font-mono text-red-700 uppercase tracking-wider font-bold flex items-center space-x-1.5">
@@ -625,6 +752,21 @@
             ⚡ Auto-SOS: Triggers SMS + GPS dispatch if severe crash impact (>4.2g) detected.
           </div>
         </div>
+      </div>
+
+      <!-- 10. Help & Logout Section -->
+      <div class="pt-2 space-y-3">
+        <div class="flex items-center justify-between text-xs text-slate-500 px-1 font-medium">
+          <span>Argus ASPHR Engine v2.4.0</span>
+          <button onclick="alert('Help Center: Support line +91 1800-ARGUS-99 or email support@argus.in')" class="text-sky-600 font-bold hover:underline">
+            Help & Support
+          </button>
+        </div>
+
+        <button onclick="alert('Logged out successfully.'); switchTab('home')" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs rounded-2xl shadow-md transition-all flex items-center justify-center space-x-2">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Log Out of Argus Account</span>
+        </button>
       </div>
 
     </div>
