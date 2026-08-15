@@ -23,8 +23,8 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
   RouteResult? _computedRoute;
   bool _isComputing = false;
 
-  final TextEditingController _originController = TextEditingController(text: "Kalawad Road, Rajkot");
-  final TextEditingController _destController = TextEditingController(text: "150 Feet Ring Road, Rajkot");
+  final TextEditingController _originController = TextEditingController(text: "");
+  final TextEditingController _destController = TextEditingController(text: "");
 
   @override
   void initState() {
@@ -112,7 +112,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                   currentVehiclePosition: _selectedOrigin.position,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 24), // Extra Spacing Above the Green Box
 
               // Plan Route Sheet Container (Sage/Olive Green from navigation-1/2 mockups)
               Container(
@@ -154,7 +154,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                       children: [
                         Column(
                           children: [
-                            // Origin Field
+                            // Origin Field (Blank Placeholder)
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
                               decoration: BoxDecoration(
@@ -183,6 +183,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                       ),
                                       decoration: const InputDecoration(
                                         hintText: "Choose starting point...",
+                                        hintStyle: TextStyle(color: Color(0x990F172A)),
                                         border: InputBorder.none,
                                         isDense: true,
                                       ),
@@ -197,7 +198,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                             ),
                             const SizedBox(height: 8),
 
-                            // Destination Field
+                            // Destination Field (Blank Placeholder)
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
                               decoration: BoxDecoration(
@@ -219,6 +220,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                       ),
                                       decoration: const InputDecoration(
                                         hintText: "Choose destination...",
+                                        hintStyle: TextStyle(color: Color(0x990F172A)),
                                         border: InputBorder.none,
                                         isDense: true,
                                       ),
@@ -379,7 +381,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                           border: Border.all(color: const Color(0xFF94A36F)),
                         ),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          mainAxisAlignment: SpaceAround,
                           children: [
                             _buildMetricItem(
                               value: "${_computedRoute!.estimatedTimeMinutes}m",
