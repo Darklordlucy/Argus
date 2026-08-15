@@ -226,6 +226,41 @@
         </div>
       </div>
 
+      <!-- Bottom Most Section: Choose your route -->
+      <div class="space-y-3 pt-3 border-t border-slate-200">
+        <h3 class="text-lg font-bold text-slate-900 px-1">Choose your route</h3>
+
+        <div class="grid grid-cols-2 gap-3 px-1">
+          <!-- Safest -->
+          <div onclick="setObjective('safest'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="shield-check" class="w-6 h-6 text-emerald-600"></i>
+            <span class="text-sm font-bold text-slate-800">safest</span>
+            <span class="text-[10px] text-slate-500 font-mono">0.7 ML + 0.3 DB Hazard</span>
+          </div>
+
+          <!-- Straightest -->
+          <div onclick="setObjective('straightest'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="compass" class="w-6 h-6 text-sky-600"></i>
+            <span class="text-sm font-bold text-slate-800">straightest</span>
+            <span class="text-[10px] text-slate-500 font-mono">A* Bearing Penalty</span>
+          </div>
+
+          <!-- Popular -->
+          <div onclick="setObjective('popular'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="star" class="w-6 h-6 text-amber-500"></i>
+            <span class="text-sm font-bold text-slate-800">popular</span>
+            <span class="text-[10px] text-slate-500 font-mono">POI Density Bonus</span>
+          </div>
+
+          <!-- Fastest -->
+          <div onclick="setObjective('fastest'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="zap" class="w-6 h-6 text-orange-500"></i>
+            <span class="text-sm font-bold text-slate-800">fastest</span>
+            <span class="text-[10px] text-slate-500 font-mono">LSTM Traffic Forecast</span>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- PAGE 2: NAVIGATION PAGE -->
@@ -424,6 +459,10 @@
       });
       document.getElementById(`btn-${type}`).className = 'px-3.5 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap';
       drawMap();
+    }
+
+    function setObjective(obj) {
+      // Set objective method
     }
 
     function drawMap() {
