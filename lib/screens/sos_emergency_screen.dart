@@ -35,10 +35,13 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryTextColor = isDark ? Colors.white : AppColors.textPrimary;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -53,27 +56,27 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                         "SOS EMERGENCY SYSTEM",
                         style: TextStyle(
                           color: AppColors.hazardRed,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                          fontSize: 11,
+                          fontWeight: FontWeight.extrabold,
+                          letterSpacing: 1.8,
                         ),
                       ),
                       const SizedBox(height: 2),
-                      const Text(
+                      Text(
                         "Accident & G-Force Detection",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 20,
+                          color: primaryTextColor,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: AppColors.hazardRed.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.hazardRed.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: AppColors.hazardRed),
                     ),
                     child: const Text(
@@ -87,27 +90,27 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 18),
 
               // SOS Trigger Big Button
               Center(
                 child: GestureDetector(
                   onTap: _triggerCrashSimulation,
                   child: Container(
-                    width: 170,
-                    height: 170,
+                    width: 160,
+                    height: 160,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: _sosActive ? AppColors.hazardRed : AppColors.obsidianCard,
+                      color: _sosActive ? AppColors.hazardRed : (isDark ? AppColors.obsidianCard : Colors.white),
                       border: Border.all(
                         color: _sosActive ? Colors.white : AppColors.hazardRed,
-                        width: 4,
+                        width: 3.5,
                       ),
                       boxShadow: [
                         BoxShadow(
                           color: AppColors.hazardRed.withOpacity(_sosActive ? 0.6 : 0.2),
-                          blurRadius: 30,
-                          spreadRadius: 4,
+                          blurRadius: 24,
+                          spreadRadius: 2,
                         ),
                       ],
                     ),
@@ -117,16 +120,16 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                         Icon(
                           Icons.emergency,
                           color: _sosActive ? Colors.white : AppColors.hazardRed,
-                          size: 54,
+                          size: 50,
                         ),
                         const SizedBox(height: 8),
                         Text(
                           _sosActive ? "SOS ACTIVE" : "SIMULATE CRASH",
                           style: TextStyle(
-                            color: _sosActive ? Colors.white : AppColors.textPrimary,
-                            fontSize: 12,
+                            color: _sosActive ? Colors.white : primaryTextColor,
+                            fontSize: 11.5,
                             fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
+                            letterSpacing: 0.8,
                           ),
                         ),
                       ],
@@ -194,13 +197,13 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                           ],
                         ),
                       ],
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 14),
 
                       TextButton(
                         onPressed: _cancelSOS,
                         child: const Text(
                           "CANCEL EMERGENCY DISPATCH",
-                          style: TextStyle(color: AppColors.textMuted, fontSize: 11, fontWeight: FontWeight.bold),
+                          style: TextStyle(color: AppColors.textMuted, fontSize: 10.5, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ],
@@ -208,19 +211,19 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                 ),
               ] else ...[
                 CyberCard(
-                  child: const Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "AUTOMATIC ACCIDENT DISPATCH PROTOCOL",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: primaryTextColor,
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 6),
-                      Text(
+                      const SizedBox(height: 6),
+                      const Text(
                         "1. IoT Telemetry continuously monitors 3-axis accelerometer and gyroscope yaw rate.\n2. When vibration spike exceeds 4.0G impact threshold, an SOS alert is stored in the database with coordinates.\n3. PostGIS ST_DWithin spatial query identifies the nearest emergency hospital node in Mumbai and dispatches live telemetry payload.",
                         style: TextStyle(
                           color: AppColors.textSecondary,

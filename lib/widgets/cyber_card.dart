@@ -21,23 +21,28 @@ class CyberCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveBorderColor = borderColor ?? AppColors.borderSubtle;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveBorderColor = borderColor ?? 
+        (isDark ? AppColors.borderSubtle : AppColors.borderSubtle);
+    final cardBg = isDark ? AppColors.obsidianCard.withOpacity(0.9) : AppColors.card;
 
     Widget cardContent = Container(
       margin: margin,
-      padding: padding ?? const EdgeInsets.all(16.0),
+      padding: padding ?? const EdgeInsets.all(14.0),
       decoration: BoxDecoration(
-        color: AppColors.obsidianCard.withOpacity(0.85),
+        color: cardBg,
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
           color: effectiveBorderColor,
-          width: 1.2,
+          width: 1.0,
         ),
         boxShadow: [
           BoxShadow(
-            color: (borderColor ?? AppColors.cyberCyan).withOpacity(0.06),
-            blurRadius: 16,
-            spreadRadius: 1,
+            color: isDark 
+                ? (borderColor ?? AppColors.cyberCyan).withOpacity(0.08)
+                : const Color(0x0F0F172A),
+            blurRadius: 12,
+            spreadRadius: 0,
             offset: const Offset(0, 4),
           ),
         ],
@@ -46,8 +51,9 @@ class CyberCard extends StatelessWidget {
     );
 
     if (onTap != null) {
-      return GestureDetector(
+      return InkWell(
         onTap: onTap,
+        borderRadius: BorderRadius.circular(borderRadius),
         child: cardContent,
       );
     }

@@ -48,14 +48,18 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final cardBg = isDark ? AppColors.obsidianCard : AppColors.cardSubtle;
+    final primaryTextColor = isDark ? Colors.white : AppColors.textPrimary;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header Title
+              // Header Title & Live Status Pill
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -66,27 +70,27 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                         "ASPHR ENGINE",
                         style: TextStyle(
                           color: AppColors.cyberCyan,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                          fontSize: 11,
+                          fontWeight: FontWeight.extrabold,
+                          letterSpacing: 1.8,
                         ),
                       ),
                       const SizedBox(height: 2),
-                      const Text(
-                        "Hazard-Aware Dynamic Router",
+                      Text(
+                        "Hazard Router",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 20,
+                          color: primaryTextColor,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: AppColors.cyberCyan.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
+                      color: AppColors.cyberCyan.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(20),
                       border: Border.all(color: AppColors.cyberCyan.withOpacity(0.3)),
                     ),
                     child: const Text(
@@ -100,32 +104,33 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
-              // Interactive Map View
+              // Interactive Map View optimized for mobile screen
               SizedBox(
-                height: 240,
+                height: 220,
                 child: MapCanvasWidget(
                   activeRoute: _computedRoute,
                   hazardSegments: _computedRoute?.encounteredHazards ?? [],
                   currentVehiclePosition: _selectedOrigin.position,
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
-              // Vehicle Profile Selector Pills
-              const Text(
+              // Vehicle Constraint Selector Chips
+              Text(
                 "VEHICLE CONSTRAINT PROFILE",
                 style: TextStyle(
-                  color: AppColors.textMuted,
-                  fontSize: 11,
+                  color: isDark ? AppColors.textMuted : AppColors.textSecondary,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
+                  letterSpacing: 0.8,
                 ),
               ),
               const SizedBox(height: 8),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
+                physics: const BouncingScrollPhysics(),
                 child: Row(
                   children: VehicleProfile.profiles.map((profile) {
                     final bool isSelected = profile.type == _selectedVehicle.type;
@@ -135,11 +140,14 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                         label: Text(profile.name),
                         selected: isSelected,
                         selectedColor: AppColors.cyberCyan,
-                        backgroundColor: AppColors.obsidianCard,
+                        backgroundColor: cardBg,
+                        side: BorderSide(
+                          color: isSelected ? AppColors.cyberCyan : AppColors.borderSubtle,
+                        ),
                         labelStyle: TextStyle(
-                          color: isSelected ? Colors.black : AppColors.textPrimary,
+                          color: isSelected ? Colors.white : primaryTextColor,
                           fontWeight: FontWeight.bold,
-                          fontSize: 12,
+                          fontSize: 11.5,
                         ),
                         onSelected: (selected) {
                           if (selected) {
@@ -152,16 +160,16 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                   }).toList(),
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // Multi-Objective Strategy Buttons
-              const Text(
+              Text(
                 "ROUTING OBJECTIVE FORMULA",
                 style: TextStyle(
-                  color: AppColors.textMuted,
-                  fontSize: 11,
+                  color: isDark ? AppColors.textMuted : AppColors.textSecondary,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
+                  letterSpacing: 0.8,
                 ),
               ),
               const SizedBox(height: 8),
@@ -174,9 +182,9 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          backgroundColor: isSelected ? AppColors.cyberCyan : AppColors.obsidianCard,
-                          foregroundColor: isSelected ? Colors.black : AppColors.textPrimary,
+                          padding: const EdgeInsets.symmetric(vertical: 9),
+                          backgroundColor: isSelected ? AppColors.cyberCyan : cardBg,
+                          foregroundColor: isSelected ? Colors.white : primaryTextColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
                             side: BorderSide(
@@ -198,7 +206,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // Route Metrics & Telemetry Breakdown Card
               if (_isComputing)
@@ -210,7 +218,6 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                 )
               else if (_computedRoute != null) ...[
                 CyberCard(
-                  borderColor: AppColors.borderGlow,
                   child: Column(
                     children: [
                       Row(
@@ -238,9 +245,9 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
-                      const Divider(color: AppColors.borderSubtle),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: 14),
+                      const Divider(color: AppColors.borderSubtle, height: 1),
+                      const SizedBox(height: 10),
 
                       // Weather Alert Banner
                       Row(
@@ -250,8 +257,8 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                           Expanded(
                             child: Text(
                               _computedRoute!.weatherAlertText,
-                              style: const TextStyle(
-                                color: AppColors.textSecondary,
+                              style: TextStyle(
+                                color: isDark ? AppColors.textSecondary : AppColors.textSecondary,
                                 fontSize: 11,
                               ),
                             ),
@@ -263,12 +270,14 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                         children: [
                           const Icon(Icons.published_with_changes, color: AppColors.cyberCyan, size: 16),
                           const SizedBox(width: 8),
-                          Text(
-                            "Avoided ${_computedRoute!.totalSpeedBumpsAvoided} speed bumps & severe hazard segments.",
-                            style: const TextStyle(
-                              color: AppColors.cyberCyan,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
+                          Expanded(
+                            child: Text(
+                              "Avoided ${_computedRoute!.totalSpeedBumpsAvoided} speed bumps & severe hazard segments.",
+                              style: const TextStyle(
+                                color: AppColors.cyberCyan,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],
@@ -276,16 +285,16 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
 
                 // Turn-by-Turn Guidance Steps
-                const Text(
+                Text(
                   "HAZARD-ENRICHED MANEUVER STEPS",
                   style: TextStyle(
-                    color: AppColors.textMuted,
-                    fontSize: 11,
+                    color: isDark ? AppColors.textMuted : AppColors.textSecondary,
+                    fontSize: 10.5,
                     fontWeight: FontWeight.bold,
-                    letterSpacing: 1.0,
+                    letterSpacing: 0.8,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -299,25 +308,25 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: AppColors.obsidianSurface,
+                              color: isDark ? AppColors.obsidianSurface : const Color(0xFFF1F5F9),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: Icon(
                               _getStepIcon(step.iconType),
                               color: AppColors.cyberCyan,
-                              size: 20,
+                              size: 18,
                             ),
                           ),
-                          const SizedBox(width: 12),
+                          const SizedBox(width: 10),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   step.instruction,
-                                  style: const TextStyle(
-                                    color: AppColors.textPrimary,
-                                    fontSize: 13,
+                                  style: TextStyle(
+                                    color: primaryTextColor,
+                                    fontSize: 12.5,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -326,18 +335,18 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                   "${step.roadName} • ${step.distanceMeters.toInt()}m",
                                   style: const TextStyle(
                                     color: AppColors.textSecondary,
-                                    fontSize: 11,
+                                    fontSize: 10.5,
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3.5),
                             decoration: BoxDecoration(
                               color: step.hazardScore > 0.3
-                                  ? AppColors.hazardRed.withOpacity(0.2)
-                                  : AppColors.hazardGreen.withOpacity(0.2),
+                                  ? AppColors.hazardRed.withOpacity(0.15)
+                                  : AppColors.hazardGreen.withOpacity(0.15),
                               borderRadius: BorderRadius.circular(6),
                             ),
                             child: Text(
@@ -346,7 +355,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                 color: step.hazardScore > 0.3
                                     ? AppColors.hazardRed
                                     : AppColors.hazardGreen,
-                                fontSize: 10,
+                                fontSize: 9.5,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),

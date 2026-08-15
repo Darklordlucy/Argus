@@ -25,11 +25,13 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
   Widget build(BuildContext context) {
     final iotService = Provider.of<IoTTelemetryService>(context);
     final reading = iotService.currentReading;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryTextColor = isDark ? Colors.white : AppColors.textPrimary;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,28 +46,28 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                         "IOT TELEMETRY INGESTION",
                         style: TextStyle(
                           color: AppColors.cyberCyan,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                          fontSize: 11,
+                          fontWeight: FontWeight.extrabold,
+                          letterSpacing: 1.8,
                         ),
                       ),
                       const SizedBox(height: 2),
-                      const Text(
+                      Text(
                         "Real-Time Hazard Pipeline",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 20,
+                          color: primaryTextColor,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: AppColors.hazardRed.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.hazardRed.withOpacity(0.4)),
+                      color: AppColors.hazardRed.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.hazardRed.withOpacity(0.3)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -80,7 +82,7 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                         ),
                         const SizedBox(width: 6),
                         const Text(
-                          "WEBSOCKET FEED",
+                          "WEBSOCKET LIVE",
                           style: TextStyle(
                             color: AppColors.hazardRed,
                             fontSize: 10,
@@ -92,11 +94,10 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // Live Accelerometer Waveform Chart Card
               CyberCard(
-                borderColor: AppColors.borderGlow,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -107,9 +108,9 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                           "3-AXIS ACCELEROMETER WAVEFORM",
                           style: TextStyle(
                             color: AppColors.textSecondary,
-                            fontSize: 11,
+                            fontSize: 10.5,
                             fontWeight: FontWeight.bold,
-                            letterSpacing: 1.0,
+                            letterSpacing: 0.8,
                           ),
                         ),
                         Row(
@@ -145,7 +146,7 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // PostGIS Spatial Segment Snapper Status
               CyberCard(
@@ -154,7 +155,7 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                     Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        color: AppColors.obsidianSurface,
+                        color: isDark ? AppColors.obsidianSurface : const Color(0xFFF1F5F9),
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(color: AppColors.borderSubtle),
                       ),
@@ -165,10 +166,10 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             "PostGIS Spatial Snapping (ST_DWithin)",
                             style: TextStyle(
-                              color: AppColors.textPrimary,
+                              color: primaryTextColor,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
@@ -189,26 +190,26 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // Live Hazard WebSocket Alert Feed
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     "LIVE HAZARD ALERTS (2-HOUR TTL AUTO-EXPIRY)",
                     style: TextStyle(
-                      color: AppColors.textMuted,
-                      fontSize: 11,
+                      color: isDark ? AppColors.textMuted : AppColors.textSecondary,
+                      fontSize: 10.5,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
+                      letterSpacing: 0.8,
                     ),
                   ),
                   Text(
                     "${iotService.liveHazardAlerts.length} ACTIVE",
                     style: const TextStyle(
                       color: AppColors.cyberCyan,
-                      fontSize: 11,
+                      fontSize: 10.5,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -223,7 +224,7 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: CyberCard(
                     borderColor: alert.conditionTier == "severe"
-                        ? AppColors.hazardRed.withOpacity(0.5)
+                        ? AppColors.hazardRed.withOpacity(0.4)
                         : AppColors.borderSubtle,
                     child: Row(
                       children: [
@@ -231,8 +232,8 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: alert.conditionTier == "severe"
-                                ? AppColors.hazardRed.withOpacity(0.2)
-                                : AppColors.hazardOrange.withOpacity(0.2),
+                                ? AppColors.hazardRed.withOpacity(0.15)
+                                : AppColors.hazardOrange.withOpacity(0.15),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -250,8 +251,8 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                             children: [
                               Text(
                                 alert.segmentName,
-                                style: const TextStyle(
-                                  color: AppColors.textPrimary,
+                                style: TextStyle(
+                                  color: primaryTextColor,
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -261,7 +262,7 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                                 "Peak Vibration: ${alert.peakVibrationG} G • Score: ${alert.hazardScore}",
                                 style: const TextStyle(
                                   color: AppColors.textSecondary,
-                                  fontSize: 11,
+                                  fontSize: 10.5,
                                 ),
                               ),
                             ],
@@ -273,7 +274,7 @@ class _IoTHeatmapScreenState extends State<IoTHeatmapScreen> {
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(
-                                color: AppColors.obsidianSurface,
+                                color: isDark ? AppColors.obsidianSurface : const Color(0xFFF1F5F9),
                                 borderRadius: BorderRadius.circular(4),
                               ),
                               child: Text(

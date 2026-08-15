@@ -35,7 +35,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
         backgroundColor: AppColors.cyberCyan,
         content: Text(
           "Spatial RLHF feedback logged for ${payload.routeId}! Retraining loop active.",
-          style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -43,10 +43,13 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryTextColor = isDark ? Colors.white : AppColors.textPrimary;
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -61,28 +64,28 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                         "RLHF FEEDBACK LOOP",
                         style: TextStyle(
                           color: AppColors.cyberCyan,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                          fontSize: 11,
+                          fontWeight: FontWeight.extrabold,
+                          letterSpacing: 1.8,
                         ),
                       ),
                       const SizedBox(height: 2),
-                      const Text(
-                        "5-Dimension Spatial Feedback",
+                      Text(
+                        "Spatial Feedback",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 20,
+                          color: primaryTextColor,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: AppColors.hazardGreen.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.hazardGreen.withOpacity(0.4)),
+                      color: AppColors.hazardGreen.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.hazardGreen.withOpacity(0.3)),
                     ),
                     child: const Text(
                       "SELF-IMPROVING DB",
@@ -95,7 +98,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               if (_submitted) ...[
                 CyberCard(
@@ -104,10 +107,10 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                     children: [
                       const Icon(Icons.check_circle, color: AppColors.hazardGreen, size: 48),
                       const SizedBox(height: 12),
-                      const Text(
+                      Text(
                         "Feedback Successfully Fused!",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
+                          color: primaryTextColor,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -116,7 +119,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                       const Text(
                         "Your post-journey spatial ratings have been appended to the model fine-tuning database.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
+                        style: TextStyle(color: AppColors.textSecondary, fontSize: 11.5),
                       ),
                       const SizedBox(height: 16),
                       OutlinedButton(
@@ -137,8 +140,9 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                   "Did mapped hazards reflect actual road condition?",
                   _hazardAccuracy,
                   (v) => setState(() => _hazardAccuracy = v),
+                  primaryTextColor,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 // Dimension 2: Ride Comfort
                 _buildRatingDimension(
@@ -146,31 +150,34 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                   "Pavement smoothness and suspension comfort level",
                   _rideComfort,
                   (v) => setState(() => _rideComfort = v),
+                  primaryTextColor,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 // Dimension 3: Unmapped Hazard Encountered
                 CyberCard(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "3. Unmapped Hazard Encountered?",
-                            style: TextStyle(
-                              color: AppColors.textPrimary,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "3. Unmapped Hazard Encountered?",
+                              style: TextStyle(
+                                color: primaryTextColor,
+                                fontSize: 12.5,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                          SizedBox(height: 2),
-                          Text(
-                            "Did you hit any unmapped crater or speed bump?",
-                            style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
-                          ),
-                        ],
+                            const SizedBox(height: 2),
+                            const Text(
+                              "Did you hit any unmapped crater or bump?",
+                              style: TextStyle(color: AppColors.textSecondary, fontSize: 10.5),
+                            ),
+                          ],
+                        ),
                       ),
                       Switch(
                         value: _unmappedHazard,
@@ -180,7 +187,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 // Dimension 4: Route Efficiency
                 _buildRatingDimension(
@@ -188,8 +195,9 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                   "Did the engine avoid unnecessary detours?",
                   _routeEfficiency,
                   (v) => setState(() => _routeEfficiency = v),
+                  primaryTextColor,
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
 
                 // Dimension 5: Overall Recommendation
                 _buildRatingDimension(
@@ -197,8 +205,9 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                   "Likelihood of recommending Asphr route engine",
                   _overallRating,
                   (v) => setState(() => _overallRating = v),
+                  primaryTextColor,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 18),
 
                 // Submit Button
                 SizedBox(
@@ -207,7 +216,8 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.cyberCyan,
-                      foregroundColor: Colors.black,
+                      foregroundColor: Colors.white,
+                      elevation: 2,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -215,7 +225,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                     onPressed: _submitFeedback,
                     child: const Text(
                       "LOG SPATIAL FEEDBACK PAYLOAD",
-                      style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, letterSpacing: 1.0),
+                      style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.bold, letterSpacing: 0.8),
                     ),
                   ),
                 ),
@@ -232,6 +242,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
     String subtitle,
     int currentValue,
     ValueChanged<int> onChanged,
+    Color textColor,
   ) {
     return CyberCard(
       child: Column(
@@ -239,18 +250,18 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
-              fontSize: 13,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 12.5,
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 2),
           Text(
             subtitle,
-            style: const TextStyle(color: AppColors.textSecondary, fontSize: 11),
+            style: const TextStyle(color: AppColors.textSecondary, fontSize: 10.5),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 6),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(5, (index) {
@@ -261,7 +272,7 @@ class _RLHFFeedbackScreenState extends State<RLHFFeedbackScreen> {
                 icon: Icon(
                   active ? Icons.star : Icons.star_border,
                   color: active ? AppColors.hazardYellow : AppColors.textMuted,
-                  size: 28,
+                  size: 26,
                 ),
               );
             }),

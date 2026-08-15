@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asphr — AI-Powered Hazard-Aware Dynamic Routing Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Asphr — AI-Powered Mobile Hazard Router</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
@@ -18,16 +18,21 @@
       theme: {
         extend: {
           colors: {
-            obsidian: '#070A11',
-            obsidianSurface: '#0D111D',
-            obsidianCard: '#151C2E',
-            cyberCyan: '#00F2FE',
-            cyberBlue: '#4FACFE',
-            cyberPurple: '#7F00FF',
-            hazardRed: '#FF3B30',
-            hazardOrange: '#FF9500',
-            hazardYellow: '#FFCC00',
-            hazardGreen: '#30D158',
+            appBg: '#F8FAFC',
+            surface: '#FFFFFF',
+            cardBg: '#FFFFFF',
+            cardSubtle: '#F1F5F9',
+            borderSubtle: '#E2E8F0',
+            cyberCyan: '#0284C7',
+            cyberBlue: '#2563EB',
+            cyberPurple: '#7C3AED',
+            hazardRed: '#DC2626',
+            hazardOrange: '#D97706',
+            hazardYellow: '#CA8A04',
+            hazardGreen: '#16A34A',
+            textPrimary: '#0F172A',
+            textSecondary: '#475569',
+            textMuted: '#94A3B8',
           },
           fontFamily: {
             sans: ['Space Grotesk', 'sans-serif'],
@@ -40,303 +45,257 @@
 
   <style>
     body {
-      background-color: #070A11;
-      color: #F1F5F9;
+      background-color: #F8FAFC;
+      color: #0F172A;
       font-family: 'Space Grotesk', sans-serif;
     }
-    .cyber-grid {
-      background-image: radial-gradient(rgba(0, 242, 254, 0.08) 1px, transparent 1px);
-      background-size: 24px 24px;
+    .light-grid {
+      background-image: radial-gradient(rgba(2, 132, 199, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
     }
-    .glass-card {
-      background: rgba(21, 28, 46, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    .mobile-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     }
-    .glass-card-glow {
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+    .mobile-card-glow {
+      border: 1px solid rgba(2, 132, 199, 0.4);
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.12);
     }
     /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #070A11; }
-    ::-webkit-scrollbar-thumb { background: #151C2E; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #00F2FE; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 2px; }
+    ::-webkit-scrollbar-thumb:hover { background: #0284C7; }
   </style>
 </head>
-<body class="cyber-grid min-h-screen pb-12">
+<body class="light-grid min-h-screen pb-20">
 
-  <!-- Floating Pill Navbar -->
-  <nav class="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6 mb-8">
-    <div class="glass-card rounded-full px-6 py-3 flex items-center justify-between shadow-2xl">
-      <div class="flex items-center space-x-3">
-        <div class="w-3 h-3 rounded-full bg-cyberCyan animate-pulse"></div>
-        <span class="font-bold text-lg tracking-wider text-white">ASPHR <span class="text-cyberCyan text-xs font-mono">v2.4</span></span>
-        <span class="hidden md:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-cyberCyan/10 text-cyberCyan border border-cyberCyan/30">MUMBAI 85k+ OSM NODES</span>
+  <!-- Mobile Container Wrapper -->
+  <div class="max-w-md mx-auto min-h-screen flex flex-col bg-slate-50 border-x border-slate-200 shadow-2xl">
+
+    <!-- Mobile Top Header Bar -->
+    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between shadow-sm">
+      <div class="flex items-center space-x-2">
+        <div class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-pulse"></div>
+        <span class="font-extrabold text-base tracking-wider text-slate-900">ASPHR <span class="text-sky-600 text-xs font-mono">MOBILE v2.4</span></span>
       </div>
-      
-      <div class="hidden sm:flex items-center space-x-6 text-xs font-medium text-slate-400">
-        <a href="#router" class="hover:text-cyberCyan transition-colors">Route Engine</a>
-        <a href="#telemetry" class="hover:text-cyberCyan transition-colors">IoT Stream</a>
-        <a href="#ml" class="hover:text-cyberCyan transition-colors">ML Layer</a>
-        <a href="#rlhf" class="hover:text-cyberCyan transition-colors">RLHF Loop</a>
-        <a href="#sos" class="hover:text-cyberCyan transition-colors text-hazardRed">SOS System</a>
-      </div>
-
-      <button onclick="document.getElementById('router').scrollIntoView({behavior: 'smooth'})" class="px-4 py-1.5 rounded-full bg-cyberCyan text-black font-bold text-xs hover:bg-white transition-all shadow-[0_0_15px_rgba(0,242,254,0.4)]">
-        LAUNCH ENGINE
-      </button>
-    </div>
-  </nav>
-
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
-
-    <!-- Hero Section -->
-    <header class="text-center py-6 space-y-4">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-obsidianCard border border-cyberCyan/30 text-cyberCyan text-xs font-mono">
-        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
-        <span>HAZARD-AWARE DYNAMIC ROUTING SYSTEM</span>
-      </div>
-      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        Predictive Navigation for <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyberCyan to-cyberBlue">Mumbai's Road Network</span>
-      </h1>
-      <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
-        Fusing real-time vehicle IoT telemetry, PyTorch LSTM traffic forecasting, Scikit-Learn hazard inference, and vehicle-aware spatial graph algorithms.
-      </p>
+      <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-50 text-sky-700 border border-sky-200">MUMBAI NODES</span>
     </header>
 
-    <!-- SECTION 1: Interactive Route Engine & Map -->
-    <section id="router" class="glass-card rounded-2xl p-6 glass-card-glow space-y-6">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
-        <div>
-          <span class="text-xs font-mono text-cyberCyan font-bold tracking-widest uppercase">MODULE 01</span>
-          <h2 class="text-2xl font-bold text-white">Spatial Route Planner</h2>
+    <!-- Main Content Area -->
+    <main class="flex-1 p-4 space-y-5 overflow-y-auto">
+
+      <!-- SECTION 1: Interactive Route Engine & Map -->
+      <section id="router" class="mobile-card rounded-2xl p-4 mobile-card-glow space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span class="text-[10px] font-mono text-sky-600 font-extrabold tracking-widest uppercase">MODULE 01</span>
+            <h2 class="text-lg font-bold text-slate-900">Spatial Route Planner</h2>
+          </div>
+          <span class="text-xs font-mono text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">LIVE</span>
         </div>
-        
+
         <!-- Vehicle Profile Controls -->
-        <div class="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0" id="vehicleProfiles">
-          <button onclick="setVehicle('car')" id="btn-car" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyberCyan text-black transition-all">
+        <div class="flex items-center space-x-2 overflow-x-auto pb-1" id="vehicleProfiles">
+          <button onclick="setVehicle('car')" id="btn-car" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap">
             🚗 Car
           </button>
-          <button onclick="setVehicle('bike')" id="btn-bike" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all">
-            🏍️ Bike (No Motorways)
+          <button onclick="setVehicle('bike')" id="btn-bike" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
+            🏍️ Bike
           </button>
-          <button onclick="setVehicle('truck')" id="btn-truck" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all">
-            🚚 Truck (≥3m Width)
+          <button onclick="setVehicle('truck')" id="btn-truck" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
+            🚚 Truck
           </button>
-          <button onclick="setVehicle('supercar')" id="btn-supercar" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all">
-            🏎️ Supercar (Zero Speed Bumps)
+          <button onclick="setVehicle('supercar')" id="btn-supercar" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap">
+            🏎️ Supercar
           </button>
         </div>
-      </div>
 
-      <!-- Objective Selector & Controls -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <button onclick="setObjective('fastest')" id="obj-fastest" class="p-3 rounded-xl bg-cyberCyan/10 border border-cyberCyan text-cyberCyan text-left transition-all">
-          <div class="text-xs font-mono font-bold">⚡ FASTEST</div>
-          <div class="text-[11px] text-slate-400 mt-1">LSTM Traffic Forecast</div>
-        </button>
-        <button onclick="setObjective('safest')" id="obj-safest" class="p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all">
-          <div class="text-xs font-mono font-bold">🛡️ SAFEST</div>
-          <div class="text-[11px] text-slate-400 mt-1">0.7 ML + 0.3 DB Hazard</div>
-        </button>
-        <button onclick="setObjective('straightest')" id="obj-straightest" class="p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all">
-          <div class="text-xs font-mono font-bold">📐 STRAIGHTEST</div>
-          <div class="text-[11px] text-slate-400 mt-1">A* Bearing Penalty</div>
-        </button>
-        <button onclick="setObjective('popular')" id="obj-popular" class="p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all">
-          <div class="text-xs font-mono font-bold">⭐ POPULAR</div>
-          <div class="text-[11px] text-slate-400 mt-1">POI Density Bonus</div>
-        </button>
-      </div>
+        <!-- Objective Selector & Controls -->
+        <div class="grid grid-cols-2 gap-2">
+          <button onclick="setObjective('fastest')" id="obj-fastest" class="p-2.5 rounded-xl bg-sky-50 border border-sky-500 text-sky-700 text-left transition-all">
+            <div class="text-xs font-mono font-bold">⚡ FASTEST</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">LSTM Traffic Forecast</div>
+          </button>
+          <button onclick="setObjective('safest')" id="obj-safest" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all">
+            <div class="text-xs font-mono font-bold">🛡️ SAFEST</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">0.7 ML + 0.3 DB Hazard</div>
+          </button>
+          <button onclick="setObjective('straightest')" id="obj-straightest" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all">
+            <div class="text-xs font-mono font-bold">📐 STRAIGHTEST</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">A* Bearing Penalty</div>
+          </button>
+          <button onclick="setObjective('popular')" id="obj-popular" class="p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all">
+            <div class="text-xs font-mono font-bold">⭐ POPULAR</div>
+            <div class="text-[10px] text-slate-500 mt-0.5">POI Density Bonus</div>
+          </button>
+        </div>
 
-      <!-- Main Map Canvas & Gauges -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Interactive Map Canvas -->
-        <div class="lg:col-span-2 relative bg-obsidianSurface rounded-xl overflow-hidden border border-white/10 h-[340px]">
+        <!-- Main Map Canvas -->
+        <div class="relative bg-slate-100 rounded-xl overflow-hidden border border-slate-200 h-[220px]">
           <canvas id="mumbaiMapCanvas" class="w-full h-full"></canvas>
           
-          <div class="absolute top-3 left-3 bg-obsidianCard/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyberCyan/30 text-[11px] font-mono text-cyberCyan flex items-center space-x-2">
-            <span class="w-2 h-2 rounded-full bg-hazardGreen animate-ping"></span>
-            <span>LIVE VECTOR RENDERER</span>
+          <div class="absolute top-2 left-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] font-mono text-sky-700 flex items-center space-x-1.5 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>MUMBAI VECTOR RENDERER</span>
           </div>
 
-          <div class="absolute bottom-3 left-3 right-3 bg-obsidianCard/90 backdrop-blur-md p-3 rounded-lg border border-white/10 flex items-center justify-between text-xs">
-            <span id="routeSummaryText" class="font-medium text-slate-200">BKC → Worli Sea Link Toll (7.4 km)</span>
-            <span id="weatherText" class="text-hazardYellow font-mono text-[11px]">🌧️ Monsoon Warning (0.2x multiplier)</span>
+          <div class="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-md p-2 rounded-lg border border-slate-200 flex items-center justify-between text-[11px] shadow-sm">
+            <span id="routeSummaryText" class="font-bold text-slate-800 truncate">BKC → Worli (7.4 km)</span>
+            <span id="weatherText" class="text-amber-600 font-mono text-[10px] ml-1 shrink-0">🌧️ Monsoon</span>
+          </div>
+        </div>
+
+        <!-- Telemetry Gauges -->
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+            <div id="metricTime" class="text-lg font-bold text-sky-600 font-mono">14.2m</div>
+            <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Est Time</div>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+            <div id="metricHazard" class="text-lg font-bold text-emerald-600 font-mono">88%</div>
+            <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Safety</div>
+          </div>
+          <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
+            <div id="metricSpeed" class="text-lg font-bold text-violet-600 font-mono">38.5</div>
+            <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">LSTM km/h</div>
           </div>
         </div>
 
-        <!-- Telemetry Metrics & Steps -->
-        <div class="space-y-4">
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="bg-obsidianCard p-3 rounded-xl border border-white/10">
-              <div id="metricTime" class="text-xl font-bold text-cyberCyan font-mono">14.2m</div>
-              <div class="text-[10px] text-slate-400 uppercase font-mono mt-1">Est Time</div>
-            </div>
-            <div class="bg-obsidianCard p-3 rounded-xl border border-white/10">
-              <div id="metricHazard" class="text-xl font-bold text-hazardGreen font-mono">88%</div>
-              <div class="text-[10px] text-slate-400 uppercase font-mono mt-1">Safety</div>
-            </div>
-            <div class="bg-obsidianCard p-3 rounded-xl border border-white/10">
-              <div id="metricSpeed" class="text-xl font-bold text-cyberPurple font-mono">38.5</div>
-              <div class="text-[10px] text-slate-400 uppercase font-mono mt-1">LSTM km/h</div>
-            </div>
-          </div>
-
-          <div class="space-y-2">
-            <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">Turn-by-Turn Guidance</div>
-            <div id="stepList" class="space-y-2 max-h-[210px] overflow-y-auto pr-1">
-              <!-- Steps injected via JS -->
-            </div>
+        <!-- Turn-by-Turn Guidance -->
+        <div class="space-y-2">
+          <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold">Turn-by-Turn Maneuvers</div>
+          <div id="stepList" class="space-y-2 max-h-[180px] overflow-y-auto pr-1">
+            <!-- Steps injected via JS -->
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SECTION 2: IoT Telemetry & Hazard Stream -->
-    <section id="telemetry" class="glass-card rounded-2xl p-6 space-y-6">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <span class="text-xs font-mono text-cyberCyan font-bold tracking-widest uppercase">MODULE 02</span>
-          <h2 class="text-2xl font-bold text-white">Real-Time IoT Telemetry Stream</h2>
+      <!-- SECTION 2: IoT Telemetry & Waveform Stream -->
+      <section id="telemetry" class="mobile-card rounded-2xl p-4 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span class="text-[10px] font-mono text-sky-600 font-extrabold tracking-widest uppercase">MODULE 02</span>
+            <h2 class="text-lg font-bold text-slate-900">IoT Telemetry Stream</h2>
+          </div>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-50 text-red-600 border border-red-200 flex items-center space-x-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
+            <span>LIVE</span>
+          </span>
         </div>
-        <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-hazardRed/20 text-hazardRed border border-hazardRed/40 flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-hazardRed animate-pulse"></span>
-          <span>WEBSOCKET LIVE</span>
-        </span>
-      </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Live Waveform Canvas -->
-        <div class="lg:col-span-2 bg-obsidianSurface p-4 rounded-xl border border-white/10 space-y-3">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">3-AXIS ACCELEROMETER WAVEFORM (Acc_X, Acc_Y, Acc_Z)</span>
-            <div class="flex space-x-3">
-              <span class="text-cyberCyan">■ X</span>
-              <span class="text-hazardYellow">■ Y</span>
-              <span class="text-hazardRed">■ Z</span>
+        <div class="bg-slate-100 p-3 rounded-xl border border-slate-200 space-y-2">
+          <div class="flex items-center justify-between text-[10px] font-mono text-slate-600">
+            <span>3-AXIS ACCELEROMETER</span>
+            <div class="flex space-x-2">
+              <span class="text-sky-600 font-bold">■ X</span>
+              <span class="text-amber-600 font-bold">■ Y</span>
+              <span class="text-red-600 font-bold">■ Z</span>
             </div>
           </div>
-          <canvas id="waveformCanvas" class="w-full h-32"></canvas>
-          <div class="grid grid-cols-3 gap-4 pt-2 text-center text-xs font-mono">
-            <div><span class="text-slate-400">Vibration Mag:</span> <span id="vibVal" class="text-cyberCyan font-bold">0.18 G</span></div>
-            <div><span class="text-slate-400">Vert Accel Z:</span> <span id="accZVal" class="text-hazardRed font-bold">9.84 m/s²</span></div>
-            <div><span class="text-slate-400">PostGIS Segment:</span> <span class="text-slate-200">OSM-991204</span></div>
+          <canvas id="waveformCanvas" class="w-full h-24"></canvas>
+          <div class="grid grid-cols-3 gap-2 pt-1 text-center text-[10px] font-mono">
+            <div><span class="text-slate-500">Vib Mag:</span> <span id="vibVal" class="text-sky-700 font-bold">0.18 G</span></div>
+            <div><span class="text-slate-500">Vert Z:</span> <span id="accZVal" class="text-red-600 font-bold">9.84 m/s²</span></div>
+            <div><span class="text-slate-500">PostGIS:</span> <span class="text-slate-800">OSM-9912</span></div>
           </div>
         </div>
 
-        <!-- WebSocket Hazard Alert Stream -->
-        <div class="space-y-3">
-          <div class="text-xs font-mono text-slate-400 uppercase tracking-wider flex justify-between">
-            <span>Live WebSocket Hazard Alerts</span>
-            <span class="text-cyberCyan font-bold">2-HOUR AUTO-TTL</span>
-          </div>
-          <div id="alertStream" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-            <!-- Alerts injected via JS -->
-          </div>
+        <div id="alertStream" class="space-y-2">
+          <!-- Alerts injected via JS -->
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SECTION 3: ML Inference Dashboard -->
-    <section id="ml" class="glass-card rounded-2xl p-6 space-y-6">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <span class="text-xs font-mono text-cyberCyan font-bold tracking-widest uppercase">MODULE 03</span>
-          <h2 class="text-2xl font-bold text-white">Machine Learning Inference Layer</h2>
+      <!-- SECTION 3: ML Inference Dashboard -->
+      <section id="ml" class="mobile-card rounded-2xl p-4 space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span class="text-[10px] font-mono text-sky-600 font-extrabold tracking-widest uppercase">MODULE 03</span>
+            <h2 class="text-lg font-bold text-slate-900">ML Inference Layer</h2>
+          </div>
+          <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-violet-50 text-violet-700 border border-violet-200">
+            v2.4.1 LSTM
+          </span>
         </div>
-        <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-cyberPurple/20 text-cyberPurple border border-cyberPurple/40">
-          MODEL v2.4.1 (LSTM + GBM)
-        </span>
-      </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- PyTorch LSTM Speed Forecast -->
-        <div class="bg-obsidianSurface p-4 rounded-xl border border-white/10 space-y-4">
+        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-3">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-              <i data-lucide="cpu" class="w-4 h-4 text-cyberPurple"></i>
-              <span>PyTorch LSTM Traffic Speed Forecaster</span>
+            <h3 class="text-xs font-bold text-slate-900 flex items-center space-x-1.5">
+              <i data-lucide="cpu" class="w-3.5 h-3.5 text-violet-600"></i>
+              <span>PyTorch LSTM Speed Forecast</span>
             </h3>
-            <span class="text-xs font-mono text-cyberCyan">30m Lookahead</span>
+            <span class="text-[10px] font-mono text-sky-600">30m Lookahead</span>
           </div>
-          <p class="text-xs text-slate-400">2-Layer LSTM (hidden_dim=32, 4-step temporal window) forecasts road speed for fastest route optimization.</p>
 
-          <div class="grid grid-cols-6 gap-2 pt-2 text-center font-mono">
-            <div class="bg-obsidianCard p-2 rounded-lg"><div class="text-xs text-slate-400">-45m</div><div class="text-sm font-bold text-white">46.5</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg"><div class="text-xs text-slate-400">-30m</div><div class="text-sm font-bold text-white">42.0</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg"><div class="text-xs text-slate-400">-15m</div><div class="text-sm font-bold text-white">37.8</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg border border-white/20"><div class="text-xs text-white">Now</div><div class="text-sm font-bold text-white">33.5</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg border border-cyberCyan/40"><div class="text-xs text-cyberCyan">+15m</div><div class="text-sm font-bold text-cyberCyan">29.2</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg border border-cyberCyan"><div class="text-xs text-cyberCyan">+30m</div><div class="text-sm font-bold text-cyberCyan">24.8</div></div>
-          </div>
-        </div>
-
-        <!-- Scikit-Learn GBM 23-Feature Vector -->
-        <div class="bg-obsidianSurface p-4 rounded-xl border border-white/10 space-y-3">
-          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-            <i data-lucide="layers" class="w-4 h-4 text-cyberBlue"></i>
-            <span>Scikit-Learn GBM (23-Feature Vector)</span>
-          </h3>
-          <div class="space-y-2 text-xs font-mono">
-            <div>
-              <div class="flex justify-between text-slate-300"><span>vibration_magnitude_z</span><span class="text-cyberCyan">2.84 G (28%)</span></div>
-              <div class="w-full bg-obsidianCard h-1.5 rounded-full mt-1"><div class="bg-cyberCyan h-1.5 rounded-full w-[28%]"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300"><span>segment_avg_speed</span><span class="text-cyberBlue">34.2 km/h (16%)</span></div>
-              <div class="w-full bg-obsidianCard h-1.5 rounded-full mt-1"><div class="bg-cyberBlue h-1.5 rounded-full w-[16%]"></div></div>
-            </div>
-            <div>
-              <div class="flex justify-between text-slate-300"><span>monsoon_precipitation</span><span class="text-hazardYellow">14.5 mm/h (8%)</span></div>
-              <div class="w-full bg-obsidianCard h-1.5 rounded-full mt-1"><div class="bg-hazardYellow h-1.5 rounded-full w-[8%]"></div></div>
-            </div>
+          <div class="grid grid-cols-6 gap-1 text-center font-mono">
+            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-45m</div><div class="text-xs font-bold text-slate-800">46.5</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-30m</div><div class="text-xs font-bold text-slate-800">42.0</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-15m</div><div class="text-xs font-bold text-slate-800">37.8</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-300"><div class="text-[9px] text-slate-900 font-bold">Now</div><div class="text-xs font-bold text-slate-900">33.5</div></div>
+            <div class="bg-sky-50 p-1.5 rounded border border-sky-200"><div class="text-[9px] text-sky-600">+15m</div><div class="text-xs font-bold text-sky-700">29.2</div></div>
+            <div class="bg-sky-100 p-1.5 rounded border border-sky-400"><div class="text-[9px] text-sky-700">+30m</div><div class="text-xs font-bold text-sky-800">24.8</div></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- SECTION 4 & 5: RLHF Loop & SOS Emergency -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- RLHF Feedback -->
-      <section id="rlhf" class="glass-card rounded-2xl p-6 space-y-4">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
-          <h2 class="text-xl font-bold text-white">RLHF Spatial Feedback</h2>
-          <span class="text-xs font-mono text-hazardGreen">SELF-IMPROVING DB</span>
+      <!-- SECTION 4 & 5: RLHF Loop & SOS Emergency -->
+      <section id="rlhf" class="mobile-card rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-2">
+          <h2 class="text-base font-bold text-slate-900">RLHF Spatial Feedback</h2>
+          <span class="text-[10px] font-mono text-emerald-600 font-bold">SELF-IMPROVING DB</span>
         </div>
         <form onsubmit="submitRLHF(event)" class="space-y-3 text-xs">
           <div>
-            <label class="text-slate-300 block mb-1">1. Hazard Accuracy (1-5 Stars)</label>
-            <input type="range" min="1" max="5" value="5" class="w-full accent-cyberCyan">
+            <label class="text-slate-600 block mb-1">Hazard Accuracy (1-5 Stars)</label>
+            <input type="range" min="1" max="5" value="5" class="w-full accent-sky-600">
           </div>
-          <div>
-            <label class="text-slate-300 block mb-1">2. Ride Comfort & Pavement Rating</label>
-            <input type="range" min="1" max="5" value="4" class="w-full accent-cyberCyan">
-          </div>
-          <button type="submit" class="w-full py-2 bg-cyberCyan text-black font-bold rounded-lg hover:bg-white transition-all">
-            LOG SPATIAL FEEDBACK PAYLOAD
+          <button type="submit" class="w-full py-2.5 bg-sky-600 text-white font-bold rounded-xl hover:bg-sky-700 transition-all shadow-sm">
+            LOG SPATIAL FEEDBACK
           </button>
         </form>
       </section>
 
-      <!-- SOS Emergency -->
-      <section id="sos" class="glass-card rounded-2xl p-6 space-y-4 border-hazardRed/30">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
-          <h2 class="text-xl font-bold text-hazardRed">SOS Emergency System</h2>
-          <span class="text-xs font-mono text-hazardRed">G-FORCE CRASH DETECTOR</span>
+      <section id="sos" class="mobile-card rounded-2xl p-4 space-y-3 border-red-200 bg-red-50/50">
+        <div class="flex items-center justify-between border-b border-red-100 pb-2">
+          <h2 class="text-base font-bold text-red-600">SOS Emergency System</h2>
+          <span class="text-[10px] font-mono text-red-600">G-FORCE DETECTOR</span>
         </div>
-        <div class="text-center space-y-3">
-          <button onclick="triggerSOS()" id="sosBtn" class="w-24 h-24 rounded-full bg-hazardRed/20 border-2 border-hazardRed text-hazardRed font-extrabold text-sm hover:bg-hazardRed hover:text-white transition-all shadow-[0_0_25px_rgba(255,59,48,0.4)]">
+        <div class="text-center space-y-2">
+          <button onclick="triggerSOS()" id="sosBtn" class="w-20 h-20 rounded-full bg-red-600 text-white font-extrabold text-xs hover:bg-red-700 transition-all shadow-lg mx-auto flex items-center justify-center">
             TRIGGER CRASH
           </button>
-          <div id="sosStatus" class="text-xs font-mono text-slate-400">
-            Click to simulate >4.0G accident impact spike.
+          <div id="sosStatus" class="text-[11px] font-mono text-slate-600">
+            Click to simulate >4.0G accident.
           </div>
         </div>
       </section>
-    </div>
+
+    </main>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="sticky bottom-0 z-50 bg-white border-t border-slate-200 px-4 py-2 flex items-center justify-around text-center shadow-lg">
+      <a href="#router" class="flex flex-col items-center text-sky-600 font-bold">
+        <i data-lucide="navigation" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-0.5">Router</span>
+      </a>
+      <a href="#telemetry" class="flex flex-col items-center text-slate-500 hover:text-sky-600">
+        <i data-lucide="activity" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-0.5">IoT</span>
+      </a>
+      <a href="#ml" class="flex flex-col items-center text-slate-500 hover:text-sky-600">
+        <i data-lucide="cpu" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-0.5">ML</span>
+      </a>
+      <a href="#rlhf" class="flex flex-col items-center text-slate-500 hover:text-sky-600">
+        <i data-lucide="star" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-0.5">RLHF</span>
+      </a>
+      <a href="#sos" class="flex flex-col items-center text-red-600 font-bold">
+        <i data-lucide="shield-alert" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-0.5">SOS</span>
+      </a>
+    </nav>
 
   </div>
 
@@ -359,18 +318,18 @@
     let activeObjective = 'fastest';
 
     const routeData = {
-      fastest: { time: '14.2m', safety: '88%', speed: '38.5', text: 'BKC → Worli Sea Link (7.4 km via WEH Flyover)' },
-      safest: { time: '17.8m', safety: '98%', speed: '31.2', text: 'BKC → Worli (8.1 km avoiding severe crater zone)' },
-      straightest: { time: '15.5m', safety: '91%', speed: '35.0', text: 'BKC → Worli (7.6 km minimal turn deviation)' },
-      popular: { time: '19.2m', safety: '94%', speed: '28.4', text: 'BKC → Worli (8.8 km scenic POI promenade)' }
+      fastest: { time: '14.2m', safety: '88%', speed: '38.5', text: 'BKC → Worli (7.4 km via WEH)' },
+      safest: { time: '17.8m', safety: '98%', speed: '31.2', text: 'BKC → Worli (8.1 km avoiding crater zone)' },
+      straightest: { time: '15.5m', safety: '91%', speed: '35.0', text: 'BKC → Worli (7.6 km minimal turn)' },
+      popular: { time: '19.2m', safety: '94%', speed: '28.4', text: 'BKC → Worli (8.8 km POI promenade)' }
     };
 
     function setVehicle(type) {
       activeVehicle = type;
       document.querySelectorAll('#vehicleProfiles button').forEach(b => {
-        b.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all';
+        b.className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 border border-slate-200 hover:border-sky-500 transition-all whitespace-nowrap';
       });
-      document.getElementById(`btn-${type}`).className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyberCyan text-black transition-all';
+      document.getElementById(`btn-${type}`).className = 'px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-600 text-white shadow-sm transition-all whitespace-nowrap';
       drawMap();
     }
 
@@ -379,9 +338,9 @@
       ['fastest', 'safest', 'straightest', 'popular'].forEach(o => {
         const el = document.getElementById(`obj-${o}`);
         if (o === obj) {
-          el.className = 'p-3 rounded-xl bg-cyberCyan/10 border border-cyberCyan text-cyberCyan text-left transition-all';
+          el.className = 'p-2.5 rounded-xl bg-sky-50 border border-sky-500 text-sky-700 text-left transition-all';
         } else {
-          el.className = 'p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all';
+          el.className = 'p-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 text-left hover:border-sky-500 transition-all';
         }
       });
 
@@ -399,49 +358,46 @@
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Grid Lines
-      ctx.strokeStyle = '#161F33';
+      ctx.strokeStyle = '#E2E8F0';
       ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 30) {
+      for (let x = 0; x < canvas.width; x += 24) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
       }
-      for (let y = 0; y < canvas.height; y += 30) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width = canvas.width, y); ctx.stroke();
+      for (let y = 0; y < canvas.height; y += 24) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
       }
 
       // Static Roads
-      ctx.strokeStyle = '#1C273D';
+      ctx.strokeStyle = '#CBD5E1';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(40, 50); ctx.lineTo(200, 120); ctx.lineTo(380, 220);
-      ctx.moveTo(200, 120); ctx.lineTo(150, 280);
+      ctx.moveTo(30, 40); ctx.lineTo(160, 100); ctx.lineTo(320, 180);
+      ctx.moveTo(160, 100); ctx.lineTo(120, 220);
       ctx.stroke();
 
-      // Hazard Segments (Color Ramped)
-      ctx.strokeStyle = '#FF3B30'; ctx.lineWidth = 6; // Severe
-      ctx.beginPath(); ctx.moveTo(180, 110); ctx.lineTo(220, 135); ctx.stroke();
+      // Hazard Segments
+      ctx.strokeStyle = '#DC2626'; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(140, 90); ctx.lineTo(180, 115); ctx.stroke();
 
-      ctx.strokeStyle = '#FF9500'; ctx.lineWidth = 6; // Rough
-      ctx.beginPath(); ctx.moveTo(300, 180); ctx.lineTo(340, 200); ctx.stroke();
+      ctx.strokeStyle = '#D97706'; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(240, 145); ctx.lineTo(280, 165); ctx.stroke();
 
-      // Calculated Route Line (Neon Glow)
-      ctx.shadowColor = '#00F2FE';
-      ctx.shadowBlur = 12;
-      ctx.strokeStyle = '#00F2FE';
+      // Active Route Polyline
+      ctx.strokeStyle = '#0284C7';
       ctx.lineWidth = 4;
       ctx.beginPath();
-      ctx.moveTo(50, 60);
+      ctx.moveTo(40, 50);
       
       if (activeObjective === 'safest') {
-        ctx.quadraticCurveTo(280, 80, 420, 240);
+        ctx.quadraticCurveTo(220, 60, 340, 190);
       } else {
-        ctx.lineTo(220, 130); ctx.lineTo(420, 240);
+        ctx.lineTo(170, 110); ctx.lineTo(340, 190);
       }
       ctx.stroke();
-      ctx.shadowBlur = 0;
 
       // Start / End Pins
-      ctx.fillStyle = '#30D158'; ctx.beginPath(); ctx.arc(50, 60, 6, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#7F00FF'; ctx.beginPath(); ctx.arc(420, 240, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#16A34A'; ctx.beginPath(); ctx.arc(40, 50, 6, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#7C3AED'; ctx.beginPath(); ctx.arc(340, 190, 6, 0, Math.PI * 2); ctx.fill();
     }
 
     function renderSteps() {
@@ -449,17 +405,17 @@
       const steps = [
         { text: 'Head North towards WEH Flyover', road: 'BKC Link Rd', dist: '450m', hazard: '12%' },
         { text: activeObjective === 'safest' ? 'Bypass severe crater zone via Senapati Bapat Marg' : 'Merge onto Western Express Flyover', road: 'Senapati Bapat Marg', dist: '1.8km', hazard: activeObjective === 'safest' ? '8%' : '42%' },
-        { text: activeVehicle === 'supercar' ? 'Rerouted around 3 speed bumps (Supercar active)' : 'Continue past Worli Naka Junction', road: 'Dr. Annie Besant Rd', dist: '2.2km', hazard: '18%' }
+        { text: activeVehicle === 'supercar' ? 'Rerouted around 3 speed bumps' : 'Continue past Worli Naka', road: 'Dr. Annie Besant Rd', dist: '2.2km', hazard: '18%' }
       ];
 
       container.innerHTML = steps.map(s => `
-        <div class="bg-obsidianCard p-2.5 rounded-lg border border-white/10 flex items-center justify-between text-xs">
+        <div class="bg-slate-50 p-2 rounded-lg border border-slate-200 flex items-center justify-between text-xs">
           <div>
-            <div class="font-bold text-slate-200">${s.text}</div>
-            <div class="text-[10px] text-slate-400">${s.road} • ${s.dist}</div>
+            <div class="font-bold text-slate-800">${s.text}</div>
+            <div class="text-[10px] text-slate-500">${s.road} • ${s.dist}</div>
           </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold ${parseInt(s.hazard) > 30 ? 'bg-hazardRed/20 text-hazardRed' : 'bg-hazardGreen/20 text-hazardGreen'}">
-            Hazard ${s.hazard}
+          <span class="px-1.5 py-0.5 rounded text-[9px] font-bold ${parseInt(s.hazard) > 30 ? 'bg-red-100 text-red-700' : 'bg-emerald-100 text-emerald-700'}">
+            ${s.hazard}
           </span>
         </div>
       `).join('');
@@ -472,7 +428,7 @@
 
     function drawWaveform() {
       waveCanvas.width = waveCanvas.parentElement.clientWidth;
-      waveCanvas.height = 128;
+      waveCanvas.height = 96;
       
       const newVib = Math.random() * 0.4 + (Math.random() < 0.1 ? 2.5 : 0.1);
       waveHistory.push(newVib);
@@ -482,14 +438,14 @@
       document.getElementById('accZVal').innerText = `${(9.81 + newVib).toFixed(2)} m/s²`;
 
       wCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-      wCtx.strokeStyle = '#00F2FE';
-      wCtx.lineWidth = 2;
+      wCtx.strokeStyle = '#0284C7';
+      wCtx.lineWidth = 1.8;
       wCtx.beginPath();
       
       const step = waveCanvas.width / 49;
       waveHistory.forEach((v, i) => {
         const x = i * step;
-        const y = waveCanvas.height / 2 - (v * 15);
+        const y = waveCanvas.height / 2 - (v * 12);
         if (i === 0) wCtx.moveTo(x, y); else wCtx.lineTo(x, y);
       });
       wCtx.stroke();
@@ -498,12 +454,12 @@
 
     // Initial alert stream
     document.getElementById('alertStream').innerHTML = `
-      <div class="bg-obsidianCard p-2.5 rounded-lg border border-hazardRed/40 flex justify-between items-center text-xs">
+      <div class="bg-slate-50 p-2.5 rounded-xl border border-red-200 flex justify-between items-center text-xs">
         <div>
-          <div class="font-bold text-white">WEH Flyover (Vile Parle)</div>
-          <div class="text-[10px] text-slate-400">Peak Vibration: 3.42 G • Score: 0.88</div>
+          <div class="font-bold text-slate-900">WEH Flyover (Vile Parle)</div>
+          <div class="text-[10px] text-slate-500">Peak Vibration: 3.42 G • Score: 0.88</div>
         </div>
-        <span class="text-[10px] font-bold text-hazardRed bg-hazardRed/20 px-2 py-0.5 rounded">SEVERE</span>
+        <span class="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">SEVERE</span>
       </div>
     `;
 
@@ -514,7 +470,7 @@
 
     function triggerSOS() {
       const status = document.getElementById('sosStatus');
-      status.innerHTML = '<span class="text-hazardGreen font-bold">DISPATCHED: Lilavati Hospital (Bandra) notified via PostGIS ST_DWithin!</span>';
+      status.innerHTML = '<span class="text-emerald-600 font-bold">DISPATCHED: Lilavati Hospital notified via PostGIS!</span>';
     }
 
     setTimeout(() => { resizeCanvas(); setObjective('fastest'); }, 100);

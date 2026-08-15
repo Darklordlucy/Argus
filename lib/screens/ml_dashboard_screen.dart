@@ -11,11 +11,13 @@ class MLDashboardScreen extends StatelessWidget {
     final mlService = MLInferenceService();
     final lstmSequence = mlService.getLstmTrafficSequence();
     final gbmFeatures = mlService.getGbmFeatureVectors();
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final primaryTextColor = isDark ? Colors.white : AppColors.textPrimary;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,28 +32,28 @@ class MLDashboardScreen extends StatelessWidget {
                         "MACHINE LEARNING INFERENCE",
                         style: TextStyle(
                           color: AppColors.cyberCyan,
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 2.0,
+                          fontSize: 11,
+                          fontWeight: FontWeight.extrabold,
+                          letterSpacing: 1.8,
                         ),
                       ),
                       const SizedBox(height: 2),
-                      const Text(
+                      Text(
                         "Dual Model Architecture",
                         style: TextStyle(
-                          color: AppColors.textPrimary,
-                          fontSize: 20,
+                          color: primaryTextColor,
+                          fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     decoration: BoxDecoration(
-                      color: AppColors.cyberPurple.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.cyberPurple.withOpacity(0.4)),
+                      color: AppColors.cyberPurple.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: AppColors.cyberPurple.withOpacity(0.3)),
                     ),
                     child: const Text(
                       "v2.4.1 MODEL",
@@ -64,7 +66,7 @@ class MLDashboardScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // PyTorch LSTM Speed Forecaster Card
               CyberCard(
@@ -80,16 +82,16 @@ class MLDashboardScreen extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.all(6),
                               decoration: BoxDecoration(
-                                color: AppColors.cyberPurple.withOpacity(0.2),
+                                color: AppColors.cyberPurple.withOpacity(0.15),
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: const Icon(Icons.memory, color: AppColors.cyberPurple, size: 16),
                             ),
                             const SizedBox(width: 8),
-                            const Text(
-                              "PyTorch LSTM Traffic Forecaster",
+                            Text(
+                              "PyTorch LSTM Forecaster",
                               style: TextStyle(
-                                color: AppColors.textPrimary,
+                                color: primaryTextColor,
                                 fontSize: 13,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -106,12 +108,12 @@ class MLDashboardScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
                     const Text(
                       "2-Layer LSTM (hidden_dim=32, 4-step temporal window) predicts segment speeds 30 minutes ahead for fastest path weight formulation.",
-                      style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
+                      style: TextStyle(color: AppColors.textSecondary, fontSize: 10.5),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
 
                     // Sequence Visualizer
                     Row(
@@ -122,21 +124,21 @@ class MLDashboardScreen extends StatelessWidget {
                               Text(
                                 "${pt.speedKmh.toInt()}",
                                 style: TextStyle(
-                                  color: pt.isForecast ? AppColors.cyberCyan : AppColors.textPrimary,
-                                  fontSize: 14,
+                                  color: pt.isForecast ? AppColors.cyberCyan : primaryTextColor,
+                                  fontSize: 13.5,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const Text(
                                 "km/h",
-                                style: TextStyle(color: AppColors.textMuted, fontSize: 9),
+                                style: TextStyle(color: AppColors.textMuted, fontSize: 8.5),
                               ),
                               const SizedBox(height: 6),
                               Container(
                                 height: 40,
                                 width: 8,
                                 decoration: BoxDecoration(
-                                  color: AppColors.obsidianSurface,
+                                  color: isDark ? AppColors.obsidianSurface : const Color(0xFFE2E8F0),
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Stack(
@@ -157,7 +159,7 @@ class MLDashboardScreen extends StatelessWidget {
                                 pt.timeLabel,
                                 style: TextStyle(
                                   color: pt.isForecast ? AppColors.cyberCyan : AppColors.textMuted,
-                                  fontSize: 9,
+                                  fontSize: 8.5,
                                   fontWeight: pt.isForecast ? FontWeight.bold : FontWeight.normal,
                                 ),
                               ),
@@ -169,16 +171,16 @@ class MLDashboardScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 14),
 
               // Scikit-Learn Gradient Boosting Hazard Model Vector
-              const Text(
+              Text(
                 "SCIKIT-LEARN GBM (23-FEATURE VECTOR)",
                 style: TextStyle(
-                  color: AppColors.textMuted,
-                  fontSize: 11,
+                  color: isDark ? AppColors.textMuted : AppColors.textSecondary,
+                  fontSize: 10.5,
                   fontWeight: FontWeight.bold,
-                  letterSpacing: 1.0,
+                  letterSpacing: 0.8,
                 ),
               ),
               const SizedBox(height: 8),
@@ -187,7 +189,7 @@ class MLDashboardScreen extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: CyberCard(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -196,9 +198,9 @@ class MLDashboardScreen extends StatelessWidget {
                           children: [
                             Text(
                               feat.featureName,
-                              style: const TextStyle(
-                                color: AppColors.textPrimary,
-                                fontSize: 12,
+                              style: TextStyle(
+                                color: primaryTextColor,
+                                fontSize: 11.5,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'monospace',
                               ),
@@ -207,7 +209,7 @@ class MLDashboardScreen extends StatelessWidget {
                               "${feat.value} ${feat.unit}",
                               style: const TextStyle(
                                 color: AppColors.cyberCyan,
-                                fontSize: 12,
+                                fontSize: 11.5,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -219,7 +221,7 @@ class MLDashboardScreen extends StatelessWidget {
                             Expanded(
                               child: LinearProgressIndicator(
                                 value: feat.weightImportance,
-                                backgroundColor: AppColors.obsidianSurface,
+                                backgroundColor: isDark ? AppColors.obsidianSurface : const Color(0xFFE2E8F0),
                                 color: AppColors.cyberBlue,
                                 minHeight: 4,
                               ),
@@ -229,7 +231,7 @@ class MLDashboardScreen extends StatelessWidget {
                               "Weight: ${(feat.weightImportance * 100).toInt()}%",
                               style: const TextStyle(
                                 color: AppColors.textMuted,
-                                fontSize: 10,
+                                fontSize: 9.5,
                               ),
                             ),
                           ],
