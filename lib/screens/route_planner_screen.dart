@@ -26,14 +26,25 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
   final TextEditingController _originController = TextEditingController(text: "");
   final TextEditingController _destController = TextEditingController(text: "");
 
+  bool get _hasSelectedLocations =>
+      _originController.text.trim().isNotEmpty || _destController.text.trim().isNotEmpty;
+
   @override
   void initState() {
     super.initState();
+    _originController.addListener(_onInputChanged);
+    _destController.addListener(_onInputChanged);
     _triggerRouteCalculation();
+  }
+
+  void _onInputChanged() {
+    setState(() {});
   }
 
   @override
   void dispose() {
+    _originController.removeListener(_onInputChanged);
+    _destController.removeListener(_onInputChanged);
     _originController.dispose();
     _destController.dispose();
     super.dispose();
@@ -103,16 +114,16 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
               ),
               const SizedBox(height: 14),
 
-              // Full Map Canvas View Container
+              // Full Map Canvas View Container (Only draws active polyline when locations are selected)
               SizedBox(
                 height: 220,
                 child: MapCanvasWidget(
-                  activeRoute: _computedRoute,
-                  hazardSegments: _computedRoute?.encounteredHazards ?? [],
+                  activeRoute: _hasSelectedLocations ? _computedRoute : null,
+                  hazardSegments: _hasSelectedLocations ? (_computedRoute?.encounteredHazards ?? []) : [],
                   currentVehiclePosition: _selectedOrigin.position,
                 ),
               ),
-              const SizedBox(height: 24), // Extra Spacing Above the Green Box
+              const SizedBox(height: 24), // Extra Spacing Above Green Card
 
               // Plan Route Sheet Container (Sage/Olive Green from navigation-1/2 mockups)
               Container(
@@ -154,7 +165,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                       children: [
                         Column(
                           children: [
-                            // Origin Field (Blank Placeholder)
+                            // Origin Field
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
                               decoration: BoxDecoration(
@@ -189,16 +200,17 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () => _originController.clear(),
-                                    child: const Icon(Icons.close, color: Color(0xFF334155), size: 18),
-                                  ),
+                                  if (_originController.text.isNotEmpty)
+                                    GestureDetector(
+                                      onTap: () => _originController.clear(),
+                                      child: const Icon(Icons.close, color: Color(0xFF334155), size: 18),
+                                    ),
                                 ],
                               ),
                             ),
                             const SizedBox(height: 8),
 
-                            // Destination Field (Blank Placeholder)
+                            // Destination Field
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
                               decoration: BoxDecoration(
@@ -226,10 +238,11 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () => _destController.clear(),
-                                    child: const Icon(Icons.close, color: Color(0xFF334155), size: 18),
-                                  ),
+                                  if (_destController.text.isNotEmpty)
+                                    GestureDetector(
+                                      onTap: () => _destController.clear(),
+                                      child: const Icon(Icons.close, color: Color(0xFF334155), size: 18),
+                                    ),
                                 ],
                               ),
                             ),
@@ -371,8 +384,8 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                     ),
                     const SizedBox(height: 16),
 
-                    // Route Metrics (DURATION, DISTANCE, SAFETY) from navigation-2 mockup
-                    if (_computedRoute != null)
+                    // Route Metrics (DURATION, DISTANCE, SAFETY) — SHOWN ONLY IN navigation-2 STATE
+                    if (_hasSelectedLocations && _computedRoute != null) ...[
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
@@ -381,7 +394,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                           border: Border.all(color: const Color(0xFF94A36F)),
                         ),
                         child: Row(
-                          mainAxisAlignment: SpaceAround,
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             _buildMetricItem(
                               value: "${_computedRoute!.estimatedTimeMinutes}m",
@@ -399,29 +412,36 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                           ],
                         ),
                       ),
-                    const SizedBox(height: 16),
+                      const SizedBox(height: 16),
+                    ],
 
-                    // Prominent Start Navigation Button
+                    // Start Navigation Button: Dimmed in navigation-1, Prominent Black in navigation-2
                     SizedBox(
                       width: double.infinity,
                       height: 52,
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF0F172A),
-                          foregroundColor: Colors.white,
-                          elevation: 6,
+                          backgroundColor: _hasSelectedLocations
+                              ? const Color(0xFF0F172A)
+                              : const Color(0xFF7A8A55),
+                          foregroundColor: _hasSelectedLocations
+                              ? Colors.white
+                              : const Color(0xFF5A6A35),
+                          elevation: _hasSelectedLocations ? 6 : 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),
                         ),
-                        onPressed: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Navigation started on Rajkot spatial route network!"),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        },
+                        onPressed: _hasSelectedLocations
+                            ? () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text("Navigation started on Rajkot spatial route network!"),
+                                    behavior: SnackBarBehavior.floating,
+                                  ),
+                                );
+                              }
+                            : null,
                         icon: const Icon(Icons.play_arrow, size: 20),
                         label: const Text(
                           "Start Navigation",
