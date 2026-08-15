@@ -325,3 +325,65 @@ Detect next event
 ...
 
 This makes ARGUS suitable for continuous vehicle operation rather than one-shot event detection.
+
+
+Simplified Demonstration Flow
+
+                    POWER ON
+                       │
+                       ▼
+                ARGUS INITIALIZES
+                       │
+                       ▼
+                 GPS STARTS
+                       │
+                       ▼
+             30-SECOND SETUP WINDOW
+                       │
+            ┌──────────┴──────────┐
+            │                     │
+       HOLD 5 SECONDS         NO BUTTON
+            │                     │
+            ▼                     │
+     CONFIGURATION MODE            │
+            │                     │
+     Configure user,               │
+     vehicle & contacts            │
+            │                     │
+            └──────────┬──────────┘
+                       ▼
+                 GPS ACQUISITION
+                       │
+                       ▼
+                NORMAL MONITORING
+                       │
+          ┌────────────┼─────────────┐
+          │            │             │
+       Pothole       Bump          Turn
+          │            │             │
+       Buzzer       Buzzer        Buzzer
+          │
+       Telemetry
+          │
+          ▼
+      BACKEND
+          
+          Meanwhile...
+          
+       Crash detected
+             │
+             ▼
+      15-sec confirmation
+             │
+       ┌─────┴─────┐
+       │           │
+    Cancel       Confirm
+       │           │
+       ▼           ▼
+    Normal       SMS
+   monitoring     │
+                  ▼
+               Backend
+                  │
+                  ▼
+           Normal monitoring
