@@ -8,17 +8,17 @@ class IoTTelemetryService extends ChangeNotifier {
   final Random _random = Random();
   Timer? _telemetryTimer;
 
-  // Stream state
+  // Stream state for Rajkot sensor feeds
   IoTReading _currentReading = IoTReading(
     timestamp: DateTime.now(),
-    location: const LatLng(19.0657, 72.8686),
+    location: const LatLng(22.2854, 70.7725),
     accelX: 0.12,
     accelY: 0.08,
     accelZ: 9.84,
     vibrationMagnitude: 0.15,
     gyroZ: 0.02,
     currentSpeedKmh: 48.5,
-    snappedSegmentId: "OSM-991204",
+    snappedSegmentId: "RJT-882014",
     conditionTier: "smooth",
   );
 
@@ -26,8 +26,8 @@ class IoTTelemetryService extends ChangeNotifier {
   final List<HazardAlertEvent> _liveHazardAlerts = [
     HazardAlertEvent(
       alertId: "ALT-7891",
-      segmentName: "Western Express Highway (Vile Parle)",
-      position: const LatLng(19.0912, 72.8530),
+      segmentName: "150 Feet Ring Road (KKV Circle)",
+      position: const LatLng(22.2921, 70.7834),
       hazardScore: 0.88,
       conditionTier: "severe",
       peakVibrationG: 3.42,
@@ -36,8 +36,8 @@ class IoTTelemetryService extends ChangeNotifier {
     ),
     HazardAlertEvent(
       alertId: "ALT-4402",
-      segmentName: "Bandra Station East Flyover",
-      position: const LatLng(19.0610, 72.8420),
+      segmentName: "Kalawad Road (Crystal Mall Junction)",
+      position: const LatLng(22.2854, 70.7725),
       hazardScore: 0.65,
       conditionTier: "rough",
       peakVibrationG: 2.15,
@@ -64,7 +64,6 @@ class IoTTelemetryService extends ChangeNotifier {
   void _generateNextReading() {
     final now = DateTime.now();
 
-    // Occasional simulated bump / crater
     final bool isHazardBump = _random.nextDouble() < 0.12;
 
     final double baseNoiseX = (_random.nextDouble() - 0.5) * 0.4;
@@ -72,7 +71,7 @@ class IoTTelemetryService extends ChangeNotifier {
     double accelZ = 9.81 + (_random.nextDouble() - 0.5) * 0.5;
 
     if (isHazardBump) {
-      accelZ += (_random.nextDouble() * 3.5 + 1.2); // Severe vertical acceleration spike
+      accelZ += (_random.nextDouble() * 3.5 + 1.2);
     }
 
     final double vibMag = sqrt(pow(baseNoiseX, 2) + pow(baseNoiseY, 2) + pow(accelZ - 9.81, 2));
@@ -89,8 +88,8 @@ class IoTTelemetryService extends ChangeNotifier {
     _currentReading = IoTReading(
       timestamp: now,
       location: LatLng(
-        19.0657 + (_random.nextDouble() - 0.5) * 0.005,
-        72.8686 + (_random.nextDouble() - 0.5) * 0.005,
+        22.2854 + (_random.nextDouble() - 0.5) * 0.005,
+        70.7725 + (_random.nextDouble() - 0.5) * 0.005,
       ),
       accelX: double.parse(baseNoiseX.toStringAsFixed(3)),
       accelY: double.parse(baseNoiseY.toStringAsFixed(3)),
@@ -98,7 +97,7 @@ class IoTTelemetryService extends ChangeNotifier {
       vibrationMagnitude: double.parse(vibMag.toStringAsFixed(3)),
       gyroZ: double.parse(((_random.nextDouble() - 0.5) * 0.1).toStringAsFixed(3)),
       currentSpeedKmh: double.parse((45.0 + (_random.nextDouble() - 0.5) * 6.0).toStringAsFixed(1)),
-      snappedSegmentId: "OSM-${(_random.nextInt(900000) + 100000)}",
+      snappedSegmentId: "RJT-${(_random.nextInt(900000) + 100000)}",
       conditionTier: tier,
     );
 
@@ -107,7 +106,6 @@ class IoTTelemetryService extends ChangeNotifier {
       _readingHistory.removeAt(0);
     }
 
-    // Trigger severe hazard alert event broadcast if G-force spike detected
     if (isHazardBump && vibMag > 2.5) {
       _broadcastHazardAlert(_currentReading);
     }
@@ -118,13 +116,13 @@ class IoTTelemetryService extends ChangeNotifier {
   void _broadcastHazardAlert(IoTReading reading) {
     final alert = HazardAlertEvent(
       alertId: "ALT-${_random.nextInt(9000) + 1000}",
-      segmentName: "Mumbai Segment ${reading.snappedSegmentId}",
+      segmentName: "Rajkot Segment ${reading.snappedSegmentId}",
       position: reading.location,
       hazardScore: double.parse((reading.vibrationMagnitude / 4.0).clamp(0.4, 1.0).toStringAsFixed(2)),
       conditionTier: reading.conditionTier,
       peakVibrationG: reading.vibrationMagnitude,
       timestamp: DateTime.now(),
-      timeToLive: const Duration(hours: 2), // 2-hour TTL auto-expiry
+      timeToLive: const Duration(hours: 2),
     );
 
     _liveHazardAlerts.insert(0, alert);

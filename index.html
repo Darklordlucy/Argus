@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Asphr — AI-Powered Hazard-Aware Dynamic Routing Engine</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Argus — AI Spatial Navigation</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Pacifico&display=swap" rel="stylesheet">
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest"></script>
   
@@ -18,20 +18,26 @@
       theme: {
         extend: {
           colors: {
-            obsidian: '#070A11',
-            obsidianSurface: '#0D111D',
-            obsidianCard: '#151C2E',
-            cyberCyan: '#00F2FE',
-            cyberBlue: '#4FACFE',
-            cyberPurple: '#7F00FF',
-            hazardRed: '#FF3B30',
-            hazardOrange: '#FF9500',
-            hazardYellow: '#FFCC00',
-            hazardGreen: '#30D158',
+            appBg: '#F8FAFC',
+            surface: '#FFFFFF',
+            cardBg: '#FFFFFF',
+            cardSubtle: '#F1F5F9',
+            borderSubtle: '#E2E8F0',
+            cyberCyan: '#0284C7',
+            cyberBlue: '#2563EB',
+            cyberPurple: '#7C3AED',
+            hazardRed: '#DC2626',
+            hazardOrange: '#D97706',
+            hazardYellow: '#CA8A04',
+            hazardGreen: '#16A34A',
+            textPrimary: '#0F172A',
+            textSecondary: '#475569',
+            textMuted: '#94A3B8',
           },
           fontFamily: {
             sans: ['Space Grotesk', 'sans-serif'],
             mono: ['JetBrains Mono', 'monospace'],
+            script: ['Pacifico', 'cursive'],
           }
         }
       }
@@ -40,303 +46,746 @@
 
   <style>
     body {
-      background-color: #070A11;
-      color: #F1F5F9;
+      background-color: #F8FAFC;
+      color: #0F172A;
       font-family: 'Space Grotesk', sans-serif;
     }
-    .cyber-grid {
-      background-image: radial-gradient(rgba(0, 242, 254, 0.08) 1px, transparent 1px);
-      background-size: 24px 24px;
+    .light-grid {
+      background-image: radial-gradient(rgba(2, 132, 199, 0.08) 1px, transparent 1px);
+      background-size: 20px 20px;
     }
-    .glass-card {
-      background: rgba(21, 28, 46, 0.85);
-      backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    .mobile-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     }
-    .glass-card-glow {
-      border: 1px solid rgba(0, 242, 254, 0.3);
-      box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+    .hero-banner {
+      background: linear-gradient(135deg, #F97316 0%, #EA580C 35%, #D97706 70%, #F59E0B 100%);
+      box-shadow: 0 8px 25px -4px rgba(234, 88, 12, 0.3);
     }
     /* Custom scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #070A11; }
-    ::-webkit-scrollbar-thumb { background: #151C2E; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #00F2FE; }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #F8FAFC; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 2px; }
   </style>
 </head>
-<body class="cyber-grid min-h-screen pb-12">
+<body class="light-grid min-h-screen pb-20">
 
-  <!-- Floating Pill Navbar -->
-  <nav class="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-6 mb-8">
-    <div class="glass-card rounded-full px-6 py-3 flex items-center justify-between shadow-2xl">
-      <div class="flex items-center space-x-3">
-        <div class="w-3 h-3 rounded-full bg-cyberCyan animate-pulse"></div>
-        <span class="font-bold text-lg tracking-wider text-white">ASPHR <span class="text-cyberCyan text-xs font-mono">v2.4</span></span>
-        <span class="hidden md:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-cyberCyan/10 text-cyberCyan border border-cyberCyan/30">MUMBAI 85k+ OSM NODES</span>
-      </div>
+  <!-- Mobile Container Wrapper -->
+  <div class="max-w-md mx-auto min-h-screen flex flex-col bg-slate-50 border-x border-slate-200 shadow-2xl relative">
+
+    <!-- PAGE 1: HOME PAGE -->
+    <div id="page-home" class="page-view flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
       
-      <div class="hidden sm:flex items-center space-x-6 text-xs font-medium text-slate-400">
-        <a href="#router" class="hover:text-cyberCyan transition-colors">Route Engine</a>
-        <a href="#telemetry" class="hover:text-cyberCyan transition-colors">IoT Stream</a>
-        <a href="#ml" class="hover:text-cyberCyan transition-colors">ML Layer</a>
-        <a href="#rlhf" class="hover:text-cyberCyan transition-colors">RLHF Loop</a>
-        <a href="#sos" class="hover:text-cyberCyan transition-colors text-hazardRed">SOS System</a>
+      <!-- Top Header Card -->
+      <div class="bg-slate-200/80 backdrop-blur-md rounded-3xl p-4 flex items-center justify-between border border-slate-300/60 shadow-sm">
+        <button onclick="switchTab('profile')" class="w-12 h-12 rounded-full bg-slate-500/30 flex items-center justify-center text-slate-700 font-bold hover:bg-slate-500/40 transition-all border border-slate-400/40">
+          <i data-lucide="user" class="w-6 h-6 text-slate-800"></i>
+        </button>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">Argus</h1>
+        <div class="w-12 h-12"></div> <!-- Spacer for symmetry -->
       </div>
 
-      <button onclick="document.getElementById('router').scrollIntoView({behavior: 'smooth'})" class="px-4 py-1.5 rounded-full bg-cyberCyan text-black font-bold text-xs hover:bg-white transition-all shadow-[0_0_15px_rgba(0,242,254,0.4)]">
-        LAUNCH ENGINE
-      </button>
+      <!-- Welcome Message -->
+      <div class="px-1">
+        <h2 class="text-xl font-bold text-slate-900">Welcome, Ravi!</h2>
+      </div>
+
+      <!-- Hero Banner Card -->
+      <div class="hero-banner rounded-3xl p-6 text-white text-center relative overflow-hidden space-y-4">
+        <div class="relative z-10 py-2 space-y-2">
+          <div class="inline-block bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold tracking-widest text-amber-100 uppercase mb-2">
+            ASPHR ENGINE ACTIVE
+          </div>
+          <h3 class="text-3xl font-extrabold text-white tracking-wide leading-tight drop-shadow-md font-sans">
+            Find Your Best Path
+          </h3>
+          <p class="text-2xl font-bold text-amber-100 font-script tracking-wider drop-shadow-sm">
+            WITH ASPHR
+          </p>
+        </div>
+
+        <button onclick="presetSelectRoute('Kalawad Road, Rajkot', '150 Feet Ring Road, Rajkot'); switchTab('navigation')" class="relative z-10 w-full py-3 bg-white text-orange-600 font-extrabold text-sm rounded-2xl shadow-lg hover:bg-orange-50 transition-all flex items-center justify-center space-x-2">
+          <i data-lucide="navigation" class="w-4 h-4"></i>
+          <span>START RAJKOT NAVIGATION</span>
+        </button>
+      </div>
+
+      <!-- Quick Insights Section -->
+      <div class="space-y-3 pt-1">
+        <h3 class="text-base font-bold text-slate-900 px-1">Quick insights</h3>
+        
+        <div class="grid grid-cols-3 gap-3">
+          <!-- Card 1 -->
+          <div onclick="switchTab('navigation')" class="bg-slate-200/90 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-300/80 transition-all border border-slate-300/50 flex flex-col items-center justify-center h-28 space-y-2">
+            <i data-lucide="alert-triangle" class="w-6 h-6 text-amber-600"></i>
+            <span class="text-xs font-bold text-slate-800 leading-tight">Live Hazards</span>
+            <span class="text-[10px] font-mono text-emerald-600 font-bold">2 Active</span>
+          </div>
+
+          <!-- Card 2 -->
+          <div onclick="switchTab('navigation')" class="bg-slate-200/90 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-300/80 transition-all border border-slate-300/50 flex flex-col items-center justify-center h-28 space-y-2">
+            <i data-lucide="shield-check" class="w-6 h-6 text-sky-600"></i>
+            <span class="text-xs font-bold text-slate-800 leading-tight">Road Health</span>
+            <span class="text-[10px] font-mono text-sky-600 font-bold">92% Smooth</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div onclick="switchTab('navigation')" class="bg-slate-200/90 rounded-2xl p-4 text-center cursor-pointer hover:bg-slate-300/80 transition-all border border-slate-300/50 flex flex-col items-center justify-center h-28 space-y-2">
+            <i data-lucide="activity" class="w-6 h-6 text-violet-600"></i>
+            <span class="text-xs font-bold text-slate-800 leading-tight">IoT Sensors</span>
+            <span class="text-[10px] font-mono text-violet-600 font-bold">RJT-8820</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- How to use argus Section with Perfectly Aligned Straight Timeline -->
+      <div class="space-y-4 pt-3 border-t border-slate-200">
+        <h3 class="text-lg font-bold text-slate-900 px-1">How to use argus</h3>
+
+        <div class="px-1 space-y-0">
+
+          <!-- Step 1 -->
+          <div class="flex items-start space-x-4">
+            <div class="w-10 flex flex-col items-center shrink-0 self-stretch">
+              <div class="w-10 h-10 rounded-full bg-slate-700 text-sky-400 font-bold flex items-center justify-center shrink-0 shadow-sm border-2 border-slate-500 z-10">
+                <i data-lucide="search" class="w-5 h-5"></i>
+              </div>
+              <div class="flex-1 w-[2px] border-l-2 border-dashed border-red-500 my-1"></div>
+            </div>
+
+            <div class="flex-1 pt-1 pb-6 space-y-1">
+              <h4 class="text-sm font-bold text-slate-900">Search your destination</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Search for locations on the map. The system reverse-geocodes addresses into geographical coordinates and snaps them to the nearest OSM road node.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex items-start space-x-4">
+            <div class="w-10 flex flex-col items-center shrink-0 self-stretch">
+              <div class="w-10 h-10 rounded-full bg-slate-700 text-sky-400 font-bold flex items-center justify-center shrink-0 shadow-sm border-2 border-slate-500 z-10">
+                <i data-lucide="sliders" class="w-5 h-5"></i>
+              </div>
+              <div class="flex-1 w-[2px] border-l-2 border-dashed border-red-500 my-1"></div>
+            </div>
+
+            <div class="flex-1 pt-1 pb-6 space-y-1">
+              <h4 class="text-sm font-bold text-slate-900">Tune your vehicle limits</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Specify your vehicle type (Bike, Car, Truck, Supercar). The engine dynamically adjusts filters, avoiding low clearance, narrow roads, or speed bumps if required.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex items-start space-x-4">
+            <div class="w-10 flex flex-col items-center shrink-0 self-stretch">
+              <div class="w-10 h-10 rounded-full bg-slate-700 text-sky-400 font-bold flex items-center justify-center shrink-0 shadow-sm border-2 border-slate-500 z-10">
+                <i data-lucide="target" class="w-5 h-5"></i>
+              </div>
+              <div class="flex-1 w-[2px] border-l-2 border-dashed border-red-500 my-1"></div>
+            </div>
+
+            <div class="flex-1 pt-1 pb-6 space-y-1">
+              <h4 class="text-sm font-bold text-slate-900">Choose routing objective</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Choose from Safest (prioritizes low-vibration segments, avoids potholes & accidents), Fastest (live TomTom traffic and LSTM predictions), or Straightest routes.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="flex items-start space-x-4">
+            <div class="w-10 flex flex-col items-center shrink-0 self-stretch">
+              <div class="w-10 h-10 rounded-full bg-slate-700 text-sky-400 font-bold flex items-center justify-center shrink-0 shadow-sm border-2 border-slate-500 z-10">
+                <i data-lucide="activity" class="w-5 h-5"></i>
+              </div>
+              <div class="flex-1 w-[2px] border-l-2 border-dashed border-red-500 my-1"></div>
+            </div>
+
+            <div class="flex-1 pt-1 pb-6 space-y-1">
+              <h4 class="text-sm font-bold text-slate-900">Overlay active telemetry</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Inspect live road friction, potholes, and accident hotspots generated directly from edge hardware accelerometers and gyroscopes on active vehicles.
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="flex items-start space-x-4">
+            <div class="w-10 flex flex-col items-center shrink-0">
+              <div class="w-10 h-10 rounded-full bg-slate-700 text-emerald-400 font-bold flex items-center justify-center shrink-0 shadow-sm border-2 border-slate-500 z-10">
+                <i data-lucide="shield-check" class="w-5 h-5"></i>
+              </div>
+            </div>
+
+            <div class="flex-1 pt-1 space-y-1">
+              <h4 class="text-sm font-bold text-slate-900">Navigate and save lives</h4>
+              <p class="text-xs text-slate-600 leading-relaxed">
+                Follow turn-by-turn safe-path routing. The client dashboard logs your journey telemetry, contributing back to the safety network to keep others safe.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bottom Most Section: Choose your route -->
+      <div class="space-y-3 pt-3 border-t border-slate-200">
+        <h3 class="text-lg font-bold text-slate-900 px-1">Choose your route</h3>
+
+        <div class="grid grid-cols-2 gap-3 px-1">
+          <!-- Safest -->
+          <div onclick="setObjective('safest'); presetSelectRoute('Kalawad Road, Rajkot', 'Metoda GIDC, Rajkot'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="shield-check" class="w-6 h-6 text-emerald-600"></i>
+            <span class="text-sm font-bold text-slate-800">safest</span>
+            <span class="text-[10px] text-slate-500 font-mono">0.7 ML + 0.3 DB Hazard</span>
+          </div>
+
+          <!-- Straightest -->
+          <div onclick="setObjective('straightest'); presetSelectRoute('150 Ft Ring Rd, Rajkot', 'Yagnik Rd, Rajkot'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="compass" class="w-6 h-6 text-sky-600"></i>
+            <span class="text-sm font-bold text-slate-800">straightest</span>
+            <span class="text-[10px] text-slate-500 font-mono">A* Bearing Penalty</span>
+          </div>
+
+          <!-- Popular -->
+          <div onclick="setObjective('popular'); presetSelectRoute('Kalawad Road, Rajkot', '150 Ft Ring Rd, Rajkot'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="star" class="w-6 h-6 text-amber-500"></i>
+            <span class="text-sm font-bold text-slate-800">popular</span>
+            <span class="text-[10px] text-slate-500 font-mono">POI Density Bonus</span>
+          </div>
+
+          <!-- Fastest -->
+          <div onclick="setObjective('fastest'); presetSelectRoute('Kalawad Road, Rajkot', '150 Ft Ring Rd, Rajkot'); switchTab('navigation')" class="bg-slate-200/90 hover:bg-sky-50 hover:border-sky-500 rounded-2xl p-4 border border-slate-300/60 shadow-sm cursor-pointer transition-all flex flex-col items-center justify-center text-center space-y-2 h-28">
+            <i data-lucide="zap" class="w-6 h-6 text-orange-500"></i>
+            <span class="text-sm font-bold text-slate-800">fastest</span>
+            <span class="text-[10px] text-slate-500 font-mono">LSTM Traffic Forecast</span>
+          </div>
+        </div>
+      </div>
+
     </div>
-  </nav>
 
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 space-y-10">
-
-    <!-- Hero Section -->
-    <header class="text-center py-6 space-y-4">
-      <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-obsidianCard border border-cyberCyan/30 text-cyberCyan text-xs font-mono">
-        <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i>
-        <span>HAZARD-AWARE DYNAMIC ROUTING SYSTEM</span>
+    <!-- PAGE 2: NAVIGATION PAGE -->
+    <div id="page-navigation" class="page-view hidden flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
+      
+      <!-- Top Header Card matching mockup -->
+      <div class="bg-slate-200/80 backdrop-blur-md rounded-3xl p-4 flex items-center justify-between border border-slate-300/60 shadow-sm">
+        <button onclick="switchTab('profile')" class="w-12 h-12 rounded-full bg-slate-500/30 flex items-center justify-center text-slate-700 font-bold hover:bg-slate-500/40 transition-all border border-slate-400/40">
+          <i data-lucide="user" class="w-6 h-6 text-slate-800"></i>
+        </button>
+        <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight font-sans">Argus</h1>
+        <div class="w-12 h-12"></div> <!-- Spacer for symmetry -->
       </div>
-      <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white max-w-4xl mx-auto leading-tight">
-        Predictive Navigation for <span class="bg-clip-text text-transparent bg-gradient-to-r from-cyberCyan to-cyberBlue">Mumbai's Road Network</span>
-      </h1>
-      <p class="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto">
-        Fusing real-time vehicle IoT telemetry, PyTorch LSTM traffic forecasting, Scikit-Learn hazard inference, and vehicle-aware spatial graph algorithms.
-      </p>
-    </header>
 
-    <!-- SECTION 1: Interactive Route Engine & Map -->
-    <section id="router" class="glass-card rounded-2xl p-6 glass-card-glow space-y-6">
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+      <!-- Map Canvas Container -->
+      <div class="relative bg-slate-100 rounded-3xl overflow-hidden border border-slate-200 h-[220px] shadow-inner">
+        <canvas id="mumbaiMapCanvas" class="w-full h-full"></canvas>
+        
+        <div class="absolute top-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] font-mono text-sky-700 flex items-center space-x-1.5 shadow-sm">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span>RAJKOT VECTOR RENDERER</span>
+        </div>
+      </div>
+
+      <!-- Extra Spacing Above the Green Box -->
+      <div class="pt-4">
+        <!-- Plan Route Container (Olive/Sage Green Styled from navigation-1/2 mockups) -->
+        <div class="bg-[#8A9A65] text-slate-900 rounded-3xl p-5 space-y-4 shadow-lg border border-[#7A8A55]">
+          
+          <!-- Plan Route Header -->
+          <div class="flex items-center space-x-2">
+            <i data-lucide="navigation" class="w-5 h-5 text-slate-900"></i>
+            <h2 class="text-lg font-bold text-slate-900 tracking-tight">Plan Route</h2>
+          </div>
+
+          <!-- Starting Point & Destination Input Card -->
+          <div class="space-y-2 relative">
+            <!-- Origin Input -->
+            <div class="bg-[#A4B37F] border border-[#94A36F] rounded-2xl px-4 py-3 flex items-center justify-between text-xs text-slate-900 font-medium">
+              <div class="flex items-center space-x-2.5 overflow-hidden w-full">
+                <span class="w-2.5 h-2.5 rounded-full bg-slate-900 shrink-0"></span>
+                <input type="text" id="originInput" value="" oninput="onInputChange()" class="bg-transparent text-slate-900 font-bold focus:outline-none w-full placeholder-slate-700/70" placeholder="Choose starting point...">
+              </div>
+              <button onclick="clearOrigin()" class="text-slate-700 hover:text-slate-900 font-bold text-sm ml-1">×</button>
+            </div>
+
+            <!-- Connecting Vertical Line -->
+            <div class="absolute left-6 top-7 bottom-7 w-[2px] border-l-2 border-dashed border-slate-800/60 z-10 pointer-events-none"></div>
+
+            <!-- Destination Input -->
+            <div class="bg-[#A4B37F] border border-[#94A36F] rounded-2xl px-4 py-3 flex items-center justify-between text-xs text-slate-900 font-medium">
+              <div class="flex items-center space-x-2.5 overflow-hidden w-full">
+                <i data-lucide="map-pin" class="w-4 h-4 text-red-700 shrink-0"></i>
+                <input type="text" id="destInput" value="" oninput="onInputChange()" class="bg-transparent text-slate-900 font-bold focus:outline-none w-full placeholder-slate-700/70" placeholder="Choose destination...">
+              </div>
+              <button onclick="clearDest()" class="text-slate-700 hover:text-slate-900 font-bold text-sm ml-1">×</button>
+            </div>
+          </div>
+
+          <!-- VEHICLE Selector Chips -->
+          <div class="space-y-2">
+            <span class="text-[10px] font-mono text-slate-900 uppercase font-extrabold tracking-wider">VEHICLE</span>
+            
+            <div class="grid grid-cols-4 gap-2" id="vehicleProfiles">
+              <button onclick="setVehicle('bike')" id="btn-bike" class="bg-slate-900 text-white p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all shadow-md">
+                <i data-lucide="bike" class="w-4 h-4"></i>
+                <span class="text-[10px] font-bold">Bike</span>
+              </button>
+              <button onclick="setVehicle('car')" id="btn-car" class="bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]">
+                <i data-lucide="car" class="w-4 h-4"></i>
+                <span class="text-[10px] font-bold">Car</span>
+              </button>
+              <button onclick="setVehicle('truck')" id="btn-truck" class="bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]">
+                <i data-lucide="truck" class="w-4 h-4"></i>
+                <span class="text-[10px] font-bold">Truck</span>
+              </button>
+              <button onclick="setVehicle('supercar')" id="btn-supercar" class="bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]">
+                <i data-lucide="zap" class="w-4 h-4"></i>
+                <span class="text-[10px] font-bold">Supercar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- ROUTE TYPE Objective Selectors -->
+          <div class="space-y-2">
+            <span class="text-[10px] font-mono text-slate-900 uppercase font-extrabold tracking-wider">ROUTE TYPE</span>
+            
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="setObjective('fastest')" id="obj-fastest" class="bg-[#FACC15] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-bold text-xs shadow-md transition-all border border-amber-400">
+                <i data-lucide="zap" class="w-4 h-4 text-slate-900"></i>
+                <span>Fastest</span>
+              </button>
+              <button onclick="setObjective('safest')" id="obj-safest" class="bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]">
+                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                <span>Safest</span>
+              </button>
+              <button onclick="setObjective('straightest')" id="obj-straightest" class="bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]">
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                <span>Straightest</span>
+              </button>
+              <button onclick="setObjective('popular')" id="obj-popular" class="bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]">
+                <i data-lucide="star" class="w-4 h-4"></i>
+                <span>Popular</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Calculated Route Metrics (SHOWN ONLY AFTER SELECTING LOCATIONS - navigation-2 mockup) -->
+          <div id="routeMetricsContainer" class="hidden bg-[#B4C38F]/90 border border-[#94A36F] rounded-2xl p-4 grid grid-cols-3 gap-2 text-center transition-all">
+            <div>
+              <div id="metricTime" class="text-xl font-extrabold text-slate-900">11.4m</div>
+              <div class="text-[9px] font-mono text-slate-800 uppercase font-bold tracking-wider">DURATION</div>
+            </div>
+            <div>
+              <div id="metricDistance" class="text-xl font-extrabold text-slate-900">6.2 km</div>
+              <div class="text-[9px] font-mono text-slate-800 uppercase font-bold tracking-wider">DISTANCE</div>
+            </div>
+            <div>
+              <div id="metricHazard" class="text-xl font-extrabold text-emerald-800">100%</div>
+              <div class="text-[9px] font-mono text-slate-800 uppercase font-bold tracking-wider">SAFETY</div>
+            </div>
+          </div>
+
+          <!-- Start Navigation Button (DISABLED in Initial State navigation-1, BLACK in Selected State navigation-2) -->
+          <button onclick="startNavigation()" id="startNavBtn" class="w-full py-4 bg-[#7A8A55] text-[#5A6A35] font-extrabold text-sm rounded-2xl transition-all flex items-center justify-center space-x-2 cursor-not-allowed opacity-60">
+            <i data-lucide="play" class="w-4 h-4 fill-current"></i>
+            <span>Start Navigation</span>
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PAGE 3: FULL ARGUS USER PROFILE PAGE (DELIVERY PARTNER PERSONA) -->
+    <div id="page-profile" class="page-view hidden flex-1 flex flex-col p-4 space-y-5 overflow-y-auto">
+      
+      <!-- Top Title Bar with Edit Profile Button -->
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
         <div>
-          <span class="text-xs font-mono text-cyberCyan font-bold tracking-widest uppercase">MODULE 01</span>
-          <h2 class="text-2xl font-bold text-white">Spatial Route Planner</h2>
+          <h2 class="text-xl font-bold text-slate-900">User Profile</h2>
+          <p class="text-xs text-slate-500 font-medium">Argus Spatial Intelligence</p>
+        </div>
+        <button onclick="alert('Edit Profile Modal: Update name, avatar & credentials.')" class="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-sm hover:bg-slate-800 transition-all">
+          <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+          <span>Edit Profile</span>
+        </button>
+      </div>
+
+      <!-- 1. Profile Header Card -->
+      <div class="mobile-card rounded-2xl p-5 flex items-center space-x-4">
+        <div class="relative">
+          <div class="w-16 h-16 rounded-full bg-slate-800 text-white flex items-center justify-center font-extrabold text-2xl border-2 border-orange-500 shadow-md">
+            R
+          </div>
+          <span class="absolute bottom-0 right-0 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
+        </div>
+        <div class="space-y-1">
+          <div class="flex items-center space-x-2">
+            <h3 class="text-lg font-bold text-slate-900">Ravi Patel</h3>
+            <span class="px-2 py-0.5 rounded-full text-[9px] font-bold bg-orange-100 text-orange-800 border border-orange-200">DELIVERY PARTNER</span>
+          </div>
+          <p class="text-xs text-slate-600 font-medium flex items-center space-x-1">
+            <i data-lucide="mail" class="w-3 h-3 text-slate-400"></i>
+            <span>ravi.patel@argus.in</span>
+          </p>
+          <p class="text-xs text-slate-600 font-medium flex items-center space-x-1">
+            <i data-lucide="phone" class="w-3 h-3 text-slate-400"></i>
+            <span>+91 98790 12345 • Rajkot, Gujarat</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- 2. Safety Score & Badges Section -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+            <i data-lucide="award" class="w-4 h-4 text-amber-500"></i>
+            <span>SAFETY SCORE & BADGES</span>
+          </h4>
+          <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">98 / 100 EXCELLENT</span>
+        </div>
+
+        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 rounded-xl p-3 flex items-center justify-between">
+          <div>
+            <div class="text-xs font-bold text-emerald-900">Guardian of Rajkot</div>
+            <div class="text-[10px] text-emerald-700">Top 2% safest delivery rider in Gujarat</div>
+          </div>
+          <div class="text-2xl font-extrabold text-emerald-600 font-mono">98</div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-2 pt-1 text-center">
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">🛡️</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">Pothole Hunter</span>
+          </div>
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">⚡</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">Zero Crash</span>
+          </div>
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">🛵</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">Express Rider</span>
+          </div>
+          <div class="bg-slate-50 p-2 rounded-xl border border-slate-200 flex flex-col items-center">
+            <span class="text-lg">🏆</span>
+            <span class="text-[9px] font-bold text-slate-800 mt-1">1000km Club</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Journey Stats & Telemetry Section -->
+      <div class="space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold px-1">JOURNEY & TELEMETRY STATS</h4>
+        
+        <div class="grid grid-cols-2 gap-3">
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-700 flex items-center justify-center shrink-0">
+              <i data-lucide="map" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">1,482 km</div>
+              <div class="text-[10px] text-slate-500 font-medium">Total Distance</div>
+            </div>
+          </div>
+
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-violet-100 text-violet-700 flex items-center justify-center shrink-0">
+              <i data-lucide="navigation" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">84</div>
+              <div class="text-[10px] text-slate-500 font-medium">Deliveries Completed</div>
+            </div>
+          </div>
+
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+              <i data-lucide="layers" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">342</div>
+              <div class="text-[10px] text-slate-500 font-medium">Segments Analysed</div>
+            </div>
+          </div>
+
+          <div class="mobile-card rounded-2xl p-3.5 flex items-center space-x-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+              <i data-lucide="hard-drive" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <div class="text-base font-extrabold text-slate-900">24.8 MB</div>
+              <div class="text-[10px] text-slate-500 font-medium">Data Contributed</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Telemetry Device Status -->
+        <div class="bg-slate-900 text-white rounded-2xl p-3.5 flex items-center justify-between text-xs shadow-md">
+          <div class="flex items-center space-x-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <div>
+              <div class="font-bold font-mono">Edge Device: RJT-8820</div>
+              <div class="text-[10px] text-slate-400">IMU Accelerometer + Gyro Active</div>
+            </div>
+          </div>
+          <span class="text-[9px] font-mono text-emerald-400 font-bold bg-emerald-950 px-2 py-0.5 rounded-full border border-emerald-700">ONLINE</span>
+        </div>
+      </div>
+
+      <!-- 4. Saved Places & Routes Card -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="bookmark" class="w-4 h-4 text-sky-600"></i>
+          <span>SAVED PLACES & FREQUENT ROUTES</span>
+        </h4>
+        
+        <!-- Saved Places -->
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div onclick="presetSelectRoute('', '150 Feet Ring Road, Rajkot'); switchTab('navigation')" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center space-x-2 cursor-pointer hover:border-sky-500">
+            <i data-lucide="home" class="w-4 h-4 text-sky-600 shrink-0"></i>
+            <div class="truncate">
+              <div class="font-bold text-slate-900">Home</div>
+              <div class="text-[10px] text-slate-500 truncate">150 Ft Ring Rd</div>
+            </div>
+          </div>
+          
+          <div onclick="presetSelectRoute('', 'Metoda GIDC, Rajkot'); switchTab('navigation')" class="bg-slate-50 p-2.5 rounded-xl border border-slate-200 flex items-center space-x-2 cursor-pointer hover:border-sky-500">
+            <i data-lucide="briefcase" class="w-4 h-4 text-violet-600 shrink-0"></i>
+            <div class="truncate">
+              <div class="font-bold text-slate-900">Hub / Work</div>
+              <div class="text-[10px] text-slate-500 truncate">Metoda GIDC Hub</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Saved Routes -->
+        <div class="space-y-2 pt-1">
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-slate-800">Kalawad Rd → Metoda GIDC</div>
+              <div class="text-[10px] text-slate-500">12.4 km • 18 mins avg</div>
+            </div>
+            <button onclick="presetSelectRoute('Kalawad Rd, Rajkot', 'Metoda GIDC, Rajkot'); switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
+              NAVIGATE
+            </button>
+          </div>
+
+          <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs">
+            <div>
+              <div class="font-bold text-slate-800">150 Ft Ring Rd → Yagnik Rd</div>
+              <div class="text-[10px] text-slate-500">6.2 km • 11 mins avg</div>
+            </div>
+            <button onclick="presetSelectRoute('150 Ft Ring Rd, Rajkot', 'Yagnik Rd, Rajkot'); switchTab('navigation')" class="px-3 py-1 bg-sky-600 text-white text-[10px] font-bold rounded-lg hover:bg-sky-700">
+              NAVIGATE
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Vehicle Details Card (DELIVERY RIDER SCOOTER/BIKE) -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+            <i data-lucide="bike" class="w-4 h-4 text-sky-600"></i>
+            <span>VEHICLE DETAILS</span>
+          </h4>
+          <span class="text-[10px] font-bold text-sky-600 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">UTILITY DELIVERY</span>
         </div>
         
-        <!-- Vehicle Profile Controls -->
-        <div class="flex items-center space-x-2 overflow-x-auto pb-2 md:pb-0" id="vehicleProfiles">
-          <button onclick="setVehicle('car')" id="btn-car" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-cyberCyan text-black transition-all">
-            🚗 Car
-          </button>
-          <button onclick="setVehicle('bike')" id="btn-bike" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all">
-            🏍️ Bike (No Motorways)
-          </button>
-          <button onclick="setVehicle('truck')" id="btn-truck" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all">
-            🚚 Truck (≥3m Width)
-          </button>
-          <button onclick="setVehicle('supercar')" id="btn-supercar" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all">
-            🏎️ Supercar (Zero Speed Bumps)
-          </button>
-        </div>
-      </div>
-
-      <!-- Objective Selector & Controls -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <button onclick="setObjective('fastest')" id="obj-fastest" class="p-3 rounded-xl bg-cyberCyan/10 border border-cyberCyan text-cyberCyan text-left transition-all">
-          <div class="text-xs font-mono font-bold">⚡ FASTEST</div>
-          <div class="text-[11px] text-slate-400 mt-1">LSTM Traffic Forecast</div>
-        </button>
-        <button onclick="setObjective('safest')" id="obj-safest" class="p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all">
-          <div class="text-xs font-mono font-bold">🛡️ SAFEST</div>
-          <div class="text-[11px] text-slate-400 mt-1">0.7 ML + 0.3 DB Hazard</div>
-        </button>
-        <button onclick="setObjective('straightest')" id="obj-straightest" class="p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all">
-          <div class="text-xs font-mono font-bold">📐 STRAIGHTEST</div>
-          <div class="text-[11px] text-slate-400 mt-1">A* Bearing Penalty</div>
-        </button>
-        <button onclick="setObjective('popular')" id="obj-popular" class="p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all">
-          <div class="text-xs font-mono font-bold">⭐ POPULAR</div>
-          <div class="text-[11px] text-slate-400 mt-1">POI Density Bonus</div>
-        </button>
-      </div>
-
-      <!-- Main Map Canvas & Gauges -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Interactive Map Canvas -->
-        <div class="lg:col-span-2 relative bg-obsidianSurface rounded-xl overflow-hidden border border-white/10 h-[340px]">
-          <canvas id="mumbaiMapCanvas" class="w-full h-full"></canvas>
-          
-          <div class="absolute top-3 left-3 bg-obsidianCard/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyberCyan/30 text-[11px] font-mono text-cyberCyan flex items-center space-x-2">
-            <span class="w-2 h-2 rounded-full bg-hazardGreen animate-ping"></span>
-            <span>LIVE VECTOR RENDERER</span>
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Vehicle Type</span>
+            <span class="font-bold text-slate-900">🛵 Delivery Bike (Hero Splendor Plus)</span>
           </div>
-
-          <div class="absolute bottom-3 left-3 right-3 bg-obsidianCard/90 backdrop-blur-md p-3 rounded-lg border border-white/10 flex items-center justify-between text-xs">
-            <span id="routeSummaryText" class="font-medium text-slate-200">BKC → Worli Sea Link Toll (7.4 km)</span>
-            <span id="weatherText" class="text-hazardYellow font-mono text-[11px]">🌧️ Monsoon Warning (0.2x multiplier)</span>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Model</span>
+            <span class="font-bold text-slate-900">Hero Splendor Plus XTEC (2025)</span>
           </div>
-        </div>
-
-        <!-- Telemetry Metrics & Steps -->
-        <div class="space-y-4">
-          <div class="grid grid-cols-3 gap-2 text-center">
-            <div class="bg-obsidianCard p-3 rounded-xl border border-white/10">
-              <div id="metricTime" class="text-xl font-bold text-cyberCyan font-mono">14.2m</div>
-              <div class="text-[10px] text-slate-400 uppercase font-mono mt-1">Est Time</div>
-            </div>
-            <div class="bg-obsidianCard p-3 rounded-xl border border-white/10">
-              <div id="metricHazard" class="text-xl font-bold text-hazardGreen font-mono">88%</div>
-              <div class="text-[10px] text-slate-400 uppercase font-mono mt-1">Safety</div>
-            </div>
-            <div class="bg-obsidianCard p-3 rounded-xl border border-white/10">
-              <div id="metricSpeed" class="text-xl font-bold text-cyberPurple font-mono">38.5</div>
-              <div class="text-[10px] text-slate-400 uppercase font-mono mt-1">LSTM km/h</div>
-            </div>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Registration Number</span>
+            <span class="font-mono font-bold text-sky-700">GJ-03-ER-4820</span>
           </div>
-
-          <div class="space-y-2">
-            <div class="text-xs font-mono text-slate-400 uppercase tracking-wider">Turn-by-Turn Guidance</div>
-            <div id="stepList" class="space-y-2 max-h-[210px] overflow-y-auto pr-1">
-              <!-- Steps injected via JS -->
-            </div>
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-slate-600">Ground Clearance</span>
+            <span class="font-mono font-bold text-emerald-700">165 mm (City Utility Clearance)</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- SECTION 2: IoT Telemetry & Hazard Stream -->
-    <section id="telemetry" class="glass-card rounded-2xl p-6 space-y-6">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <span class="text-xs font-mono text-cyberCyan font-bold tracking-widest uppercase">MODULE 02</span>
-          <h2 class="text-2xl font-bold text-white">Real-Time IoT Telemetry Stream</h2>
-        </div>
-        <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-hazardRed/20 text-hazardRed border border-hazardRed/40 flex items-center space-x-1.5">
-          <span class="w-2 h-2 rounded-full bg-hazardRed animate-pulse"></span>
-          <span>WEBSOCKET LIVE</span>
-        </span>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- Live Waveform Canvas -->
-        <div class="lg:col-span-2 bg-obsidianSurface p-4 rounded-xl border border-white/10 space-y-3">
-          <div class="flex items-center justify-between text-xs font-mono">
-            <span class="text-slate-400">3-AXIS ACCELEROMETER WAVEFORM (Acc_X, Acc_Y, Acc_Z)</span>
-            <div class="flex space-x-3">
-              <span class="text-cyberCyan">■ X</span>
-              <span class="text-hazardYellow">■ Y</span>
-              <span class="text-hazardRed">■ Z</span>
-            </div>
+      <!-- 6. Routing Preferences Card -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="sliders" class="w-4 h-4 text-violet-600"></i>
+          <span>ROUTING PREFERENCES</span>
+        </h4>
+        
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Default Strategy</span>
+            <span class="font-bold text-emerald-600">Safest (Pothole Protection)</span>
           </div>
-          <canvas id="waveformCanvas" class="w-full h-32"></canvas>
-          <div class="grid grid-cols-3 gap-4 pt-2 text-center text-xs font-mono">
-            <div><span class="text-slate-400">Vibration Mag:</span> <span id="vibVal" class="text-cyberCyan font-bold">0.18 G</span></div>
-            <div><span class="text-slate-400">Vert Accel Z:</span> <span id="accZVal" class="text-hazardRed font-bold">9.84 m/s²</span></div>
-            <div><span class="text-slate-400">PostGIS Segment:</span> <span class="text-slate-200">OSM-991204</span></div>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Pothole Filter Weight</span>
+            <span class="font-mono font-bold text-amber-600">Strict (0.7 ML Weight)</span>
           </div>
-        </div>
-
-        <!-- WebSocket Hazard Alert Stream -->
-        <div class="space-y-3">
-          <div class="text-xs font-mono text-slate-400 uppercase tracking-wider flex justify-between">
-            <span>Live WebSocket Hazard Alerts</span>
-            <span class="text-cyberCyan font-bold">2-HOUR AUTO-TTL</span>
+          <div class="flex items-center justify-between py-1.5 border-b border-slate-100">
+            <span class="text-slate-600">Unpaved/Gravel Roads</span>
+            <span class="font-bold text-slate-900">Avoid Enabled</span>
           </div>
-          <div id="alertStream" class="space-y-2 max-h-[220px] overflow-y-auto pr-1">
-            <!-- Alerts injected via JS -->
+          <div class="flex items-center justify-between py-1.5">
+            <span class="text-slate-600">Waterlogging Filter</span>
+            <span class="font-bold text-sky-600">Monsoon Active</span>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- SECTION 3: ML Inference Dashboard -->
-    <section id="ml" class="glass-card rounded-2xl p-6 space-y-6">
-      <div class="flex items-center justify-between border-b border-white/10 pb-4">
-        <div>
-          <span class="text-xs font-mono text-cyberCyan font-bold tracking-widest uppercase">MODULE 03</span>
-          <h2 class="text-2xl font-bold text-white">Machine Learning Inference Layer</h2>
-        </div>
-        <span class="px-2.5 py-1 rounded-md text-xs font-mono bg-cyberPurple/20 text-cyberPurple border border-cyberPurple/40">
-          MODEL v2.4.1 (LSTM + GBM)
-        </span>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- PyTorch LSTM Speed Forecast -->
-        <div class="bg-obsidianSurface p-4 rounded-xl border border-white/10 space-y-4">
+      <!-- 7. Safety Settings (With Toggles) -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="shield" class="w-4 h-4 text-emerald-600"></i>
+          <span>SAFETY SETTINGS</span>
+        </h4>
+        
+        <div class="space-y-3 text-xs">
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-              <i data-lucide="cpu" class="w-4 h-4 text-cyberPurple"></i>
-              <span>PyTorch LSTM Traffic Speed Forecaster</span>
-            </h3>
-            <span class="text-xs font-mono text-cyberCyan">30m Lookahead</span>
+            <div>
+              <div class="font-bold text-slate-900">Pothole Radar Alerts</div>
+              <div class="text-[10px] text-slate-500">Audio beep 200m before pothole</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
-          <p class="text-xs text-slate-400">2-Layer LSTM (hidden_dim=32, 4-step temporal window) forecasts road speed for fastest route optimization.</p>
 
-          <div class="grid grid-cols-6 gap-2 pt-2 text-center font-mono">
-            <div class="bg-obsidianCard p-2 rounded-lg"><div class="text-xs text-slate-400">-45m</div><div class="text-sm font-bold text-white">46.5</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg"><div class="text-xs text-slate-400">-30m</div><div class="text-sm font-bold text-white">42.0</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg"><div class="text-xs text-slate-400">-15m</div><div class="text-sm font-bold text-white">37.8</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg border border-white/20"><div class="text-xs text-white">Now</div><div class="text-sm font-bold text-white">33.5</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg border border-cyberCyan/40"><div class="text-xs text-cyberCyan">+15m</div><div class="text-sm font-bold text-cyberCyan">29.2</div></div>
-            <div class="bg-obsidianCard p-2 rounded-lg border border-cyberCyan"><div class="text-xs text-cyberCyan">+30m</div><div class="text-sm font-bold text-cyberCyan">24.8</div></div>
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
+            <div>
+              <div class="font-bold text-slate-900">Accident Hotspot Warnings</div>
+              <div class="text-[10px] text-slate-500">Alert on high-collision junctions</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
-        </div>
 
-        <!-- Scikit-Learn GBM 23-Feature Vector -->
-        <div class="bg-obsidianSurface p-4 rounded-xl border border-white/10 space-y-3">
-          <h3 class="text-sm font-bold text-white flex items-center space-x-2">
-            <i data-lucide="layers" class="w-4 h-4 text-cyberBlue"></i>
-            <span>Scikit-Learn GBM (23-Feature Vector)</span>
-          </h3>
-          <div class="space-y-2 text-xs font-mono">
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
             <div>
-              <div class="flex justify-between text-slate-300"><span>vibration_magnitude_z</span><span class="text-cyberCyan">2.84 G (28%)</span></div>
-              <div class="w-full bg-obsidianCard h-1.5 rounded-full mt-1"><div class="bg-cyberCyan h-1.5 rounded-full w-[28%]"></div></div>
+              <div class="font-bold text-slate-900">Speed Bump Chime</div>
+              <div class="text-[10px] text-slate-500">Warn before un-marked speed breakers</div>
             </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
             <div>
-              <div class="flex justify-between text-slate-300"><span>segment_avg_speed</span><span class="text-cyberBlue">34.2 km/h (16%)</span></div>
-              <div class="w-full bg-obsidianCard h-1.5 rounded-full mt-1"><div class="bg-cyberBlue h-1.5 rounded-full w-[16%]"></div></div>
+              <div class="font-bold text-slate-900">Road Degradation Alerts</div>
+              <div class="text-[10px] text-slate-500">Live accelerometer surface warnings</div>
             </div>
-            <div>
-              <div class="flex justify-between text-slate-300"><span>monsoon_precipitation</span><span class="text-hazardYellow">14.5 mm/h (8%)</span></div>
-              <div class="w-full bg-obsidianCard h-1.5 rounded-full mt-1"><div class="bg-hazardYellow h-1.5 rounded-full w-[8%]"></div></div>
-            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- SECTION 4 & 5: RLHF Loop & SOS Emergency -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <!-- RLHF Feedback -->
-      <section id="rlhf" class="glass-card rounded-2xl p-6 space-y-4">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
-          <h2 class="text-xl font-bold text-white">RLHF Spatial Feedback</h2>
-          <span class="text-xs font-mono text-hazardGreen">SELF-IMPROVING DB</span>
-        </div>
-        <form onsubmit="submitRLHF(event)" class="space-y-3 text-xs">
-          <div>
-            <label class="text-slate-300 block mb-1">1. Hazard Accuracy (1-5 Stars)</label>
-            <input type="range" min="1" max="5" value="5" class="w-full accent-cyberCyan">
+      <!-- 8. Privacy, Security & Notifications -->
+      <div class="mobile-card rounded-2xl p-4 space-y-3">
+        <h4 class="text-xs font-mono text-slate-500 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+          <i data-lucide="lock" class="w-4 h-4 text-sky-600"></i>
+          <span>PRIVACY, SECURITY & NOTIFICATIONS</span>
+        </h4>
+        
+        <div class="space-y-3 text-xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Anonymize Telemetry Data</div>
+              <div class="text-[10px] text-slate-500">Strip personal identifiers before sync</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
           </div>
-          <div>
-            <label class="text-slate-300 block mb-1">2. Ride Comfort & Pavement Rating</label>
-            <input type="range" min="1" max="5" value="4" class="w-full accent-cyberCyan">
-          </div>
-          <button type="submit" class="w-full py-2 bg-cyberCyan text-black font-bold rounded-lg hover:bg-white transition-all">
-            LOG SPATIAL FEEDBACK PAYLOAD
-          </button>
-        </form>
-      </section>
 
-      <!-- SOS Emergency -->
-      <section id="sos" class="glass-card rounded-2xl p-6 space-y-4 border-hazardRed/30">
-        <div class="flex items-center justify-between border-b border-white/10 pb-3">
-          <h2 class="text-xl font-bold text-hazardRed">SOS Emergency System</h2>
-          <span class="text-xs font-mono text-hazardRed">G-FORCE CRASH DETECTOR</span>
-        </div>
-        <div class="text-center space-y-3">
-          <button onclick="triggerSOS()" id="sosBtn" class="w-24 h-24 rounded-full bg-hazardRed/20 border-2 border-hazardRed text-hazardRed font-extrabold text-sm hover:bg-hazardRed hover:text-white transition-all shadow-[0_0_25px_rgba(255,59,48,0.4)]">
-            TRIGGER CRASH
+          <div class="flex items-center justify-between border-t border-slate-100 pt-2">
+            <div>
+              <div class="font-bold text-slate-900">Push & Audio Alerts</div>
+              <div class="text-[10px] text-slate-500">Real-time hazard warnings</div>
+            </div>
+            <input type="checkbox" checked class="w-5 h-5 accent-sky-600 cursor-pointer">
+          </div>
+
+          <button onclick="alert('Change Password Dialog')" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl font-bold text-xs flex items-center justify-center space-x-1.5 border border-slate-200">
+            <i data-lucide="key" class="w-3.5 h-3.5"></i>
+            <span>Change Account Password</span>
           </button>
-          <div id="sosStatus" class="text-xs font-mono text-slate-400">
-            Click to simulate >4.0G accident impact spike.
+        </div>
+      </div>
+
+      <!-- 9. Emergency / SOS Card -->
+      <div class="bg-red-50 border border-red-200 rounded-2xl p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <h4 class="text-xs font-mono text-red-700 uppercase tracking-wider font-bold flex items-center space-x-1.5">
+            <i data-lucide="phone-call" class="w-4 h-4 text-red-600"></i>
+            <span>EMERGENCY / SOS SETTINGS</span>
+          </h4>
+          <span class="text-[9px] font-bold bg-red-600 text-white px-2 py-0.5 rounded-full">ACTIVE</span>
+        </div>
+        
+        <div class="space-y-2 text-xs">
+          <div class="bg-white p-2.5 rounded-xl border border-red-100 flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Primary Contact: Aniket Patel</div>
+              <div class="text-[10px] text-slate-500">+91 98790 12345 (Brother)</div>
+            </div>
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+
+          <div class="bg-white p-2.5 rounded-xl border border-red-100 flex items-center justify-between">
+            <div>
+              <div class="font-bold text-slate-900">Secondary Contact: Priya Patel</div>
+              <div class="text-[10px] text-slate-500">+91 94280 67890 (Spouse)</div>
+            </div>
+            <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i>
+          </div>
+
+          <div class="pt-1 text-[11px] text-slate-700">
+            <span class="font-bold text-slate-900">Hospital Dispatch:</span> Synergy Superspeciality Hospital (Rajkot 150 Ft Ring Rd)
+          </div>
+
+          <div class="pt-0.5 text-[10px] text-red-600 font-mono font-bold">
+            ⚡ Auto-SOS: Triggers SMS + GPS dispatch if severe crash impact (>4.2g) detected.
           </div>
         </div>
-      </section>
+      </div>
+
+      <!-- 10. Help & Logout Section -->
+      <div class="pt-2 space-y-3">
+        <div class="flex items-center justify-between text-xs text-slate-500 px-1 font-medium">
+          <span>Argus ASPHR Engine v2.4.0</span>
+          <button onclick="alert('Help Center: Support line +91 1800-ARGUS-99 or email support@argus.in')" class="text-sky-600 font-bold hover:underline">
+            Help & Support
+          </button>
+        </div>
+
+        <button onclick="alert('Logged out successfully.'); switchTab('home')" class="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs rounded-2xl shadow-md transition-all flex items-center justify-center space-x-2">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Log Out of Argus Account</span>
+        </button>
+      </div>
+
     </div>
+
+    <!-- Mobile Bottom Navigation Bar (3 TABS: Home, Navigation, Profile) -->
+    <nav class="sticky bottom-0 z-50 bg-white border-t border-slate-200 px-6 py-2.5 flex items-center justify-around text-center shadow-lg">
+      <button onclick="switchTab('home')" id="tab-home" class="flex flex-col items-center text-sky-600 font-bold transition-all">
+        <i data-lucide="home" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-1">Home</span>
+      </button>
+      <button onclick="switchTab('navigation')" id="tab-navigation" class="flex flex-col items-center text-slate-400 hover:text-sky-600 font-medium transition-all">
+        <i data-lucide="navigation" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-1">Navigation</span>
+      </button>
+      <button onclick="switchTab('profile')" id="tab-profile" class="flex flex-col items-center text-slate-400 hover:text-sky-600 font-medium transition-all">
+        <i data-lucide="user" class="w-5 h-5"></i>
+        <span class="text-[10px] mt-1">Profile</span>
+      </button>
+    </nav>
 
   </div>
 
@@ -344,33 +793,103 @@
     // Initialize Lucide Icons
     lucide.createIcons();
 
-    // Map & Telemetry Simulation Logic
+    // Dynamic State: navigation-1 (initial) vs navigation-2 (after selecting)
+    let isSelectedState = false;
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.page-view').forEach(el => el.classList.add('hidden'));
+      document.getElementById(`page-${tabId}`).classList.remove('hidden');
+
+      ['home', 'navigation', 'profile'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === tabId) {
+          btn.className = 'flex flex-col items-center text-sky-600 font-bold transition-all';
+        } else {
+          btn.className = 'flex flex-col items-center text-slate-400 hover:text-sky-600 font-medium transition-all';
+        }
+      });
+
+      if (tabId === 'navigation') {
+        setTimeout(resizeCanvas, 100);
+      }
+    }
+
+    function presetSelectRoute(origin, dest) {
+      document.getElementById('originInput').value = origin;
+      document.getElementById('destInput').value = dest;
+      updateUIState(true);
+    }
+
+    function onInputChange() {
+      const originVal = document.getElementById('originInput').value.trim();
+      const destVal = document.getElementById('destInput').value.trim();
+      updateUIState(originVal.length > 0 || destVal.length > 0);
+    }
+
+    function clearOrigin() {
+      document.getElementById('originInput').value = '';
+      onInputChange();
+    }
+
+    function clearDest() {
+      document.getElementById('destInput').value = '';
+      onInputChange();
+    }
+
+    function updateUIState(selected) {
+      isSelectedState = selected;
+      const metricsContainer = document.getElementById('routeMetricsContainer');
+      const startBtn = document.getElementById('startNavBtn');
+
+      if (selected) {
+        // navigation-2 state (After selecting locations)
+        metricsContainer.classList.remove('hidden');
+        startBtn.className = 'w-full py-4 bg-slate-900 text-white font-extrabold text-sm rounded-2xl shadow-xl hover:bg-slate-800 transition-all flex items-center justify-center space-x-2 cursor-pointer opacity-100';
+      } else {
+        // navigation-1 state (Initial state)
+        metricsContainer.classList.add('hidden');
+        startBtn.className = 'w-full py-4 bg-[#7A8A55] text-[#5A6A35] font-extrabold text-sm rounded-2xl transition-all flex items-center justify-center space-x-2 cursor-not-allowed opacity-60';
+      }
+      drawMap();
+    }
+
+    function startNavigation() {
+      if (!isSelectedState) return;
+      alert('Navigation started on Rajkot spatial route network!');
+    }
+
+    // Map Simulation Logic for Navigation Tab
     const canvas = document.getElementById('mumbaiMapCanvas');
     const ctx = canvas.getContext('2d');
     
     function resizeCanvas() {
+      if (!canvas) return;
       canvas.width = canvas.parentElement.clientWidth;
       canvas.height = canvas.parentElement.clientHeight;
       drawMap();
     }
     window.addEventListener('resize', resizeCanvas);
 
-    let activeVehicle = 'car';
+    let activeVehicle = 'bike';
     let activeObjective = 'fastest';
 
     const routeData = {
-      fastest: { time: '14.2m', safety: '88%', speed: '38.5', text: 'BKC → Worli Sea Link (7.4 km via WEH Flyover)' },
-      safest: { time: '17.8m', safety: '98%', speed: '31.2', text: 'BKC → Worli (8.1 km avoiding severe crater zone)' },
-      straightest: { time: '15.5m', safety: '91%', speed: '35.0', text: 'BKC → Worli (7.6 km minimal turn deviation)' },
-      popular: { time: '19.2m', safety: '94%', speed: '28.4', text: 'BKC → Worli (8.8 km scenic POI promenade)' }
+      fastest: { time: '11.4m', dist: '6.2 km', safety: '100%' },
+      safest: { time: '14.8m', dist: '6.8 km', safety: '100%' },
+      straightest: { time: '12.2m', dist: '6.3 km', safety: '95%' },
+      popular: { time: '15.5m', dist: '7.4 km', safety: '98%' }
     };
 
     function setVehicle(type) {
       activeVehicle = type;
-      document.querySelectorAll('#vehicleProfiles button').forEach(b => {
-        b.className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-obsidianCard text-slate-300 border border-white/10 hover:border-cyberCyan transition-all';
+      ['bike', 'car', 'truck', 'supercar'].forEach(v => {
+        const el = document.getElementById(`btn-${v}`);
+        if (v === type) {
+          el.className = 'bg-slate-900 text-white p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all shadow-md';
+        } else {
+          el.className = 'bg-[#B4C38F] text-slate-900 p-2.5 rounded-2xl flex flex-col items-center justify-center space-y-1 transition-all border border-[#94A36F]';
+        }
       });
-      document.getElementById(`btn-${type}`).className = 'px-3 py-1.5 rounded-lg text-xs font-bold bg-cyberCyan text-black transition-all';
       drawMap();
     }
 
@@ -379,145 +898,58 @@
       ['fastest', 'safest', 'straightest', 'popular'].forEach(o => {
         const el = document.getElementById(`obj-${o}`);
         if (o === obj) {
-          el.className = 'p-3 rounded-xl bg-cyberCyan/10 border border-cyberCyan text-cyberCyan text-left transition-all';
+          el.className = 'bg-[#FACC15] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-bold text-xs shadow-md transition-all border border-amber-400';
         } else {
-          el.className = 'p-3 rounded-xl bg-obsidianCard border border-white/10 text-slate-300 text-left hover:border-cyberCyan transition-all';
+          el.className = 'bg-[#B4C38F] text-slate-900 p-3 rounded-2xl flex items-center space-x-2 font-medium text-xs transition-all border border-[#94A36F]';
         }
       });
 
       const d = routeData[obj];
-      document.getElementById('metricTime').innerText = d.time;
-      document.getElementById('metricHazard').innerText = d.safety;
-      document.getElementById('metricSpeed').innerText = d.speed;
-      document.getElementById('routeSummaryText').innerText = d.text;
+      if (document.getElementById('metricTime')) document.getElementById('metricTime').innerText = d.time;
+      if (document.getElementById('metricDistance')) document.getElementById('metricDistance').innerText = d.dist;
+      if (document.getElementById('metricHazard')) document.getElementById('metricHazard').innerText = d.safety;
       drawMap();
-      renderSteps();
     }
 
     function drawMap() {
-      if (!canvas.width) return;
+      if (!canvas || !canvas.width) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Grid Lines
-      ctx.strokeStyle = '#161F33';
+      ctx.strokeStyle = '#E2E8F0';
       ctx.lineWidth = 1;
-      for (let x = 0; x < canvas.width; x += 30) {
+      for (let x = 0; x < canvas.width; x += 24) {
         ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
       }
-      for (let y = 0; y < canvas.height; y += 30) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(width = canvas.width, y); ctx.stroke();
+      for (let y = 0; y < canvas.height; y += 24) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
       }
 
-      // Static Roads
-      ctx.strokeStyle = '#1C273D';
+      // Static Rajkot Roads
+      ctx.strokeStyle = '#CBD5E1';
       ctx.lineWidth = 3;
       ctx.beginPath();
-      ctx.moveTo(40, 50); ctx.lineTo(200, 120); ctx.lineTo(380, 220);
-      ctx.moveTo(200, 120); ctx.lineTo(150, 280);
+      ctx.moveTo(30, 40); ctx.lineTo(160, 100); ctx.lineTo(320, 180);
+      ctx.moveTo(160, 100); ctx.lineTo(120, 220);
       ctx.stroke();
 
-      // Hazard Segments (Color Ramped)
-      ctx.strokeStyle = '#FF3B30'; ctx.lineWidth = 6; // Severe
-      ctx.beginPath(); ctx.moveTo(180, 110); ctx.lineTo(220, 135); ctx.stroke();
+      // Hazard Segments
+      ctx.strokeStyle = '#DC2626'; ctx.lineWidth = 5;
+      ctx.beginPath(); ctx.moveTo(140, 90); ctx.lineTo(180, 115); ctx.stroke();
 
-      ctx.strokeStyle = '#FF9500'; ctx.lineWidth = 6; // Rough
-      ctx.beginPath(); ctx.moveTo(300, 180); ctx.lineTo(340, 200); ctx.stroke();
+      // Active Polyline (ONLY drawn when isSelectedState is true)
+      if (isSelectedState) {
+        ctx.strokeStyle = '#0284C7';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(40, 50); ctx.lineTo(170, 110); ctx.lineTo(340, 190);
+        ctx.stroke();
 
-      // Calculated Route Line (Neon Glow)
-      ctx.shadowColor = '#00F2FE';
-      ctx.shadowBlur = 12;
-      ctx.strokeStyle = '#00F2FE';
-      ctx.lineWidth = 4;
-      ctx.beginPath();
-      ctx.moveTo(50, 60);
-      
-      if (activeObjective === 'safest') {
-        ctx.quadraticCurveTo(280, 80, 420, 240);
-      } else {
-        ctx.lineTo(220, 130); ctx.lineTo(420, 240);
+        // Start / End Pins
+        ctx.fillStyle = '#16A34A'; ctx.beginPath(); ctx.arc(40, 50, 6, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = '#7C3AED'; ctx.beginPath(); ctx.arc(340, 190, 6, 0, Math.PI * 2); ctx.fill();
       }
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-
-      // Start / End Pins
-      ctx.fillStyle = '#30D158'; ctx.beginPath(); ctx.arc(50, 60, 6, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = '#7F00FF'; ctx.beginPath(); ctx.arc(420, 240, 6, 0, Math.PI * 2); ctx.fill();
     }
-
-    function renderSteps() {
-      const container = document.getElementById('stepList');
-      const steps = [
-        { text: 'Head North towards WEH Flyover', road: 'BKC Link Rd', dist: '450m', hazard: '12%' },
-        { text: activeObjective === 'safest' ? 'Bypass severe crater zone via Senapati Bapat Marg' : 'Merge onto Western Express Flyover', road: 'Senapati Bapat Marg', dist: '1.8km', hazard: activeObjective === 'safest' ? '8%' : '42%' },
-        { text: activeVehicle === 'supercar' ? 'Rerouted around 3 speed bumps (Supercar active)' : 'Continue past Worli Naka Junction', road: 'Dr. Annie Besant Rd', dist: '2.2km', hazard: '18%' }
-      ];
-
-      container.innerHTML = steps.map(s => `
-        <div class="bg-obsidianCard p-2.5 rounded-lg border border-white/10 flex items-center justify-between text-xs">
-          <div>
-            <div class="font-bold text-slate-200">${s.text}</div>
-            <div class="text-[10px] text-slate-400">${s.road} • ${s.dist}</div>
-          </div>
-          <span class="px-2 py-0.5 rounded text-[10px] font-bold ${parseInt(s.hazard) > 30 ? 'bg-hazardRed/20 text-hazardRed' : 'bg-hazardGreen/20 text-hazardGreen'}">
-            Hazard ${s.hazard}
-          </span>
-        </div>
-      `).join('');
-    }
-
-    // Accelerometer Waveform Canvas
-    const waveCanvas = document.getElementById('waveformCanvas');
-    const wCtx = waveCanvas.getContext('2d');
-    let waveHistory = Array(50).fill(0);
-
-    function drawWaveform() {
-      waveCanvas.width = waveCanvas.parentElement.clientWidth;
-      waveCanvas.height = 128;
-      
-      const newVib = Math.random() * 0.4 + (Math.random() < 0.1 ? 2.5 : 0.1);
-      waveHistory.push(newVib);
-      waveHistory.shift();
-
-      document.getElementById('vibVal').innerText = `${newVib.toFixed(2)} G`;
-      document.getElementById('accZVal').innerText = `${(9.81 + newVib).toFixed(2)} m/s²`;
-
-      wCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
-      wCtx.strokeStyle = '#00F2FE';
-      wCtx.lineWidth = 2;
-      wCtx.beginPath();
-      
-      const step = waveCanvas.width / 49;
-      waveHistory.forEach((v, i) => {
-        const x = i * step;
-        const y = waveCanvas.height / 2 - (v * 15);
-        if (i === 0) wCtx.moveTo(x, y); else wCtx.lineTo(x, y);
-      });
-      wCtx.stroke();
-    }
-    setInterval(drawWaveform, 300);
-
-    // Initial alert stream
-    document.getElementById('alertStream').innerHTML = `
-      <div class="bg-obsidianCard p-2.5 rounded-lg border border-hazardRed/40 flex justify-between items-center text-xs">
-        <div>
-          <div class="font-bold text-white">WEH Flyover (Vile Parle)</div>
-          <div class="text-[10px] text-slate-400">Peak Vibration: 3.42 G • Score: 0.88</div>
-        </div>
-        <span class="text-[10px] font-bold text-hazardRed bg-hazardRed/20 px-2 py-0.5 rounded">SEVERE</span>
-      </div>
-    `;
-
-    function submitRLHF(e) {
-      e.preventDefault();
-      alert('Spatial RLHF payload successfully logged into self-improving training loop!');
-    }
-
-    function triggerSOS() {
-      const status = document.getElementById('sosStatus');
-      status.innerHTML = '<span class="text-hazardGreen font-bold">DISPATCHED: Lilavati Hospital (Bandra) notified via PostGIS ST_DWithin!</span>';
-    }
-
-    setTimeout(() => { resizeCanvas(); setObjective('fastest'); }, 100);
   </script>
 </body>
 </html>

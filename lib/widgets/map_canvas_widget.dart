@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import '../models/route_model.dart';
@@ -18,30 +17,37 @@ class MapCanvasWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(16),
       child: Container(
-        color: const Color(0xFF0A0E18),
+        color: isDark ? const Color(0xFF0A0E18) : const Color(0xFFF1F5F9),
         child: Stack(
           children: [
             CustomPaint(
               size: Size.infinite,
-              painter: _MumbaiMapPainter(
+              painter: _RajkotMapPainter(
                 route: activeRoute,
                 hazards: hazardSegments,
                 vehiclePos: currentVehiclePosition,
+                isDark: isDark,
               ),
             ),
             // Map Telemetry Overlay Pill
             Positioned(
-              top: 16,
-              left: 16,
+              top: 12,
+              left: 12,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: AppColors.obsidianCard.withOpacity(0.9),
+                  color: (isDark ? AppColors.obsidianCard : Colors.white).withOpacity(0.92),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.borderGlow.withOpacity(0.4)),
+                  border: Border.all(color: isDark ? AppColors.borderGlow.withOpacity(0.4) : AppColors.borderSubtle),
+                  boxShadow: [
+                    if (!isDark)
+                      const BoxShadow(color: Color(0x10000000), blurRadius: 6, offset: Offset(0, 2)),
+                  ],
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -54,14 +60,14 @@ class MapCanvasWidget extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    const Text(
-                      "MUMBAI ROAD NETWORK • 85k+ OSM NODES",
+                    const SizedBox(width: 6),
+                    Text(
+                      "RAJKOT ROAD NETWORK • 45k+ OSM NODES",
                       style: TextStyle(
-                        color: AppColors.textPrimary,
-                        fontSize: 10,
+                        color: isDark ? AppColors.textPrimary : AppColors.textPrimary,
+                        fontSize: 9.5,
                         fontWeight: FontWeight.bold,
-                        letterSpacing: 0.8,
+                        letterSpacing: 0.5,
                       ),
                     ),
                   ],
@@ -75,15 +81,17 @@ class MapCanvasWidget extends StatelessWidget {
   }
 }
 
-class _MumbaiMapPainter extends CustomPainter {
+class _RajkotMapPainter extends CustomPainter {
   final RouteResult? route;
   final List<HazardSegment> hazards;
   final LatLng vehiclePos;
+  final bool isDark;
 
-  _MumbaiMapPainter({
+  _RajkotMapPainter({
     required this.route,
     required this.hazards,
     required this.vehiclePos,
+    required this.isDark,
   });
 
   @override
@@ -91,12 +99,12 @@ class _MumbaiMapPainter extends CustomPainter {
     final double width = size.width;
     final double height = size.height;
 
-    // Draw Cyber Grid Lines
+    // Grid Lines
     final gridPaint = Paint()
-      ..color = const Color(0xFF161F33)
+      ..color = isDark ? const Color(0xFF161F33) : const Color(0xFFE2E8F0)
       ..strokeWidth = 0.8;
 
-    const gridStep = 40.0;
+    const gridStep = 32.0;
     for (double x = 0; x < width; x += gridStep) {
       canvas.drawLine(Offset(x, 0), Offset(x, height), gridPaint);
     }
@@ -104,27 +112,27 @@ class _MumbaiMapPainter extends CustomPainter {
       canvas.drawLine(Offset(0, y), Offset(width, y), gridPaint);
     }
 
-    // Coordinates bounding box for Mumbai (approx lat 18.9 to 19.15, lng 72.8 to 72.9)
+    // Coordinates bounding box for Rajkot (approx lat 22.20 to 22.35, lng 70.65 to 70.85)
     Offset toCanvasOffset(LatLng pos) {
-      final double normalizedX = (pos.longitude - 72.80) / 0.12;
-      final double normalizedY = 1.0 - ((pos.latitude - 18.92) / 0.20);
+      final double normalizedX = (pos.longitude - 70.65) / 0.20;
+      final double normalizedY = 1.0 - ((pos.latitude - 22.20) / 0.15);
       return Offset(
-        (normalizedX * width).clamp(20.0, width - 20.0),
-        (normalizedY * height).clamp(20.0, height - 20.0),
+        (normalizedX * width).clamp(16.0, width - 16.0),
+        (normalizedY * height).clamp(16.0, height - 16.0),
       );
     }
 
-    // Draw Static Mumbai Road Graph Network
+    // Static Rajkot Road Graph Network
     final roadPaint = Paint()
-      ..color = const Color(0xFF1C273D)
-      ..strokeWidth = 2.5
+      ..color = isDark ? const Color(0xFF1C273D) : const Color(0xFFCBD5E1)
+      ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
     final staticRoads = [
-      [const LatLng(19.0657, 72.8686), const LatLng(19.0330, 72.8185)], // BKC to Worli
-      [const LatLng(19.0330, 72.8185), const LatLng(18.9438, 72.8232)], // Worli to Marine Drive
-      [const LatLng(19.0657, 72.8686), const LatLng(19.0896, 72.8656)], // BKC to Airport
-      [const LatLng(19.0822, 72.8519), const LatLng(19.0657, 72.8686)], // WEH to BKC
+      [const LatLng(22.2854, 70.7725), const LatLng(22.2921, 70.7834)], // Kalawad Rd to 150 Ft Ring Rd
+      [const LatLng(22.2921, 70.7834), const LatLng(22.3012, 70.8021)], // 150 Ft Ring Rd to Yagnik Rd
+      [const LatLng(22.2854, 70.7725), const LatLng(22.2489, 70.6845)], // Kalawad Rd to Metoda GIDC
+      [const LatLng(22.2678, 70.8012), const LatLng(22.2921, 70.7834)], // Gondal Rd to 150 Ft Ring Rd
     ];
 
     for (var road in staticRoads) {
@@ -133,7 +141,7 @@ class _MumbaiMapPainter extends CustomPainter {
       canvas.drawLine(p1, p2, roadPaint);
     }
 
-    // Draw Hazard Heatmap Overlay (Color Ramped: Green -> Yellow -> Orange -> Red)
+    // Hazard Segments Overlay
     for (var hazard in hazards) {
       if (hazard.coordinates.length >= 2) {
         final p1 = toCanvasOffset(hazard.coordinates[0]);
@@ -147,7 +155,7 @@ class _MumbaiMapPainter extends CustomPainter {
         }
 
         final hazardPaint = Paint()
-          ..color = hazardColor.withOpacity(0.85)
+          ..color = hazardColor.withOpacity(0.9)
           ..strokeWidth = 6.0
           ..strokeCap = StrokeCap.round;
 
@@ -155,16 +163,18 @@ class _MumbaiMapPainter extends CustomPainter {
       }
     }
 
-    // Draw Active Calculated Route Polyline with Neon Glow
+    // Active Calculated Route Polyline
     if (route != null && route!.polylinePoints.length >= 2) {
+      final routeColor = isDark ? AppColors.cyberCyan : const Color(0xFF0284C7);
+      
       final glowPaint = Paint()
-        ..color = AppColors.cyberCyan.withOpacity(0.35)
+        ..color = routeColor.withOpacity(0.3)
         ..strokeWidth = 10.0
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
 
       final routePaint = Paint()
-        ..color = AppColors.cyberCyan
+        ..color = routeColor
         ..strokeWidth = 4.5
         ..style = PaintingStyle.stroke
         ..strokeCap = StrokeCap.round;
@@ -182,25 +192,26 @@ class _MumbaiMapPainter extends CustomPainter {
       canvas.drawPath(path, glowPaint);
       canvas.drawPath(path, routePaint);
 
-      // Draw Start & Destination Pin Markers
+      // Start & Destination Pin Markers
       final startPt = toCanvasOffset(route!.polylinePoints.first);
       final endPt = toCanvasOffset(route!.polylinePoints.last);
 
-      canvas.drawCircle(startPt, 8.0, Paint()..color = AppColors.hazardGreen);
-      canvas.drawCircle(endPt, 8.0, Paint()..color = AppColors.cyberPurple);
+      canvas.drawCircle(startPt, 7.0, Paint()..color = AppColors.hazardGreen);
+      canvas.drawCircle(endPt, 7.0, Paint()..color = AppColors.cyberPurple);
     }
 
-    // Draw Live Vehicle Location Marker with Pulse Wave
+    // Live Vehicle Location Marker
     final vehiclePt = toCanvasOffset(vehiclePos);
+    final vehicleColor = isDark ? AppColors.cyberCyan : const Color(0xFF0284C7);
     final pulsePaint = Paint()
-      ..color = AppColors.cyberCyan.withOpacity(0.25)
+      ..color = vehicleColor.withOpacity(0.25)
       ..style = PaintingStyle.fill;
-    final vehiclePaint = Paint()..color = AppColors.cyberCyan;
+    final vehiclePaint = Paint()..color = vehicleColor;
 
-    canvas.drawCircle(vehiclePt, 16.0, pulsePaint);
+    canvas.drawCircle(vehiclePt, 14.0, pulsePaint);
     canvas.drawCircle(vehiclePt, 6.0, vehiclePaint);
   }
 
   @override
-  bool shouldRepaint(covariant _MumbaiMapPainter oldDelegate) => true;
+  bool shouldRepaint(covariant _RajkotMapPainter oldDelegate) => true;
 }

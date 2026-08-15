@@ -8,13 +8,14 @@ import 'theme/app_theme.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Set tactical dark status bar styling
+  // Set crisp white mobile status bar and navigation bar styling
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: AppColors.obsidianSurface,
-      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark, // Dark status bar icons for white background
+      statusBarBrightness: Brightness.light,    // iOS light status bar
+      systemNavigationBarColor: AppColors.surface,
+      systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
 
@@ -34,9 +35,11 @@ class AsphrApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Asphr — AI Spatial Intelligence & Route Engine',
+      title: 'Asphr — Mobile Hazard-Aware Dynamic Router',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: ThemeMode.light, // Default to clean White Mode UI
       home: const MainShellScreen(),
     );
   }

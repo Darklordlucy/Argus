@@ -18,16 +18,19 @@ class TelemetryGauge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          width: 90,
-          height: 90,
+          width: 84,
+          height: 84,
           child: CustomPaint(
             painter: _GaugePainter(
               value: value.clamp(0.0, 1.0),
               activeColor: activeColor,
+              isDark: isDark,
             ),
             child: Center(
               child: Column(
@@ -37,7 +40,7 @@ class TelemetryGauge extends StatelessWidget {
                     displayValue,
                     style: TextStyle(
                       color: activeColor,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.bold,
                       letterSpacing: -0.5,
                     ),
@@ -50,11 +53,11 @@ class TelemetryGauge extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           label.toUpperCase(),
-          style: const TextStyle(
-            color: AppColors.textSecondary,
-            fontSize: 10,
+          style: TextStyle(
+            color: isDark ? AppColors.textSecondary : AppColors.textSecondary,
+            fontSize: 9.5,
             fontWeight: FontWeight.w600,
-            letterSpacing: 1.0,
+            letterSpacing: 0.8,
           ),
         ),
       ],
@@ -65,8 +68,9 @@ class TelemetryGauge extends StatelessWidget {
 class _GaugePainter extends CustomPainter {
   final double value;
   final Color activeColor;
+  final bool isDark;
 
-  _GaugePainter({required this.value, required this.activeColor});
+  _GaugePainter({required this.value, required this.activeColor, required this.isDark});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -74,15 +78,15 @@ class _GaugePainter extends CustomPainter {
     final radius = min(size.width, size.height) / 2 - 8;
 
     final backgroundPaint = Paint()
-      ..color = AppColors.obsidianSurface
+      ..color = isDark ? AppColors.obsidianSurface : const Color(0xFFE2E8F0)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 7
+      ..strokeWidth = 6.5
       ..strokeCap = StrokeCap.round;
 
     final activePaint = Paint()
       ..color = activeColor
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 7
+      ..strokeWidth = 6.5
       ..strokeCap = StrokeCap.round;
 
     const startAngle = 0.75 * pi; // 135 deg
@@ -109,5 +113,5 @@ class _GaugePainter extends CustomPainter {
 
   @override
   bool shouldRepaint(covariant _GaugePainter oldDelegate) =>
-      oldDelegate.value != value || oldDelegate.activeColor != activeColor;
+      oldDelegate.value != value || oldDelegate.activeColor != activeColor || oldDelegate.isDark != isDark;
 }
