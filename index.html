@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Asphr — AI-Powered Mobile Hazard Router</title>
+  <title>Asphr — Rajkot AI-Powered Mobile Hazard Router</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Space Grotesk & JetBrains Mono -->
@@ -74,24 +74,15 @@
   <!-- Mobile Container Wrapper -->
   <div class="max-w-md mx-auto min-h-screen flex flex-col bg-slate-50 border-x border-slate-200 shadow-2xl">
 
-    <!-- Mobile Top Header Bar -->
-    <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 px-4 py-3 flex items-center justify-between shadow-sm">
-      <div class="flex items-center space-x-2">
-        <div class="w-2.5 h-2.5 rounded-full bg-sky-600 animate-pulse"></div>
-        <span class="font-extrabold text-base tracking-wider text-slate-900">ASPHR <span class="text-sky-600 text-xs font-mono">MOBILE v2.4</span></span>
-      </div>
-      <span class="px-2 py-0.5 rounded-full text-[10px] font-mono bg-sky-50 text-sky-700 border border-sky-200">MUMBAI NODES</span>
-    </header>
-
-    <!-- Main Content Area -->
+    <!-- Main Content Area (Header Removed) -->
     <main class="flex-1 p-4 space-y-5 overflow-y-auto">
 
       <!-- SECTION 1: Interactive Route Engine & Map -->
       <section id="router" class="mobile-card rounded-2xl p-4 mobile-card-glow space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <span class="text-[10px] font-mono text-sky-600 font-extrabold tracking-widest uppercase">MODULE 01</span>
             <h2 class="text-lg font-bold text-slate-900">Spatial Route Planner</h2>
+            <p class="text-[11px] text-slate-500 font-medium">Gujarat • Rajkot Road Network</p>
           </div>
           <span class="text-xs font-mono text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">LIVE</span>
         </div>
@@ -138,11 +129,11 @@
           
           <div class="absolute top-2 left-2 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-lg border border-slate-200 text-[10px] font-mono text-sky-700 flex items-center space-x-1.5 shadow-sm">
             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>MUMBAI VECTOR RENDERER</span>
+            <span>RAJKOT VECTOR RENDERER</span>
           </div>
 
           <div class="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-md p-2 rounded-lg border border-slate-200 flex items-center justify-between text-[11px] shadow-sm">
-            <span id="routeSummaryText" class="font-bold text-slate-800 truncate">BKC → Worli (7.4 km)</span>
+            <span id="routeSummaryText" class="font-bold text-slate-800 truncate">Kalawad Rd → 150 Ft Ring Rd (6.2 km)</span>
             <span id="weatherText" class="text-amber-600 font-mono text-[10px] ml-1 shrink-0">🌧️ Monsoon</span>
           </div>
         </div>
@@ -150,15 +141,15 @@
         <!-- Telemetry Gauges -->
         <div class="grid grid-cols-3 gap-2 text-center">
           <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <div id="metricTime" class="text-lg font-bold text-sky-600 font-mono">14.2m</div>
+            <div id="metricTime" class="text-lg font-bold text-sky-600 font-mono">11.4m</div>
             <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Est Time</div>
           </div>
           <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <div id="metricHazard" class="text-lg font-bold text-emerald-600 font-mono">88%</div>
+            <div id="metricHazard" class="text-lg font-bold text-emerald-600 font-mono">92%</div>
             <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">Safety</div>
           </div>
           <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200">
-            <div id="metricSpeed" class="text-lg font-bold text-violet-600 font-mono">38.5</div>
+            <div id="metricSpeed" class="text-lg font-bold text-violet-600 font-mono">42.5</div>
             <div class="text-[9px] text-slate-500 uppercase font-mono mt-0.5">LSTM km/h</div>
           </div>
         </div>
@@ -176,8 +167,8 @@
       <section id="telemetry" class="mobile-card rounded-2xl p-4 space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <span class="text-[10px] font-mono text-sky-600 font-extrabold tracking-widest uppercase">MODULE 02</span>
             <h2 class="text-lg font-bold text-slate-900">IoT Telemetry Stream</h2>
+            <p class="text-[11px] text-slate-500 font-medium">Rajkot Vehicle Sensor Ingestion</p>
           </div>
           <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-red-50 text-red-600 border border-red-200 flex items-center space-x-1">
             <span class="w-1.5 h-1.5 rounded-full bg-red-600 animate-ping"></span>
@@ -198,7 +189,7 @@
           <div class="grid grid-cols-3 gap-2 pt-1 text-center text-[10px] font-mono">
             <div><span class="text-slate-500">Vib Mag:</span> <span id="vibVal" class="text-sky-700 font-bold">0.18 G</span></div>
             <div><span class="text-slate-500">Vert Z:</span> <span id="accZVal" class="text-red-600 font-bold">9.84 m/s²</span></div>
-            <div><span class="text-slate-500">PostGIS:</span> <span class="text-slate-800">OSM-9912</span></div>
+            <div><span class="text-slate-500">PostGIS:</span> <span class="text-slate-800">RJT-8820</span></div>
           </div>
         </div>
 
@@ -211,8 +202,8 @@
       <section id="ml" class="mobile-card rounded-2xl p-4 space-y-4">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <span class="text-[10px] font-mono text-sky-600 font-extrabold tracking-widest uppercase">MODULE 03</span>
             <h2 class="text-lg font-bold text-slate-900">ML Inference Layer</h2>
+            <p class="text-[11px] text-slate-500 font-medium">PyTorch & Scikit-Learn Models</p>
           </div>
           <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-violet-50 text-violet-700 border border-violet-200">
             v2.4.1 LSTM
@@ -229,12 +220,12 @@
           </div>
 
           <div class="grid grid-cols-6 gap-1 text-center font-mono">
-            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-45m</div><div class="text-xs font-bold text-slate-800">46.5</div></div>
-            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-30m</div><div class="text-xs font-bold text-slate-800">42.0</div></div>
-            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-15m</div><div class="text-xs font-bold text-slate-800">37.8</div></div>
-            <div class="bg-white p-1.5 rounded border border-slate-300"><div class="text-[9px] text-slate-900 font-bold">Now</div><div class="text-xs font-bold text-slate-900">33.5</div></div>
-            <div class="bg-sky-50 p-1.5 rounded border border-sky-200"><div class="text-[9px] text-sky-600">+15m</div><div class="text-xs font-bold text-sky-700">29.2</div></div>
-            <div class="bg-sky-100 p-1.5 rounded border border-sky-400"><div class="text-[9px] text-sky-700">+30m</div><div class="text-xs font-bold text-sky-800">24.8</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-45m</div><div class="text-xs font-bold text-slate-800">48.5</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-30m</div><div class="text-xs font-bold text-slate-800">44.0</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-200"><div class="text-[9px] text-slate-400">-15m</div><div class="text-xs font-bold text-slate-800">40.2</div></div>
+            <div class="bg-white p-1.5 rounded border border-slate-300"><div class="text-[9px] text-slate-900 font-bold">Now</div><div class="text-xs font-bold text-slate-900">36.5</div></div>
+            <div class="bg-sky-50 p-1.5 rounded border border-sky-200"><div class="text-[9px] text-sky-600">+15m</div><div class="text-xs font-bold text-sky-700">32.8</div></div>
+            <div class="bg-sky-100 p-1.5 rounded border border-sky-400"><div class="text-[9px] text-sky-700">+30m</div><div class="text-xs font-bold text-sky-800">28.4</div></div>
           </div>
         </div>
       </section>
@@ -257,7 +248,7 @@
       </section>
 
       <section id="sos" class="mobile-card rounded-2xl p-4 space-y-3 border-red-200 bg-red-50/50">
-        <div class="flex items-center justify-between border-b border-red-100 pb-2">
+        <div class="flex items-center justify-between border-red-100 pb-2 border-b">
           <h2 class="text-base font-bold text-red-600">SOS Emergency System</h2>
           <span class="text-[10px] font-mono text-red-600">G-FORCE DETECTOR</span>
         </div>
@@ -318,10 +309,10 @@
     let activeObjective = 'fastest';
 
     const routeData = {
-      fastest: { time: '14.2m', safety: '88%', speed: '38.5', text: 'BKC → Worli (7.4 km via WEH)' },
-      safest: { time: '17.8m', safety: '98%', speed: '31.2', text: 'BKC → Worli (8.1 km avoiding crater zone)' },
-      straightest: { time: '15.5m', safety: '91%', speed: '35.0', text: 'BKC → Worli (7.6 km minimal turn)' },
-      popular: { time: '19.2m', safety: '94%', speed: '28.4', text: 'BKC → Worli (8.8 km POI promenade)' }
+      fastest: { time: '11.4m', safety: '92%', speed: '42.5', text: 'Kalawad Rd → 150 Ft Ring Rd (6.2 km)' },
+      safest: { time: '14.8m', safety: '99%', speed: '34.0', text: 'Kalawad Rd → 150 Ft Ring Rd (6.8 km avoiding KKV Circle crater)' },
+      straightest: { time: '12.2m', safety: '94%', speed: '39.0', text: 'Kalawad Rd → 150 Ft Ring Rd (6.3 km minimal turn)' },
+      popular: { time: '15.5m', safety: '96%', speed: '31.2', text: 'Kalawad Rd → 150 Ft Ring Rd (7.4 km Yagnik Promenade)' }
     };
 
     function setVehicle(type) {
@@ -367,7 +358,7 @@
         ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
       }
 
-      // Static Roads
+      // Static Rajkot Roads
       ctx.strokeStyle = '#CBD5E1';
       ctx.lineWidth = 3;
       ctx.beginPath();
@@ -403,9 +394,9 @@
     function renderSteps() {
       const container = document.getElementById('stepList');
       const steps = [
-        { text: 'Head North towards WEH Flyover', road: 'BKC Link Rd', dist: '450m', hazard: '12%' },
-        { text: activeObjective === 'safest' ? 'Bypass severe crater zone via Senapati Bapat Marg' : 'Merge onto Western Express Flyover', road: 'Senapati Bapat Marg', dist: '1.8km', hazard: activeObjective === 'safest' ? '8%' : '42%' },
-        { text: activeVehicle === 'supercar' ? 'Rerouted around 3 speed bumps' : 'Continue past Worli Naka', road: 'Dr. Annie Besant Rd', dist: '2.2km', hazard: '18%' }
+        { text: 'Head West towards Kalawad Road', road: 'Kalawad Rd', dist: '450m', hazard: '10%' },
+        { text: activeObjective === 'safest' ? 'Bypass KKV Circle crater via University Road' : 'Merge onto 150 Feet Ring Road Flyover', road: '150 Ft Ring Rd', dist: '1.8km', hazard: activeObjective === 'safest' ? '6%' : '38%' },
+        { text: activeVehicle === 'supercar' ? 'Rerouted around speed bumps near Crystal Mall' : 'Continue past KKV Hall Junction', road: 'Yagnik Road', dist: '2.2km', hazard: '14%' }
       ];
 
       container.innerHTML = steps.map(s => `
@@ -456,7 +447,7 @@
     document.getElementById('alertStream').innerHTML = `
       <div class="bg-slate-50 p-2.5 rounded-xl border border-red-200 flex justify-between items-center text-xs">
         <div>
-          <div class="font-bold text-slate-900">WEH Flyover (Vile Parle)</div>
+          <div class="font-bold text-slate-900">150 Feet Ring Road (KKV Circle)</div>
           <div class="text-[10px] text-slate-500">Peak Vibration: 3.42 G • Score: 0.88</div>
         </div>
         <span class="text-[10px] font-bold text-red-600 bg-red-100 px-2 py-0.5 rounded">SEVERE</span>
@@ -470,7 +461,7 @@
 
     function triggerSOS() {
       const status = document.getElementById('sosStatus');
-      status.innerHTML = '<span class="text-emerald-600 font-bold">DISPATCHED: Lilavati Hospital notified via PostGIS!</span>';
+      status.innerHTML = '<span class="text-emerald-600 font-bold">DISPATCHED: Synergy Hospital Rajkot notified via PostGIS ST_DWithin!</span>';
     }
 
     setTimeout(() => { resizeCanvas(); setObjective('fastest'); }, 100);

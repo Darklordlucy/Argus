@@ -171,7 +171,7 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                             SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                "Emergency Dispatch: Lilavati Hospital (Bandra) notified via PostGIS ST_DWithin (1.2 km away)",
+                                "Emergency Dispatch: Synergy Hospital (Rajkot, 150 Ft Ring Rd) notified via PostGIS ST_DWithin (1.2 km away)",
                                 style: TextStyle(
                                   color: AppColors.hazardGreen,
                                   fontSize: 12,
@@ -191,7 +191,7 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                             ),
                             SizedBox(width: 8),
                             Text(
-                              "Broadcasting location to nearest hospital emergency node...",
+                              "Broadcasting location to nearest hospital emergency node in Rajkot...",
                               style: TextStyle(color: AppColors.textSecondary, fontSize: 11),
                             ),
                           ],
@@ -224,7 +224,7 @@ class _SOSEmergencyScreenState extends State<SOSEmergencyScreen> {
                       ),
                       const SizedBox(height: 6),
                       const Text(
-                        "1. IoT Telemetry continuously monitors 3-axis accelerometer and gyroscope yaw rate.\n2. When vibration spike exceeds 4.0G impact threshold, an SOS alert is stored in the database with coordinates.\n3. PostGIS ST_DWithin spatial query identifies the nearest emergency hospital node in Mumbai and dispatches live telemetry payload.",
+                        "1. IoT Telemetry continuously monitors 3-axis accelerometer and gyroscope yaw rate.\n2. When vibration spike exceeds 4.0G impact threshold, an SOS alert is stored in the database with coordinates.\n3. PostGIS ST_DWithin spatial query identifies the nearest emergency hospital node in Rajkot (Gujarat) and dispatches live telemetry payload.",
                         style: TextStyle(
                           color: AppColors.textSecondary,
                           fontSize: 11,

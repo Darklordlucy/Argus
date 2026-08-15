@@ -27,7 +27,7 @@ class MapCanvasWidget extends StatelessWidget {
           children: [
             CustomPaint(
               size: Size.infinite,
-              painter: _MumbaiMapPainter(
+              painter: _RajkotMapPainter(
                 route: activeRoute,
                 hazards: hazardSegments,
                 vehiclePos: currentVehiclePosition,
@@ -62,7 +62,7 @@ class MapCanvasWidget extends StatelessWidget {
                     ),
                     const SizedBox(width: 6),
                     Text(
-                      "MUMBAI ROAD NETWORK • 85k+ NODES",
+                      "RAJKOT ROAD NETWORK • 45k+ OSM NODES",
                       style: TextStyle(
                         color: isDark ? AppColors.textPrimary : AppColors.textPrimary,
                         fontSize: 9.5,
@@ -81,13 +81,13 @@ class MapCanvasWidget extends StatelessWidget {
   }
 }
 
-class _MumbaiMapPainter extends CustomPainter {
+class _RajkotMapPainter extends CustomPainter {
   final RouteResult? route;
   final List<HazardSegment> hazards;
   final LatLng vehiclePos;
   final bool isDark;
 
-  _MumbaiMapPainter({
+  _RajkotMapPainter({
     required this.route,
     required this.hazards,
     required this.vehiclePos,
@@ -112,27 +112,27 @@ class _MumbaiMapPainter extends CustomPainter {
       canvas.drawLine(Offset(0, y), Offset(width, y), gridPaint);
     }
 
-    // Coordinates bounding box for Mumbai
+    // Coordinates bounding box for Rajkot (approx lat 22.20 to 22.35, lng 70.65 to 70.85)
     Offset toCanvasOffset(LatLng pos) {
-      final double normalizedX = (pos.longitude - 72.80) / 0.12;
-      final double normalizedY = 1.0 - ((pos.latitude - 18.92) / 0.20);
+      final double normalizedX = (pos.longitude - 70.65) / 0.20;
+      final double normalizedY = 1.0 - ((pos.latitude - 22.20) / 0.15);
       return Offset(
         (normalizedX * width).clamp(16.0, width - 16.0),
         (normalizedY * height).clamp(16.0, height - 16.0),
       );
     }
 
-    // Static Mumbai Road Graph Network
+    // Static Rajkot Road Graph Network
     final roadPaint = Paint()
       ..color = isDark ? const Color(0xFF1C273D) : const Color(0xFFCBD5E1)
       ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke;
 
     final staticRoads = [
-      [const LatLng(19.0657, 72.8686), const LatLng(19.0330, 72.8185)], // BKC to Worli
-      [const LatLng(19.0330, 72.8185), const LatLng(18.9438, 72.8232)], // Worli to Marine Drive
-      [const LatLng(19.0657, 72.8686), const LatLng(19.0896, 72.8656)], // BKC to Airport
-      [const LatLng(19.0822, 72.8519), const LatLng(19.0657, 72.8686)], // WEH to BKC
+      [const LatLng(22.2854, 70.7725), const LatLng(22.2921, 70.7834)], // Kalawad Rd to 150 Ft Ring Rd
+      [const LatLng(22.2921, 70.7834), const LatLng(22.3012, 70.8021)], // 150 Ft Ring Rd to Yagnik Rd
+      [const LatLng(22.2854, 70.7725), const LatLng(22.2489, 70.6845)], // Kalawad Rd to Metoda GIDC
+      [const LatLng(22.2678, 70.8012), const LatLng(22.2921, 70.7834)], // Gondal Rd to 150 Ft Ring Rd
     ];
 
     for (var road in staticRoads) {
@@ -213,5 +213,5 @@ class _MumbaiMapPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _MumbaiMapPainter oldDelegate) => true;
+  bool shouldRepaint(covariant _RajkotMapPainter oldDelegate) => true;
 }
